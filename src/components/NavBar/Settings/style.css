@@ -1,0 +1,9 @@
+.settingButton {
+    margin-top: 10px;
+    height: 35px;
+    width: 35px;
+
+    background-image: url("../../../icons/settings.m.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
