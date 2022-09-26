@@ -9,12 +9,10 @@ export default class MainStore {
 
     };
     table = [];
+    timeZoneUsing = false;
     pendingState = {
         loading: true,
-        isSavingDemand: false,
-        isSavingFiles: false,
-        isDeletingFile: false,
-        isDeletingClause: false
+        isSavingDemand: false
     };
 
     constructor() {
@@ -28,9 +26,17 @@ export default class MainStore {
 
     }
 
+    setTimeZoneUsing = e => {
+        this.timeZoneUsing = e.target.checked;
+    }
+
     // COMPUTED //
 
     get isAuth() {
         return this._isAuth;
+    }
+
+    get isTimeZonesUsing() {
+        return this.timeZoneUsing;
     }
 }

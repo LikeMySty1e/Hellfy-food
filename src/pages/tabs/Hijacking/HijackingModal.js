@@ -3,10 +3,10 @@ import {observer} from "mobx-react-lite";
 import PropTypes from "prop-types";
 import {Form} from "react-bootstrap";
 import {Context} from "../../../index";
-import driverPropTypes from "./resources/driverPropTypes";
+import hijackingPropTypes from "./resources/hijackingPropTypes";
 import ModalWrapper from "../../../components/ModalWrapper/ModalWrapper";
 
-const DriverModal = observer(props => {
+const HijackingModal = observer(props => {
     const {main} = useContext(Context);
     const {isShow, handleClose, data} = props;
     const [state, setState] = React.useState({...data, changed: false});
@@ -24,7 +24,7 @@ const DriverModal = observer(props => {
             deleteButtonText={`Удалить`}
             editButtonText={`Редактировать`}
             editButtonDisabled={!state.changed}
-            modalTitle={`Водитель`}
+            modalTitle={`Заявление об угоне`}
         >
             <Form>
                 <Form.Group className="mb-3">
@@ -32,29 +32,33 @@ const DriverModal = observer(props => {
                     <Form.Control value={state.id} disabled/>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label>ФИО</Form.Label>
-                    <Form.Control id={"fullname"} value={state.fullname} onChange={onInputChange}/>
+                    <Form.Label>Дата проишествия</Form.Label>
+                    <Form.Control id={"incidentDate"} value={state.incidentDate} onChange={onInputChange}/>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label>Дата рождения</Form.Label>
-                    <Form.Control id={"birthday"} value={state.birthday} onChange={onInputChange}/>
+                    <Form.Check label={`Актуальность`} type={'checkbox'} id={"relevance"} checked={state.relevance} onChange={onInputChange}/>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label>Водительские права</Form.Label>
-                    <Form.Control id={"license"} value={state.license} onChange={onInputChange}/>
+                    <Form.Label>Водитель</Form.Label>
+                    <Form.Control id={"owner"} value={state.owner} onChange={onInputChange}/>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Check label={`Судимость`} type={'checkbox'} id={"criminal"} checked={state.criminal} onChange={onInputChange}/>
+                    <Form.Label>Сотрудник</Form.Label>
+                    <Form.Control id={"employee"} value={state.employee} onChange={onInputChange}/>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label>Автомобиль</Form.Label>
+                    <Form.Control id={"car"} value={state.car} onChange={onInputChange}/>
                 </Form.Group>
             </Form>
         </ModalWrapper>
     );
 });
 
-DriverModal.propTypes = {
+HijackingModal.propTypes = {
     isShow: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
-    ...driverPropTypes
+    ...hijackingPropTypes
 }
 
-export default DriverModal;
+export default HijackingModal;

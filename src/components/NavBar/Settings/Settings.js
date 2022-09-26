@@ -1,10 +1,12 @@
 import React, {useContext, useState} from 'react';
+import {observer} from "mobx-react-lite";
+import {Form} from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import {Context} from "../../../index";
 import './style.css';
 
-const Settings = () => {
+const Settings = observer(() => {
     const {main} = useContext(Context)
     const [show, setShow] = useState(false);
 
@@ -19,7 +21,13 @@ const Settings = () => {
                 <Modal.Header closeButton>
                     <Modal.Title>Настройки</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group className="mb-3">
+                            <Form.Check label={`Учитывать часовые пояса`} type={'checkbox'} checked={main.isTimeZonesUsing} onChange={main.setTimeZoneUsing}/>
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Закрыть
@@ -31,6 +39,6 @@ const Settings = () => {
             </Modal>
         </>
     );
-}
+});
 
 export default Settings;

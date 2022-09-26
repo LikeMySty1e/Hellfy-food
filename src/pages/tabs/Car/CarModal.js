@@ -33,7 +33,7 @@ const CarModal = observer(props => {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Рег. Номер</Form.Label>
-                    <Form.Control id={"number"} value={state.number} onChange={onInputChange}/>
+                    <Form.Control value={state.number} onChange={onInputChange} disabled/>
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Марка</Form.Label>
@@ -49,7 +49,7 @@ const CarModal = observer(props => {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Объём двигателя</Form.Label>
-                    <Form.Control id={"engine"} value={state.engine} onChange={onInputChange}/>
+                    <Form.Control value={state.engine} onChange={onInputChange} disabled/>
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Водитель</Form.Label>

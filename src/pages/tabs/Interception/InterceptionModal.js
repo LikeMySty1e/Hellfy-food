@@ -3,10 +3,10 @@ import {observer} from "mobx-react-lite";
 import PropTypes from "prop-types";
 import {Form} from "react-bootstrap";
 import {Context} from "../../../index";
-import driverPropTypes from "./resources/driverPropTypes";
+import interceptionPropTypes from "./resources/interceptionPropTypes";
 import ModalWrapper from "../../../components/ModalWrapper/ModalWrapper";
 
-const DriverModal = observer(props => {
+const InterceptionModal = observer(props => {
     const {main} = useContext(Context);
     const {isShow, handleClose, data} = props;
     const [state, setState] = React.useState({...data, changed: false});
@@ -24,7 +24,7 @@ const DriverModal = observer(props => {
             deleteButtonText={`Удалить`}
             editButtonText={`Редактировать`}
             editButtonDisabled={!state.changed}
-            modalTitle={`Водитель`}
+            modalTitle={`План-перехват`}
         >
             <Form>
                 <Form.Group className="mb-3">
@@ -32,29 +32,37 @@ const DriverModal = observer(props => {
                     <Form.Control value={state.id} disabled/>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label>ФИО</Form.Label>
-                    <Form.Control id={"fullname"} value={state.fullname} onChange={onInputChange}/>
+                    <Form.Label>Дата начала</Form.Label>
+                    <Form.Control id={"begin"} value={state.begin} onChange={onInputChange}/>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label>Дата рождения</Form.Label>
-                    <Form.Control id={"birthday"} value={state.birthday} onChange={onInputChange}/>
+                    <Form.Label>Дата окончания</Form.Label>
+                    <Form.Control id={"end"} value={state.end} onChange={onInputChange}/>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label>Водительские права</Form.Label>
-                    <Form.Control id={"license"} value={state.license} onChange={onInputChange}/>
+                    <Form.Check label={`Статус`} type={'checkbox'} id={"status"} checked={state.status} onChange={onInputChange}/>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Check label={`Судимость`} type={'checkbox'} id={"criminal"} checked={state.criminal} onChange={onInputChange}/>
+                    <Form.Label>Угонщик</Form.Label>
+                    <Form.Control id={"hijacker"} value={state.hijacker} onChange={onInputChange}/>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label>Заявление об угоне</Form.Label>
+                    <Form.Control id={"claim"} value={state.claim} onChange={onInputChange}/>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label>Данные видеофиксации</Form.Label>
+                    <Form.Control id={"video"} value={state.video} onChange={onInputChange}/>
                 </Form.Group>
             </Form>
         </ModalWrapper>
     );
 });
 
-DriverModal.propTypes = {
+InterceptionModal.propTypes = {
     isShow: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
-    ...driverPropTypes
+    ...interceptionPropTypes
 }
 
-export default DriverModal;
+export default InterceptionModal;

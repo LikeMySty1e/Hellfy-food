@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {Container} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 import Table from "react-bootstrap/Table";
+import ProtocolRow from "./ProtocolRow";
 
 const Protocol = observer(() => {
     return (
@@ -11,24 +12,30 @@ const Protocol = observer(() => {
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Username</th>
+                    <th>Id</th>
+                    <th>Дата регистрации</th>
+                    <th>Статус</th>
+                    <th>Нарушитель</th>
+                    <th>Потерпевший</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
+                <ProtocolRow data={{
+                    index: 1,
+                    id: 1,
+                    registration: `12.04.2002`,
+                    status: true,
+                    violator: 3,
+                    victim: 4
+                }}/>
+                <ProtocolRow data={{
+                    index: 2,
+                    id: 2,
+                    registration: `12.04.2002`,
+                    status: true,
+                    violator: 3,
+                    victim: 4
+                }}/>
                 </tbody>
             </Table>
         </Container>

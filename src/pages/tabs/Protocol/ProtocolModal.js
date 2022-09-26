@@ -3,10 +3,10 @@ import {observer} from "mobx-react-lite";
 import PropTypes from "prop-types";
 import {Form} from "react-bootstrap";
 import {Context} from "../../../index";
-import driverPropTypes from "./resources/driverPropTypes";
+import protocolPropTypes from "./resources/protocolPropTypes";
 import ModalWrapper from "../../../components/ModalWrapper/ModalWrapper";
 
-const DriverModal = observer(props => {
+const ProtocolModal = observer(props => {
     const {main} = useContext(Context);
     const {isShow, handleClose, data} = props;
     const [state, setState] = React.useState({...data, changed: false});
@@ -24,7 +24,7 @@ const DriverModal = observer(props => {
             deleteButtonText={`Удалить`}
             editButtonText={`Редактировать`}
             editButtonDisabled={!state.changed}
-            modalTitle={`Водитель`}
+            modalTitle={`Протокол`}
         >
             <Form>
                 <Form.Group className="mb-3">
@@ -32,29 +32,29 @@ const DriverModal = observer(props => {
                     <Form.Control value={state.id} disabled/>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label>ФИО</Form.Label>
-                    <Form.Control id={"fullname"} value={state.fullname} onChange={onInputChange}/>
+                    <Form.Label>Дата регистрации</Form.Label>
+                    <Form.Control id={"registration"} value={state.registration} onChange={onInputChange}/>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label>Дата рождения</Form.Label>
-                    <Form.Control id={"birthday"} value={state.birthday} onChange={onInputChange}/>
+                    <Form.Check label={`Статус`} type={'checkbox'} id={"status"} checked={state.status} onChange={onInputChange}/>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label>Водительские права</Form.Label>
-                    <Form.Control id={"license"} value={state.license} onChange={onInputChange}/>
+                    <Form.Label>Нарушитель</Form.Label>
+                    <Form.Control id={"violator"} value={state.violator} onChange={onInputChange}/>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Check label={`Судимость`} type={'checkbox'} id={"criminal"} checked={state.criminal} onChange={onInputChange}/>
+                    <Form.Label>Потерпевший</Form.Label>
+                    <Form.Control id={"victim"} value={state.victim} onChange={onInputChange}/>
                 </Form.Group>
             </Form>
         </ModalWrapper>
     );
 });
 
-DriverModal.propTypes = {
+ProtocolModal.propTypes = {
     isShow: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
-    ...driverPropTypes
+    ...protocolPropTypes
 }
 
-export default DriverModal;
+export default ProtocolModal;
