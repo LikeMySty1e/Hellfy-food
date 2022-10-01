@@ -25,16 +25,20 @@ const Protocol = observer(() => {
                     id: 1,
                     registration: `12.04.2002`,
                     status: true,
-                    violator: 3,
-                    victim: 4
+                    violatorId: 3,
+                    victimId: 4,
+                    violator: `Абоба Иванович`,
+                    victim: `ЫЫЫЫЫЫЫЫЫЫЫ`
                 }}/>
                 <ProtocolRow data={{
                     index: 2,
                     id: 2,
                     registration: `12.04.2002`,
                     status: true,
-                    violator: 3,
-                    victim: 4
+                    violatorId: 3,
+                    victimId: 4,
+                    violator: `Абоба Иванович`,
+                    victim: `ЫЫЫЫЫЫЫЫЫЫЫ`
                 }}/>
                 </tbody>
             </Table>

@@ -26,7 +26,7 @@ const InterceptionModal = observer(props => {
             editButtonDisabled={!state.changed}
             modalTitle={`План-перехват`}
         >
-            <Form>
+            <Form className="mt-3">
                 <Form.Group className="mb-3">
                     <Form.Label>Id</Form.Label>
                     <Form.Control value={state.id} disabled/>

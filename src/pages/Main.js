@@ -13,6 +13,7 @@ import Car from "./tabs/Car/Car";
 import Video from "./tabs/Video/Video";
 import ProtocolPosition from "./tabs/ProtocolPosition/ProtocolPosition";
 import Interception from "./tabs/Interception/Interception";
+import Fine from "./tabs/Fine/Fine";
 
 const Main = observer(() => {
     const {main} = useContext(Context)
@@ -31,7 +32,10 @@ const Main = observer(() => {
                 <Tab eventKey={TableTabEnum.ProtocolPosition} title={"Позиция протокола"}>
                     <ProtocolPosition />
                 </Tab>
-                <Tab eventKey={TableTabEnum.Hijacking} title={"Розыск авто"}>
+                <Tab eventKey={TableTabEnum.Fine} title={"Штраф"}>
+                    <Fine />
+                </Tab>
+                <Tab eventKey={TableTabEnum.Hijacking} title={"Заявления об угоне"}>
                     <Hijacking />
                 </Tab>
                 <Tab eventKey={TableTabEnum.Interception} title={"План-перехват"}>

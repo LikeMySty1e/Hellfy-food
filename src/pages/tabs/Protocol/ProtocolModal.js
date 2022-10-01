@@ -5,6 +5,7 @@ import {Form} from "react-bootstrap";
 import {Context} from "../../../index";
 import protocolPropTypes from "./resources/protocolPropTypes";
 import ModalWrapper from "../../../components/ModalWrapper/ModalWrapper";
+import ComplexInputSection from "../../../components/ComplexInputSection/ComplexInputSection";
 
 const ProtocolModal = observer(props => {
     const {main} = useContext(Context);
@@ -26,7 +27,7 @@ const ProtocolModal = observer(props => {
             editButtonDisabled={!state.changed}
             modalTitle={`Протокол`}
         >
-            <Form>
+            <Form className="mt-3">
                 <Form.Group className="mb-3">
                     <Form.Label>Id</Form.Label>
                     <Form.Control value={state.id} disabled/>
@@ -38,14 +39,22 @@ const ProtocolModal = observer(props => {
                 <Form.Group className="mb-3">
                     <Form.Check label={`Статус`} type={'checkbox'} id={"status"} checked={state.status} onChange={onInputChange}/>
                 </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Нарушитель</Form.Label>
-                    <Form.Control id={"violator"} value={state.violator} onChange={onInputChange}/>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Потерпевший</Form.Label>
-                    <Form.Control id={"victim"} value={state.victim} onChange={onInputChange}/>
-                </Form.Group>
+                <ComplexInputSection
+                    onChange={onInputChange}
+                    defaultTitle={`Нарушитель`}
+                    id={`violator`}
+                    firstTitle={`Id`}
+                    secondTitle={`Имя`}
+                    value={state.violator}
+                />
+                <ComplexInputSection
+                    onChange={onInputChange}
+                    defaultTitle={`Потерпевший`}
+                    id={`victim`}
+                    firstTitle={`Id`}
+                    secondTitle={`Имя`}
+                    value={state.victim}
+                />
             </Form>
         </ModalWrapper>
     );

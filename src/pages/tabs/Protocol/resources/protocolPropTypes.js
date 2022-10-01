@@ -6,8 +6,8 @@ const protocolPropTypes = {
         id: PropTypes.number.isRequired,
         registration: PropTypes.string,
         status: PropTypes.bool,
-        violator: PropTypes.number,
-        victim: PropTypes.number
+        violator: PropTypes.string,
+        victim: PropTypes.string
     })
 }
 

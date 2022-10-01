@@ -26,7 +26,7 @@ const DriverModal = observer(props => {
             editButtonDisabled={!state.changed}
             modalTitle={`Водитель`}
         >
-            <Form>
+            <Form className="mt-3">
                 <Form.Group className="mb-3">
                     <Form.Label>Id</Form.Label>
                     <Form.Control value={state.id} disabled/>

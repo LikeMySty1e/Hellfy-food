@@ -5,6 +5,7 @@ export default {
     Interception: `interception_plan`,
     Protocol: `protocol`,
     ProtocolPosition: `protocol_position`,
+    Fine: `fine`,
     Video: `video`,
     Car: `car`
 }

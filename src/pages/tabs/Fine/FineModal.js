@@ -3,10 +3,10 @@ import {observer} from "mobx-react-lite";
 import PropTypes from "prop-types";
 import {Form} from "react-bootstrap";
 import {Context} from "../../../index";
-import videoPropTypes from "./resources/videoPropTypes";
+import finePropTypes from "./resources/finePropTypes";
 import ModalWrapper from "../../../components/ModalWrapper/ModalWrapper";
 
-const VideoModal = observer(props => {
+const FineModal = observer(props => {
     const {main} = useContext(Context);
     const {isShow, handleClose, data} = props;
     const [state, setState] = React.useState({...data, changed: false});
@@ -24,7 +24,7 @@ const VideoModal = observer(props => {
             deleteButtonText={`Удалить`}
             editButtonText={`Редактировать`}
             editButtonDisabled={!state.changed}
-            modalTitle={`Видеофиксация`}
+            modalTitle={`Штраф`}
         >
             <Form className="mt-3">
                 <Form.Group className="mb-3">
@@ -32,30 +32,21 @@ const VideoModal = observer(props => {
                     <Form.Control value={state.id} disabled/>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label>Дата</Form.Label>
-                    <Form.Control id={"date"} value={state.date} onChange={onInputChange}/>
+                    <Form.Label>Сумма штрафа</Form.Label>
+                    <Form.Control id={"payment"} value={state.payment} onChange={onInputChange}/>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label>Время</Form.Label>
-                    <Form.Control id={"time"} value={state.time} onChange={onInputChange}/>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Номер машины потерпевшего</Form.Label>
-                    <Form.Control id={"victimCarNumber"} value={state.victimCarNumber} onChange={onInputChange}/>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Номер машины виновника</Form.Label>
-                    <Form.Control id={"violatorCarNumber"} value={state.violatorCarNumber} onChange={onInputChange}/>
+                    <Form.Check label={`Статус оплаты`} type={'checkbox'} id={"status"} checked={state.status} onChange={onInputChange}/>
                 </Form.Group>
             </Form>
         </ModalWrapper>
     );
 });
 
-VideoModal.propTypes = {
+FineModal.propTypes = {
     isShow: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
-    ...videoPropTypes
+    ...finePropTypes
 }
 
-export default VideoModal;
+export default FineModal;
