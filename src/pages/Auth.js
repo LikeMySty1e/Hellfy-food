@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {Container, Form} from "react-bootstrap";
+import {Alert, Container, Form} from "react-bootstrap";
 import {useLocation, useHistory} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 import Card from "react-bootstrap/Card";
@@ -10,21 +10,28 @@ import {login} from "../services/userDataService";
 import {Context} from "../index";
 
 const Auth = observer(() => {
-    const {main} = useContext(Context)
-    const history = useHistory()
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const {main} = useContext(Context);
+    const history = useHistory();
+    const [alert, setAlert] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     const onLoginClick = async () => {
         try {
-            const data = await login(email, password);
-            // main.setUser(user)
-            // user.setIsAuth(true)
+            const token = await login(email, password);
+            main.setToken(token)
+            main.setIsAuth(true);
             history.push(MAIN_ROUTE)
         } catch (e) {
-            alert(e.response.data.message)
+            setAlert(e.response.data.message)
         }
+    }
 
+    if (alert) {
+        return <Alert variant="danger" onClick={() => setAlert('')} onClose={() => setAlert('')} dismissible>
+            <Alert.Heading>Во время авторизации произошла ошибка!</Alert.Heading>
+            <p>{alert}</p>
+        </Alert>
     }
 
     return (
