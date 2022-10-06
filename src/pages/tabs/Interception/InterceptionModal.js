@@ -16,6 +16,7 @@ const InterceptionModal = observer(props => {
     }, [isShow]);
 
     const onInputChange = (e) => setState({ ...state, [e.target.id]: e.target.value, changed: true });
+    const onCheckboxChange = (e) => setState({ ...state, [e.target.id]: !state[e.target.id], changed: true});
 
     return (
         <ModalWrapper
@@ -40,7 +41,7 @@ const InterceptionModal = observer(props => {
                     <Form.Control id={"end"} value={state.end} onChange={onInputChange}/>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Check label={`Статус`} type={'checkbox'} id={"status"} checked={state.status} onChange={onInputChange}/>
+                    <Form.Check label={`Статус`} type={'checkbox'} id={"status"} checked={state.status} onChange={onCheckboxChange}/>
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Угонщик</Form.Label>

@@ -5,6 +5,7 @@ import {Form} from "react-bootstrap";
 import {Context} from "../../../index";
 import hijackingPropTypes from "./resources/hijackingPropTypes";
 import ModalWrapper from "../../../components/ModalWrapper/ModalWrapper";
+import ComplexInputSection from "../../../components/ComplexInputSection/ComplexInputSection";
 
 const HijackingModal = observer(props => {
     const {main} = useContext(Context);
@@ -16,6 +17,7 @@ const HijackingModal = observer(props => {
     }, [isShow]);
 
     const onInputChange = (e) => setState({ ...state, [e.target.id]: e.target.value, changed: true });
+    const onCheckboxChange = (e) => setState({ ...state, [e.target.id]: !state[e.target.id], changed: true});
 
     return (
         <ModalWrapper
@@ -36,20 +38,32 @@ const HijackingModal = observer(props => {
                     <Form.Control id={"incidentDate"} value={state.incidentDate} onChange={onInputChange}/>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Check label={`Актуальность`} type={'checkbox'} id={"relevance"} checked={state.relevance} onChange={onInputChange}/>
+                    <Form.Check label={`Актуальность`} type={'checkbox'} id={"relevance"} checked={state.relevance} onChange={onCheckboxChange}/>
                 </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Водитель</Form.Label>
-                    <Form.Control id={"owner"} value={state.owner} onChange={onInputChange}/>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Сотрудник</Form.Label>
-                    <Form.Control id={"employee"} value={state.employee} onChange={onInputChange}/>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Автомобиль</Form.Label>
-                    <Form.Control id={"car"} value={state.car} onChange={onInputChange}/>
-                </Form.Group>
+                <ComplexInputSection
+                    onChange={onInputChange}
+                    defaultTitle={`Водитель`}
+                    id={`owner`}
+                    firstTitle={`Id`}
+                    secondTitle={`Имя`}
+                    value={state.owner}
+                />
+                <ComplexInputSection
+                    onChange={onInputChange}
+                    defaultTitle={`Сотрудник`}
+                    id={`employee`}
+                    firstTitle={`Id`}
+                    secondTitle={`Имя`}
+                    value={state.employee}
+                />
+                <ComplexInputSection
+                    onChange={onInputChange}
+                    defaultTitle={`Автомобиль`}
+                    id={`car`}
+                    firstTitle={`Id`}
+                    secondTitle={`Гос. номер`}
+                    value={state.car}
+                />
             </Form>
         </ModalWrapper>
     );

@@ -57,8 +57,9 @@ const Auth = observer(() => {
                     />
                     <Row className="d-flex justify-content-between mt-3 pl-3 pr-3">
                         <Button
-                            variant={"outline-primary"}
+                            variant={"primary"}
                             onClick={onLoginClick}
+                            disabled={!email || !password}
                         >
                             Войти
                         </Button>

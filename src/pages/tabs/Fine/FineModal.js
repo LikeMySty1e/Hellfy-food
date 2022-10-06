@@ -16,6 +16,7 @@ const FineModal = observer(props => {
     }, [isShow]);
 
     const onInputChange = (e) => setState({ ...state, [e.target.id]: e.target.value, changed: true });
+    const onCheckboxChange = (e) => setState({ ...state, [e.target.id]: !state[e.target.id], changed: true});
 
     return (
         <ModalWrapper
@@ -33,10 +34,10 @@ const FineModal = observer(props => {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Сумма штрафа</Form.Label>
-                    <Form.Control id={"payment"} value={state.payment} onChange={onInputChange}/>
+                    <Form.Control id={"payment"} value={state.payment} onChange={onInputChange} disabled/>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Check label={`Статус оплаты`} type={'checkbox'} id={"status"} checked={state.status} onChange={onInputChange}/>
+                    <Form.Check label={`Статус оплаты`} type={'checkbox'} id={"status"} checked={state.status} onChange={onCheckboxChange}/>
                 </Form.Group>
             </Form>
         </ModalWrapper>

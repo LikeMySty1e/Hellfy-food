@@ -3,11 +3,12 @@ import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 import {Container} from "react-bootstrap";
 import Tabs from "react-bootstrap/Tabs";
-import TableTabEnum from "../enums/TableTabEnum";
 import Tab from "react-bootstrap/Tab";
-import Protocol from "./tabs/Protocol/Protocol";
-import ProtocolPosition from "./tabs/ProtocolPosition/ProtocolPosition";
-import Fine from "./tabs/Fine/Fine";
+import ReportsTabEnum from "../enums/ReportsTabEnum";
+import HijackingByEmployee from "./reports/HijackingByEmployee/HijackingByEmployee";
+import HijackingByMark from "./reports/HijackingByMark/HijackingByMark";
+import FineByDriver from "./reports/FineByDriver/FineByDriver";
+import ProtocolByDriver from "./reports/ProtocolByDriver/ProtocolByDriver";
 
 const Reports = observer(() => {
     const {main} = useContext(Context)
@@ -15,21 +16,23 @@ const Reports = observer(() => {
     return (
         <Container className={"mt-3"}>
             <Tabs
-                defaultActiveKey={TableTabEnum.Protocol}
+                defaultActiveKey={ReportsTabEnum.HijackingByEmployee}
                 transition={true}
                 id="noanim-tab-example"
                 className="mb-3"
             >
-                <Tab eventKey={TableTabEnum.Protocol} title={`Протоколы`}>
-                    <Protocol />
+                <Tab eventKey={ReportsTabEnum.HijackingByEmployee} title={`Раскрытые угоны`}>
+                    <HijackingByEmployee />
                 </Tab>
-                <Tab eventKey={TableTabEnum.ProtocolPosition} title={"Позиция протокола"}>
-                    <ProtocolPosition />
+                <Tab eventKey={ReportsTabEnum.HijackingByMark} title={"Статистика угоняемости"}>
+                    <HijackingByMark />
                 </Tab>
-                <Tab eventKey={TableTabEnum.Fine} title={"Штраф"}>
-                    <Fine />
+                <Tab eventKey={ReportsTabEnum.ProtocolByDriver} title={"Статистика нарушений ПДД"}>
+                    <ProtocolByDriver />
                 </Tab>
-
+                <Tab eventKey={ReportsTabEnum.FineByDriver} title={"Сведения о штрафах"}>
+                    <FineByDriver />
+                </Tab>
             </Tabs>
         </Container>
     );

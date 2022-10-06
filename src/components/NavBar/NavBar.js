@@ -3,7 +3,7 @@ import {observer} from "mobx-react-lite";
 import {Button, Container, Nav, Navbar} from "react-bootstrap";
 import {NavLink, useHistory} from "react-router-dom";
 import {Context} from "../../index";
-import {MAIN_ROUTE, REPORTS_ROUTE} from "../../resources/consts";
+import {AUTH_ROUTE, MAIN_ROUTE, REPORTS_ROUTE} from "../../resources/consts";
 import Settings from "./Settings/Settings";
 import './style.css';
 
@@ -14,8 +14,8 @@ const NavBar = observer(() => {
     return (
         <Navbar bg="dark" variant="dark">
             <Container>
-                <NavLink className="mainButton" to={MAIN_ROUTE}>ГИБДД-3000</NavLink>
-                <Nav className="m-auto">
+                <NavLink className="mainButton" to={main.isAuth ? MAIN_ROUTE: AUTH_ROUTE}>ГИБДД-3000</NavLink>
+                {main.isAuth && <Nav className="m-auto">
                     <Button
                         variant={'outline-light'}
                         className="m-lg-2"
@@ -30,11 +30,11 @@ const NavBar = observer(() => {
                     >
                         Отчёты
                     </Button>
-                </Nav>
-                <Nav className="ml-auto">
-                    <Settings/>
-                    <Button variant={'outline-light'} onClick={main.unauthorise} className="m-lg-2">Выход</Button>
-                </Nav>
+                </Nav>}
+                {main.isAuth && <Nav className="ml-auto">
+                <Settings/>
+                <Button variant={'outline-light'} onClick={main.unauthorise} className="m-lg-2">Выход</Button>
+                </Nav>}
             </Container>
         </Navbar>
     );

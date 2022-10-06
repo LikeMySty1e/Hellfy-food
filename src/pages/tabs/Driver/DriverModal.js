@@ -16,6 +16,7 @@ const DriverModal = observer(props => {
     }, [isShow]);
 
     const onInputChange = (e) => setState({ ...state, [e.target.id]: e.target.value, changed: true });
+    const onCheckboxChange = (e) => {setState({ ...state, [e.target.id]: !state[e.target.id], changed: true})}
 
     return (
         <ModalWrapper
@@ -44,7 +45,7 @@ const DriverModal = observer(props => {
                     <Form.Control id={"license"} value={state.license} onChange={onInputChange}/>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Check label={`Судимость`} type={'checkbox'} id={"criminal"} checked={state.criminal} onChange={onInputChange}/>
+                    <Form.Check label={`Судимость`} type={'checkbox'} id={"criminal"} checked={state.criminal} onChange={onCheckboxChange}/>
                 </Form.Group>
             </Form>
         </ModalWrapper>

@@ -17,6 +17,7 @@ const ProtocolModal = observer(props => {
     }, [isShow]);
 
     const onInputChange = (e) => setState({ ...state, [e.target.id]: e.target.value, changed: true });
+    const onCheckboxChange = (e) => setState({ ...state, [e.target.id]: !state[e.target.id], changed: true});
 
     return (
         <ModalWrapper
@@ -37,7 +38,7 @@ const ProtocolModal = observer(props => {
                     <Form.Control id={"registration"} value={state.registration} onChange={onInputChange}/>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Check label={`Статус`} type={'checkbox'} id={"status"} checked={state.status} onChange={onInputChange}/>
+                    <Form.Check label={`Статус`} type={'checkbox'} id={"status"} checked={state.status} onChange={onCheckboxChange}/>
                 </Form.Group>
                 <ComplexInputSection
                     onChange={onInputChange}

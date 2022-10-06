@@ -9,7 +9,7 @@ const employeePropTypes = {
         contract: PropTypes.string,
         phone: PropTypes.string,
         position: PropTypes.string,
-        rank: PropTypes.string
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     })
 }
 

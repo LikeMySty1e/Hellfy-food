@@ -5,6 +5,7 @@ import {Form} from "react-bootstrap";
 import {Context} from "../../../index";
 import carPropTypes from "./resources/carPropTypes";
 import ModalWrapper from "../../../components/ModalWrapper/ModalWrapper";
+import ComplexInputSection from "../../../components/ComplexInputSection/ComplexInputSection";
 
 const CarModal = observer(props => {
     const {main} = useContext(Context);
@@ -51,10 +52,14 @@ const CarModal = observer(props => {
                     <Form.Label>Объём двигателя</Form.Label>
                     <Form.Control value={state.engine} onChange={onInputChange} disabled/>
                 </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Водитель</Form.Label>
-                    <Form.Control id={"owner"} value={state.owner} onChange={onInputChange}/>
-                </Form.Group>
+                <ComplexInputSection
+                    onChange={onInputChange}
+                    defaultTitle={`Водитель`}
+                    id={`owner`}
+                    firstTitle={`Id`}
+                    secondTitle={`Имя`}
+                    value={state.owner}
+                />
             </Form>
         </ModalWrapper>
     );

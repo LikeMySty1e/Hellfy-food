@@ -5,6 +5,9 @@ import {Form} from "react-bootstrap";
 import {Context} from "../../../index";
 import employeePropTypes from "./resources/employeePropTypes";
 import ModalWrapper from "../../../components/ModalWrapper/ModalWrapper";
+import SelectSection from "../../../components/SelectSection/SelectSection";
+import employeeRankResource from "../../../resources/employeeRankResource";
+import ComplexInputSection from "../../../components/ComplexInputSection/ComplexInputSection";
 
 const EmployeeModal = observer(props => {
     const {main} = useContext(Context);
@@ -47,14 +50,21 @@ const EmployeeModal = observer(props => {
                     <Form.Label>Номер телефона</Form.Label>
                     <Form.Control id={"phone"} value={state.phone} onChange={onInputChange}/>
                 </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Должность</Form.Label>
-                    <Form.Control id={"position"} value={state.position} onChange={onInputChange}/>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Звание</Form.Label>
-                    <Form.Control id={"rank"} value={state.rank} onChange={onInputChange}/>
-                </Form.Group>
+                <ComplexInputSection
+                    onChange={onInputChange}
+                    defaultTitle={`Должность`}
+                    id={`position`}
+                    firstTitle={`Id`}
+                    secondTitle={`Наименование`}
+                    value={state.position}
+                />
+                <SelectSection
+                    title={`Звание`}
+                    id={"rank"}
+                    value={state.rank}
+                    data={employeeRankResource}
+                    onSelect={onInputChange}
+                />
             </Form>
         </ModalWrapper>
     );

@@ -1,4 +1,4 @@
-export default [
+const employeeRankResource = [
     {
         value: 1,
         text: "Рядовой"
@@ -71,4 +71,6 @@ export default [
         value: 18,
         text: "Генерал"
     }
-]
+];
+
+export default employeeRankResource;
