@@ -7,10 +7,33 @@ import PositionRow from "./PositionRow";
 import TableTabEnum from "../../../enums/TableTabEnum";
 import {Context} from "../../../index";
 import PositionAddModal from "./PositionAddModal";
+import tableTabEnum from "../../../enums/TableTabEnum";
 
 const Position = observer(() => {
     const {main} = useContext(Context);
-    const [isShow, setIsShow] = React.useState(false)
+    const [isShow, setIsShow] = React.useState(false);
+
+    React.useEffect(() => {
+        if (main.activeTab === tableTabEnum.Position) {
+            main.setTable(`select_positions`);
+        }
+    }, [main.activeTab]);
+
+    const getRows = () => {
+        return main.table.map((row, index) => <PositionRow key={`position_${row.position_id}`} data={{
+            index: index + 1,
+            id: row.position_id,
+            name: row.name,
+            description: row.description,
+            salary: row.salary
+        }}/>);
+    };
+
+    if (main.isLoading || main.isTableEmpty || main.activeTab !== tableTabEnum.Position) {
+        return <Container>
+            Загрузка данных...
+        </Container>
+    }
 
     return (
         <>
@@ -38,20 +61,7 @@ const Position = observer(() => {
                     </tr>
                     </thead>
                     <tbody>
-                    <PositionRow data={{
-                        index: 1,
-                        id: 1,
-                        name: `Патрульный`,
-                        description: `Вопреки всем законам логики, патрульный патрулирует`,
-                        salary: 70000
-                    }}/>
-                    <PositionRow data={{
-                        index: 2,
-                        id: 2,
-                        name: `Инспектор`,
-                        description: `Нет, вы не поверите, проводит инспекцию`,
-                        salary: 30000
-                    }}/>
+                    {getRows()}
                     </tbody>
                 </Table>
             </Container>

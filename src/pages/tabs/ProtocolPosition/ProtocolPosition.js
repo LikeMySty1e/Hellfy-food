@@ -7,10 +7,34 @@ import ProtocolPositionRow from "./ProtocolPositionRow";
 import TableTabEnum from "../../../enums/TableTabEnum";
 import {Context} from "../../../index";
 import ProtocolPositionAddModal from "./ProtocolPositionAddModal";
+import tableTabEnum from "../../../enums/TableTabEnum";
 
 const ProtocolPosition = observer(() => {
     const {main} = useContext(Context);
-    const [isShow, setIsShow] = React.useState(false)
+    const [isShow, setIsShow] = React.useState(false);
+
+    React.useEffect(() => {
+        if (main.activeTab === tableTabEnum.ProtocolPosition) {
+            main.setTable(`select_protocol_positions`);
+        }
+    }, [main.activeTab]);
+
+    const getRows = () => {
+        return main.table.map((row, index) => <ProtocolPositionRow key={`protocol_position_${row.protocol_pos_id}`} data={{
+            index: index + 1,
+            id: row.protocol_pos_id,
+            description: row.description,
+            protocol: row.protocol_id,
+            video: row.video_id,
+            fine: row.fine_id
+        }}/>);
+    };
+
+    if (main.isLoading || main.isTableEmpty || main.activeTab !== tableTabEnum.ProtocolPosition) {
+        return <Container>
+            Загрузка данных...
+        </Container>
+    }
 
     return (
         <>
@@ -39,22 +63,7 @@ const ProtocolPosition = observer(() => {
                     </tr>
                     </thead>
                     <tbody>
-                    <ProtocolPositionRow data={{
-                        index: 1,
-                        id: 1,
-                        description: `В начале было слово...`,
-                        protocol: 2,
-                        video: 3,
-                        fine: 4
-                    }}/>
-                    <ProtocolPositionRow data={{
-                        index: 2,
-                        id: 2,
-                        description: `...и слово было "конец"`,
-                        protocol: 4,
-                        video: 1,
-                        fine: 5
-                    }}/>
+                    {getRows()}
                     </tbody>
                 </Table>
             </Container>

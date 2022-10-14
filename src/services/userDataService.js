@@ -1,4 +1,4 @@
-export const login = () => {
+export const login = (login, password) => {
     return new Promise(resolve => {
         setTimeout(() => {
             resolve(Math.random() * 100000000)

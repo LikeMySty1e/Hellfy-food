@@ -15,6 +15,7 @@ import ProtocolPosition from "./tabs/ProtocolPosition/ProtocolPosition";
 import Interception from "./tabs/Interception/Interception";
 import Fine from "./tabs/Fine/Fine";
 import Position from "./tabs/Position/Position";
+import tableTabEnum from "../enums/TableTabEnum";
 
 const Main = observer(() => {
     const {main} = useContext(Context)
@@ -22,10 +23,11 @@ const Main = observer(() => {
     return (
         <Container className={"mt-3"}>
             <Tabs
-                defaultActiveKey={TableTabEnum.Protocol}
+                defaultActiveKey={localStorage.getItem(`activeTab`) || tableTabEnum.Protocol}
                 transition={true}
                 id="noanim-tab-example"
                 className="mb-3"
+                onSelect={main.setActiveTab}
             >
                 <Tab eventKey={TableTabEnum.Protocol} title={`Протоколы`}>
                     <Protocol />

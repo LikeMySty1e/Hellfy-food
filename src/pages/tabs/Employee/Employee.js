@@ -7,10 +7,36 @@ import EmployeeRow from "./EmployeeRow";
 import {Context} from "../../../index";
 import TableTabEnum from "../../../enums/TableTabEnum";
 import EmployeeAddModal from "./EmployeeAddModal";
+import tableTabEnum from "../../../enums/TableTabEnum";
 
 const Employee = observer(() => {
     const {main} = useContext(Context);
     const [isShow, setIsShow] = React.useState(false)
+
+    React.useEffect(() => {
+        if (main.activeTab === tableTabEnum.Employee) {
+            main.setTable(`select_employees`);
+        }
+    }, [main.activeTab]);
+
+    const getRows = () => {
+        return main.table.map((row, index) => <EmployeeRow key={`employee_${row.employee_id}`} data={{
+            index: index + 1,
+            id: row.employee_id,
+            fullname: row.fullname,
+            birthday: row.birth_date,
+            contract: row.contract_number,
+            phone: row.phone_number,
+            position: row.position_id,
+            rank: 15
+        }}/>);
+    };
+
+    if (main.isLoading || main.isTableEmpty || main.activeTab !== tableTabEnum.Employee) {
+        return <Container>
+            Загрузка данных...
+        </Container>
+    }
 
     return (
         <>
@@ -41,36 +67,7 @@ const Employee = observer(() => {
                     </tr>
                     </thead>
                     <tbody>
-                    <EmployeeRow data={{
-                        index: 1,
-                        id: 1,
-                        fullname: `Пол Ол Джонсон`,
-                        birthday: `12.04.2002`,
-                        contract: `121322536457`,
-                        phone: `+79633356789`,
-                        position: `Капитан`,
-                        rank: 15
-                    }} />
-                    <EmployeeRow data={{
-                        index: 2,
-                        id: 2,
-                        fullname: `Пол Ол Джонсон`,
-                        birthday: `12.04.2002`,
-                        contract: `121322536457`,
-                        phone: `+79633356789`,
-                        position: `Капитан`,
-                        rank: 16
-                    }} />
-                    <EmployeeRow data={{
-                        index: 3,
-                        id: 3,
-                        fullname: `Пол Ол Джонсон`,
-                        birthday: `12.04.2002`,
-                        contract: `121322536457`,
-                        phone: `+79633356789`,
-                        position: `Капитан`,
-                        rank: 5
-                    }} />
+                    {getRows()}
                     </tbody>
                 </Table>
             </Container>

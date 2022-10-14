@@ -7,10 +7,34 @@ import ProtocolRow from "./ProtocolRow";
 import TableTabEnum from "../../../enums/TableTabEnum";
 import {Context} from "../../../index";
 import ProtocolAddModal from "./ProtocolAddModal";
+import tableTabEnum from "../../../enums/TableTabEnum";
 
 const Protocol = observer(() => {
     const {main} = useContext(Context);
-    const [isShow, setIsShow] = React.useState(false)
+    const [isShow, setIsShow] = React.useState(false);
+
+    React.useEffect(() => {
+        if (main.activeTab === tableTabEnum.Protocol) {
+            main.setTable(`select_protocols`);
+        }
+    }, [main.activeTab]);
+
+    const getRows = () => {
+        return main.table.map((row, index) => <ProtocolRow key={`protocol_${row.protocol_id}`} data={{
+                index: index + 1,
+                id: row.protocol_id,
+                registration: row.reg_date,
+                status: row.status,
+                violator: row.violator_id,
+                victim: row.victim_id
+            }}/>);
+    };
+
+    if (main.isLoading || main.isTableEmpty || main.activeTab !== tableTabEnum.Protocol) {
+        return <Container>
+            Загрузка данных...
+        </Container>
+    }
 
     return (
         <>
@@ -39,26 +63,7 @@ const Protocol = observer(() => {
                     </tr>
                     </thead>
                     <tbody>
-                    <ProtocolRow data={{
-                        index: 1,
-                        id: 1,
-                        registration: `12.04.2002`,
-                        status: true,
-                        violatorId: 3,
-                        victimId: 4,
-                        violator: `Абоба Иванович`,
-                        victim: `ЫЫЫЫЫЫЫЫЫЫЫ`
-                    }}/>
-                    <ProtocolRow data={{
-                        index: 2,
-                        id: 2,
-                        registration: `12.04.2002`,
-                        status: true,
-                        violatorId: 3,
-                        victimId: 4,
-                        violator: `Абоба Иванович`,
-                        victim: `ЫЫЫЫЫЫЫЫЫЫЫ`
-                    }}/>
+                    {getRows()}
                     </tbody>
                 </Table>
             </Container>

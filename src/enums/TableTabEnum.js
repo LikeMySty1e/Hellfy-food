@@ -1,7 +1,7 @@
 export default {
     Employee: `employee`,
     Position: `position`,
-    Driver: `driver`,
+    Driver: `car_owner`,
     Hijacking: `hijacking_claim`,
     Interception: `interception_plan`,
     Protocol: `protocol`,

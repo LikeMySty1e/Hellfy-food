@@ -6,9 +6,9 @@ const hijackingPropTypes = {
         id: PropTypes.number.isRequired,
         incidentDate: PropTypes.string,
         relevance: PropTypes.bool,
-        owner: PropTypes.number,
-        employee: PropTypes.number,
-        car: PropTypes.number
+        owner: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        employee: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        car: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
     })
 }
 

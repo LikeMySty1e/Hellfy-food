@@ -7,10 +7,35 @@ import HijackingRow from "./HijackingRow";
 import {Context} from "../../../index";
 import TableTabEnum from "../../../enums/TableTabEnum";
 import HijackingAddModal from "./HijackingAddModal";
+import tableTabEnum from "../../../enums/TableTabEnum";
 
 const Hijacking = observer(() => {
     const {main} = useContext(Context);
-    const [isShow, setIsShow] = React.useState(false)
+    const [isShow, setIsShow] = React.useState(false);
+
+    React.useEffect(() => {
+        if (main.activeTab === tableTabEnum.Hijacking) {
+            main.setTable(`select_hijacking_claims`);
+        }
+    }, [main.activeTab]);
+
+    const getRows = () => {
+        return main.table.map((row, index) => <HijackingRow key={`hijacking_${row.claim_id}`} data={{
+            index: index + 1,
+            id: row.claim_id,
+            incidentDate: row.incident_date,
+            relevance: row.relevance,
+            owner: row.owner_id,
+            employee: row.employee_id,
+            car: row.car_id
+        }}/>);
+    };
+
+    if (main.isLoading || main.isTableEmpty || main.activeTab !== tableTabEnum.Hijacking) {
+        return <Container>
+            Загрузка данных...
+        </Container>
+    }
 
     return (
         <>
@@ -40,24 +65,7 @@ const Hijacking = observer(() => {
                     </tr>
                     </thead>
                     <tbody>
-                    <HijackingRow data={{
-                        index: 1,
-                        id: 1,
-                        incidentDate: `12.04.2002`,
-                        relevance: true,
-                        owner: 6,
-                        employee: 3,
-                        car: 2
-                    }}/>
-                    <HijackingRow data={{
-                        index: 2,
-                        id: 2,
-                        incidentDate: `12.04.2002`,
-                        relevance: false,
-                        owner: 3,
-                        employee: 5,
-                        car: 1
-                    }}/>
+                    {getRows()}
                     </tbody>
                 </Table>
             </Container>

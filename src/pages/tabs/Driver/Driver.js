@@ -7,10 +7,34 @@ import DriverRow from "./DriverRow";
 import TableTabEnum from "../../../enums/TableTabEnum";
 import {Context} from "../../../index";
 import DriverAddModal from "./DriverAddModal";
+import tableTabEnum from "../../../enums/TableTabEnum";
 
 const Driver = observer(() => {
     const {main} = useContext(Context);
-    const [isShow, setIsShow] = React.useState(false)
+    const [isShow, setIsShow] = React.useState(false);
+
+    React.useEffect(() => {
+        if (main.activeTab === tableTabEnum.Driver) {
+            main.setTable(`select_car_owners`);
+        }
+    }, [main.activeTab]);
+
+    const getRows = () => {
+        return main.table.map((row, index) => <DriverRow key={`driver_${row.owner_id}`} data={{
+            index: index + 1,
+            id: row.owner_id,
+            fullname: row.fullname,
+            birthday: row.birth_date,
+            license: row.drive_license,
+            criminal: row.criminal
+        }}/>);
+    };
+
+    if (main.isLoading || main.isTableEmpty || main.activeTab !== tableTabEnum.Driver) {
+        return <Container>
+            Загрузка данных...
+        </Container>
+    }
 
     return (
         <>
@@ -39,115 +63,7 @@ const Driver = observer(() => {
                     </tr>
                     </thead>
                     <tbody>
-                    <DriverRow data={{
-                        index: 1,
-                        id: 1,
-                        fullname: `Пол Ол Джонсон`,
-                        birthday: `12.04.2002`,
-                        license: `121322536457`,
-                        criminal: true
-                    }}/>
-                    <DriverRow data={{
-                        index: 2,
-                        id: 2,
-                        fullname: `ЫЫЫЫЫЫЫЫЫЫЫ`,
-                        birthday: `12.04.2002`,
-                        license: `121322536457`,
-                        criminal: false
-                    }}/>
-                    <DriverRow data={{
-                        index: 2,
-                        id: 2,
-                        fullname: `ЫЫЫЫЫЫЫЫЫЫЫ`,
-                        birthday: `12.04.2002`,
-                        license: `121322536457`,
-                        criminal: false
-                    }}/><DriverRow data={{
-                        index: 1,
-                        id: 1,
-                        fullname: `Пол Ол Джонсон`,
-                        birthday: `12.04.2002`,
-                        license: `121322536457`,
-                        criminal: true
-                    }}/>
-                    <DriverRow data={{
-                        index: 2,
-                        id: 2,
-                        fullname: `ЫЫЫЫЫЫЫЫЫЫЫ`,
-                        birthday: `12.04.2002`,
-                        license: `121322536457`,
-                        criminal: false
-                    }}/><DriverRow data={{
-                        index: 1,
-                        id: 1,
-                        fullname: `Пол Ол Джонсон`,
-                        birthday: `12.04.2002`,
-                        license: `121322536457`,
-                        criminal: true
-                    }}/>
-                    <DriverRow data={{
-                        index: 2,
-                        id: 2,
-                        fullname: `ЫЫЫЫЫЫЫЫЫЫЫ`,
-                        birthday: `12.04.2002`,
-                        license: `121322536457`,
-                        criminal: false
-                    }}/><DriverRow data={{
-                        index: 1,
-                        id: 1,
-                        fullname: `Пол Ол Джонсон`,
-                        birthday: `12.04.2002`,
-                        license: `121322536457`,
-                        criminal: true
-                    }}/>
-                    <DriverRow data={{
-                        index: 2,
-                        id: 2,
-                        fullname: `ЫЫЫЫЫЫЫЫЫЫЫ`,
-                        birthday: `12.04.2002`,
-                        license: `121322536457`,
-                        criminal: false
-                    }}/>
-                    <DriverRow data={{
-                        index: 2,
-                        id: 2,
-                        fullname: `ЫЫЫЫЫЫЫЫЫЫЫ`,
-                        birthday: `12.04.2002`,
-                        license: `121322536457`,
-                        criminal: false
-                    }}/>
-                    <DriverRow data={{
-                        index: 2,
-                        id: 2,
-                        fullname: `ЫЫЫЫЫЫЫЫЫЫЫ`,
-                        birthday: `12.04.2002`,
-                        license: `121322536457`,
-                        criminal: false
-                    }}/>
-                    <DriverRow data={{
-                        index: 2,
-                        id: 2,
-                        fullname: `ЫЫЫЫЫЫЫЫЫЫЫ`,
-                        birthday: `12.04.2002`,
-                        license: `121322536457`,
-                        criminal: false
-                    }}/>
-                    <DriverRow data={{
-                        index: 2,
-                        id: 2,
-                        fullname: `ЫЫЫЫЫЫЫЫЫЫЫ`,
-                        birthday: `12.04.2002`,
-                        license: `121322536457`,
-                        criminal: false
-                    }}/>
-                    <DriverRow data={{
-                        index: 2,
-                        id: 2,
-                        fullname: `ЫЫЫЫЫЫЫЫЫЫЫ`,
-                        birthday: `12.04.2002`,
-                        license: `121322536457`,
-                        criminal: false
-                    }}/>
+                    {getRows()}
                     </tbody>
                 </Table>
             </Container>

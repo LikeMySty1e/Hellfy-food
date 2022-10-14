@@ -7,10 +7,32 @@ import FineRow from "./FineRow";
 import TableTabEnum from "../../../enums/TableTabEnum";
 import {Context} from "../../../index";
 import FineAddModal from "./FineAddModal";
+import tableTabEnum from "../../../enums/TableTabEnum";
 
 const Fine = observer(() => {
     const {main} = useContext(Context);
-    const [isShow, setIsShow] = React.useState(false)
+    const [isShow, setIsShow] = React.useState(false);
+
+    React.useEffect(() => {
+        if (main.activeTab === tableTabEnum.Fine) {
+            main.setTable(`select_fines`);
+        }
+    }, [main.activeTab]);
+
+    const getRows = () => {
+        return main.table.map((row, index) => <FineRow key={`fine_${row.fine_id}`} data={{
+            index: index + 1,
+            id: row.fine_id,
+            payment: row.payment_amount,
+            status: row.status
+        }}/>);
+    };
+
+    if (main.isLoading || main.isTableEmpty || main.activeTab !== tableTabEnum.Fine) {
+        return <Container>
+            Загрузка данных...
+        </Container>
+    }
 
     return (
         <>
@@ -37,18 +59,7 @@ const Fine = observer(() => {
                     </tr>
                     </thead>
                     <tbody>
-                    <FineRow data={{
-                        index: 1,
-                        id: 1,
-                        payment: 10000,
-                        status: true
-                    }}/>
-                    <FineRow data={{
-                        index: 2,
-                        id: 2,
-                        payment: 70000,
-                        status: false
-                    }}/>
+                    {getRows()}
                     </tbody>
                 </Table>
             </Container>

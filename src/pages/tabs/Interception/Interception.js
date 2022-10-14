@@ -7,10 +7,37 @@ import InterceptionRow from "./InterceptionRow";
 import {Context} from "../../../index";
 import TableTabEnum from "../../../enums/TableTabEnum";
 import InterceptionAddModal from "./InterceptionAddModal";
+import tableTabEnum from "../../../enums/TableTabEnum";
+import EmployeeRow from "../Employee/EmployeeRow";
 
 const Interception = observer(() => {
     const {main} = useContext(Context);
-    const [isShow, setIsShow] = React.useState(false)
+    const [isShow, setIsShow] = React.useState(false);
+
+    React.useEffect(() => {
+        if (main.activeTab === tableTabEnum.Interception) {
+            main.setTable(`select_interception_plans`);
+        }
+    }, [main.activeTab]);
+
+    const getRows = () => {
+        return main.table.map((row, index) => <InterceptionRow key={`plan_${row.plan_id}`} data={{
+            index: index + 1,
+            id: row.plan_id,
+            begin: row.begin_date,
+            end: row.end_date,
+            status: row.status,
+            hijacker: row.hijacker_fullname,
+            claim: row.claim_id,
+            video: row.video_id
+        }}/>);
+    };
+
+    if (main.isLoading || main.isTableEmpty || main.activeTab !== tableTabEnum.Interception) {
+        return <Container>
+            Загрузка данных...
+        </Container>
+    }
 
     return (
         <>
@@ -41,26 +68,7 @@ const Interception = observer(() => {
                     </tr>
                     </thead>
                     <tbody>
-                    <InterceptionRow data={{
-                        index: 1,
-                        id: 1,
-                        begin: `12.04.2002`,
-                        end: `12.04.2002`,
-                        status: true,
-                        hijacker: `Иван Иванович ИванОвич`,
-                        claim: 3,
-                        video: 4
-                    }}/>
-                    <InterceptionRow data={{
-                        index: 2,
-                        id: 2,
-                        begin: `12.04.2002`,
-                        end: `12.04.2002`,
-                        status: true,
-                        hijacker: `Иван Иванович ИванОвич`,
-                        claim: 3,
-                        video: 4
-                    }}/>
+                    {getRows()}
                     </tbody>
                 </Table>
             </Container>

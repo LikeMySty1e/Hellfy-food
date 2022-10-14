@@ -7,10 +7,34 @@ import VideoRow from "./VideoRow";
 import TableTabEnum from "../../../enums/TableTabEnum";
 import {Context} from "../../../index";
 import VideoAddModal from "./VideoAddModal";
+import tableTabEnum from "../../../enums/TableTabEnum";
 
 const Video = observer(() => {
     const {main} = useContext(Context);
-    const [isShow, setIsShow] = React.useState(false)
+    const [isShow, setIsShow] = React.useState(false);
+
+    React.useEffect(() => {
+        if (main.activeTab === tableTabEnum.Video) {
+            main.setTable(`select_video_datas`);
+        }
+    }, [main.activeTab]);
+
+    const getRows = () => {
+        return main.table.map((row, index) => <VideoRow key={`video_${row.video_id}`} data={{
+            index: index + 1,
+            id: row.video_id,
+            date: row.video_date,
+            time: row.video_time,
+            victimCarNumber: row.victims_car_number,
+            violatorCarNumber: row.violators_car_number
+        }} />);
+    };
+
+    if (main.isLoading || main.isTableEmpty || main.activeTab !== tableTabEnum.Video) {
+        return <Container>
+            Загрузка данных...
+        </Container>
+    }
 
     return (
         <>
@@ -39,30 +63,7 @@ const Video = observer(() => {
                     </tr>
                     </thead>
                     <tbody>
-                    <VideoRow data={{
-                        index: 1,
-                        id: 1,
-                        date: `12.04.2002`,
-                        time: `13:42`,
-                        victimCarNumber: `А223РО58`,
-                        violatorCarNumber: `А007АА177`
-                    }} />
-                    <VideoRow data={{
-                        index: 1,
-                        id: 1,
-                        date: `12.04.2002`,
-                        time: `13:42`,
-                        victimCarNumber: `А223РО58`,
-                        violatorCarNumber: `А007АА177`
-                    }} />
-                    <VideoRow data={{
-                        index: 1,
-                        id: 1,
-                        date: `12.04.2002`,
-                        time: `13:42`,
-                        victimCarNumber: `А223РО58`,
-                        violatorCarNumber: `А007АА177`
-                    }} />
+                    {getRows()}
                     </tbody>
                 </Table>
             </Container>
