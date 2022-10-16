@@ -8,6 +8,7 @@ import {Context} from "../../../index";
 import TableTabEnum from "../../../enums/TableTabEnum";
 import HijackingAddModal from "./HijackingAddModal";
 import tableTabEnum from "../../../enums/TableTabEnum";
+import urls from "../../../resources/urls";
 
 const Hijacking = observer(() => {
     const {main} = useContext(Context);
@@ -15,7 +16,7 @@ const Hijacking = observer(() => {
 
     React.useEffect(() => {
         if (main.activeTab === tableTabEnum.Hijacking) {
-            main.setTable(`select_hijacking_claims`);
+            main.getTable(urls.getHijacking);
         }
     }, [main.activeTab]);
 

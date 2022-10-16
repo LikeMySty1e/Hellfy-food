@@ -8,7 +8,7 @@ import {Context} from "../../../index";
 import TableTabEnum from "../../../enums/TableTabEnum";
 import InterceptionAddModal from "./InterceptionAddModal";
 import tableTabEnum from "../../../enums/TableTabEnum";
-import EmployeeRow from "../Employee/EmployeeRow";
+import urls from "../../../resources/urls";
 
 const Interception = observer(() => {
     const {main} = useContext(Context);
@@ -16,7 +16,7 @@ const Interception = observer(() => {
 
     React.useEffect(() => {
         if (main.activeTab === tableTabEnum.Interception) {
-            main.setTable(`select_interception_plans`);
+            main.getTable(urls.getInterception);
         }
     }, [main.activeTab]);
 

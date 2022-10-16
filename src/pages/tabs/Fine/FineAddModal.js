@@ -5,9 +5,8 @@ import {Form} from "react-bootstrap";
 import {Context} from "../../../index";
 import ModalWrapper from "../../../components/ModalWrapper/ModalWrapper";
 import validationHelper from "../../../helpers/validationHelper";
-import ComplexInputSection from "../../../components/ComplexInputSection/ComplexInputSection";
-import SelectSection from "../../../components/SelectSection/SelectSection";
-import employeeRankResource from "../../../resources/employeeRankResource";
+import {mapFineToSave} from "../../../helpers/mapper";
+import urls from "../../../resources/urls";
 
 const defaultModel = {
     severity: ``,
@@ -26,11 +25,14 @@ const FineAddModal = observer(props => {
     const onInputChange = (e) => setState({ ...state, [e.target.id]: e.target.value });
     const onCheckboxChange = (e) => setState({ ...state, [e.target.id]: !state[e.target.id] });
 
+    const onAddRow = () => main.addRow(`issue_new_fine`, mapFineToSave(state), urls.getFine);
+
     return (
         <ModalWrapper
             isShow={isShow}
             handleClose={handleClose}
             addButtonText={`Сохранить`}
+            onAdd={onAddRow}
             addButtonDisabled={!validationHelper.validateState(state)}
             modalTitle={`Добавить новую запись`}
         >

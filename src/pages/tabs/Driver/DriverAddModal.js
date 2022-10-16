@@ -5,6 +5,8 @@ import {Form} from "react-bootstrap";
 import {Context} from "../../../index";
 import ModalWrapper from "../../../components/ModalWrapper/ModalWrapper";
 import validationHelper from "../../../helpers/validationHelper";
+import {mapDriverToSave} from "../../../helpers/mapper";
+import urls from "../../../resources/urls";
 
 const defaultModel = {
     fullname: ``,
@@ -25,11 +27,14 @@ const DriverAddModal = observer(props => {
     const onInputChange = (e) => setState({ ...state, [e.target.id]: e.target.value });
     const onCheckboxChange = (e) => setState({ ...state, [e.target.id]: !state[e.target.id] });
 
+    const onAddRow = () => main.addRow(`add_car_owner`, mapDriverToSave(state), urls.getDriver);
+
     return (
         <ModalWrapper
             isShow={isShow}
             handleClose={handleClose}
             addButtonText={`Сохранить`}
+            onAdd={onAddRow}
             addButtonDisabled={!validationHelper.validateState(state)}
             modalTitle={`Добавить новую запись`}
         >

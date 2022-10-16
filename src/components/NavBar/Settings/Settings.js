@@ -24,7 +24,12 @@ const Settings = observer(() => {
                 <Modal.Body>
                     <Form>
                         <Form.Group className="mb-3">
-                            <Form.Check label={`Учитывать часовые пояса`} type={'checkbox'} checked={main.isTimeZonesUsing} onChange={main.setTimeZoneUsing}/>
+                            <Form.Check
+                                label={`Учитывать часовые пояса`}
+                                type={'checkbox'}
+                                checked={main.isTimeZonesUsing}
+                                onChange={main.setTimeZoneUsing}
+                            />
                         </Form.Group>
                     </Form>
                 </Modal.Body>

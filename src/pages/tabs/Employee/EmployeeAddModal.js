@@ -8,6 +8,8 @@ import validationHelper from "../../../helpers/validationHelper";
 import ComplexInputSection from "../../../components/ComplexInputSection/ComplexInputSection";
 import SelectSection from "../../../components/SelectSection/SelectSection";
 import employeeRankResource from "../../../resources/employeeRankResource";
+import {mapEmployeeToSave} from "../../../helpers/mapper";
+import urls from "../../../resources/urls";
 
 const defaultModel = {
     fullname: ``,
@@ -29,11 +31,14 @@ const EmployeeAddModal = observer(props => {
 
     const onInputChange = (e) => setState({ ...state, [e.target.id]: e.target.value });
 
+    const onAddRow = () => main.addRow(`add_employee`, mapEmployeeToSave(state), urls.getEmployee);
+
     return (
         <ModalWrapper
             isShow={isShow}
             handleClose={handleClose}
             addButtonText={`Сохранить`}
+            onAdd={onAddRow}
             addButtonDisabled={!validationHelper.validateState(state)}
             modalTitle={`Добавить новую запись`}
         >

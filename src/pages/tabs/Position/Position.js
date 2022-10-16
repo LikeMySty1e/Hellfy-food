@@ -8,6 +8,7 @@ import TableTabEnum from "../../../enums/TableTabEnum";
 import {Context} from "../../../index";
 import PositionAddModal from "./PositionAddModal";
 import tableTabEnum from "../../../enums/TableTabEnum";
+import urls from "../../../resources/urls";
 
 const Position = observer(() => {
     const {main} = useContext(Context);
@@ -15,7 +16,7 @@ const Position = observer(() => {
 
     React.useEffect(() => {
         if (main.activeTab === tableTabEnum.Position) {
-            main.setTable(`select_positions`);
+            main.getTable(urls.getPosition);
         }
     }, [main.activeTab]);
 

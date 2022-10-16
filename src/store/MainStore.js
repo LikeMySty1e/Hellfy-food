@@ -8,12 +8,12 @@ export default class MainStore {
     _isAuth = false;
     login = null;
     token = null;
+    alert = ``;
     settings = {
-
+        timeZoneUsing: false
     };
     table = [];
-    activeTab = localStorage.getItem(`activeTab`) || tableTabEnum.Protocol;
-    timeZoneUsing = false;
+    activeTab = null;
     pendingState = {
         loading: true,
         isSavingDemand: false
@@ -28,6 +28,8 @@ export default class MainStore {
 
     init = () => {
         this.initAuth();
+        this.setActiveTab(localStorage.getItem(`activeTab`) || tableTabEnum.Protocol);
+        // this.setAlert(`Убейте меня`);
     }
 
     initAuth = () => {
@@ -43,21 +45,58 @@ export default class MainStore {
         this.token = localToken;
     }
 
-    setTable = async url => {
-        this.setLoading(true);
-        this.table = [];
+    setTable = table => {
+        this.table = table || [];
+    }
 
-        httpClientHelper.get(url)
-            .then(data => {
-                console.log(data)
-                this.table = jsonParser.parseArray(data.data);
-                this.setLoading(false);
+    getTable = async url => {
+        this.setLoading(true);
+        this.setTable();
+
+        try {
+            httpClientHelper.get(url)
+                .then(data => {
+                    console.log(data)
+                    this.setTable(jsonParser.parseArray(data.data));
+                    this.setLoading(false);
+                });
+        } catch (e) {
+            this.setAlert(e.message || `Возникла ошибка во время загрузки данных`);
+        }
+    }
+
+    deleteRow = async ({ id, property }, url) => {
+        try {
+            httpClientHelper.get(url)
+                .then(() => {
+                    this.setTable(this.table.filter(row => row[property] !== id));
+                });
+        } catch (e) {
+            this.setAlert(e.message || `Возникла ошибка во время удаления`);
+        }
+    }
+
+    addRow = async (url, data, table) => {
+        httpClientHelper.post(url, data)
+            .then(response => {
+                if (response?.data?.status === `error`) {
+                    this.setAlert(response.data.message || `Возникла ошибка во время добавления новых данных`);
+
+                    return null;
+                }
+
+                this.setAlert(``);
+                this.getTable(table);
             });
     }
 
     setToken = token => {
         this.token = token;
         localStorageHelper.setLocalToken(token);
+    }
+
+    setAlert = alert => {
+        this.alert = `${alert}`;
     }
 
     setIsAuth = isAuth => {
@@ -69,7 +108,7 @@ export default class MainStore {
     }
 
     setTimeZoneUsing = e => {
-        this.timeZoneUsing = e.target.checked;
+        this.settings.timeZoneUsing = e.target.checked;
     }
 
     setActiveTab = tab => {
@@ -90,8 +129,12 @@ export default class MainStore {
         return this._isAuth;
     }
 
+    get isAlert() {
+        return !!this.alert;
+    }
+
     get isTimeZonesUsing() {
-        return this.timeZoneUsing;
+        return this.settings.timeZoneUsing;
     }
 
     get isLoading() {

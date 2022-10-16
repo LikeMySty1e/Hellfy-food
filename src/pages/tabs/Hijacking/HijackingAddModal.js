@@ -6,6 +6,8 @@ import {Context} from "../../../index";
 import ModalWrapper from "../../../components/ModalWrapper/ModalWrapper";
 import validationHelper from "../../../helpers/validationHelper";
 import ComplexInputSection from "../../../components/ComplexInputSection/ComplexInputSection";
+import {mapHijackingToSave} from "../../../helpers/mapper";
+import urls from "../../../resources/urls";
 
 const defaultModel = {
     incidentDate: ``,
@@ -27,11 +29,14 @@ const HijackingAddModal = observer(props => {
     const onInputChange = (e) => setState({ ...state, [e.target.id]: e.target.value });
     const onCheckboxChange = (e) => setState({ ...state, [e.target.id]: !state[e.target.id] });
 
+    const onAddRow = () => main.addRow(`add_hijacking_claim`, mapHijackingToSave(state), urls.getHijacking);
+
     return (
         <ModalWrapper
             isShow={isShow}
             handleClose={handleClose}
             addButtonText={`Сохранить`}
+            onAdd={onAddRow}
             addButtonDisabled={!validationHelper.validateState(state)}
             modalTitle={`Добавить новую запись`}
         >

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useCallback, useContext} from 'react';
 import PropTypes from 'prop-types';
 import {Button, Container} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
@@ -8,6 +8,7 @@ import TableTabEnum from "../../../enums/TableTabEnum";
 import {Context} from "../../../index";
 import FineAddModal from "./FineAddModal";
 import tableTabEnum from "../../../enums/TableTabEnum";
+import urls from "../../../resources/urls";
 
 const Fine = observer(() => {
     const {main} = useContext(Context);
@@ -15,18 +16,18 @@ const Fine = observer(() => {
 
     React.useEffect(() => {
         if (main.activeTab === tableTabEnum.Fine) {
-            main.setTable(`select_fines`);
+            main.getTable(urls.getFine);
         }
     }, [main.activeTab]);
 
-    const getRows = () => {
+    const getRows = useCallback(() => {
         return main.table.map((row, index) => <FineRow key={`fine_${row.fine_id}`} data={{
             index: index + 1,
             id: row.fine_id,
             payment: row.payment_amount,
             status: row.status
         }}/>);
-    };
+    }, [main.table]);
 
     if (main.isLoading || main.isTableEmpty || main.activeTab !== tableTabEnum.Fine) {
         return <Container>

@@ -8,6 +8,7 @@ import TableTabEnum from "../../../enums/TableTabEnum";
 import {Context} from "../../../index";
 import ProtocolPositionAddModal from "./ProtocolPositionAddModal";
 import tableTabEnum from "../../../enums/TableTabEnum";
+import urls from "../../../resources/urls";
 
 const ProtocolPosition = observer(() => {
     const {main} = useContext(Context);
@@ -15,7 +16,7 @@ const ProtocolPosition = observer(() => {
 
     React.useEffect(() => {
         if (main.activeTab === tableTabEnum.ProtocolPosition) {
-            main.setTable(`select_protocol_positions`);
+            main.getTable(urls.getProtocolPosition);
         }
     }, [main.activeTab]);
 

@@ -6,8 +6,8 @@ import {Context} from "../../../index";
 import ModalWrapper from "../../../components/ModalWrapper/ModalWrapper";
 import validationHelper from "../../../helpers/validationHelper";
 import ComplexInputSection from "../../../components/ComplexInputSection/ComplexInputSection";
-import SelectSection from "../../../components/SelectSection/SelectSection";
-import employeeRankResource from "../../../resources/employeeRankResource";
+import {mapProtocolToSave} from "../../../helpers/mapper";
+import urls from "../../../resources/urls";
 
 const defaultModel = {
     registration: ``,
@@ -28,11 +28,14 @@ const ProtocolAddModal = observer(props => {
     const onInputChange = (e) => setState({ ...state, [e.target.id]: e.target.value });
     const onCheckboxChange = (e) => setState({ ...state, [e.target.id]: !state[e.target.id] });
 
+    const onAddRow = () => main.addRow(`add_protocol`, mapProtocolToSave(state), urls.getProtocol);
+
     return (
         <ModalWrapper
             isShow={isShow}
             handleClose={handleClose}
             addButtonText={`Сохранить`}
+            onAdd={onAddRow}
             addButtonDisabled={!validationHelper.validateState(state)}
             modalTitle={`Добавить новую запись`}
         >

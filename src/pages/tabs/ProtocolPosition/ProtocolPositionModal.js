@@ -17,11 +17,14 @@ const HijackingModal = observer(props => {
 
     const onInputChange = (e) => setState({ ...state, [e.target.id]: e.target.value, changed: true });
 
+    const onRowDelete = () => main.deleteRow({ id: state.id, property: `protocol_pos_id`}, `delete_protocol_position/${state.id}`);
+
     return (
         <ModalWrapper
             isShow={isShow}
             handleClose={handleClose}
             deleteButtonText={`Удалить`}
+            onDelete={onRowDelete}
             editButtonText={`Редактировать`}
             editButtonDisabled={!state.changed}
             modalTitle={`Позиция протокола`}

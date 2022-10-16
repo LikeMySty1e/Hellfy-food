@@ -8,6 +8,7 @@ import TableTabEnum from "../../../enums/TableTabEnum";
 import {Context} from "../../../index";
 import DriverAddModal from "./DriverAddModal";
 import tableTabEnum from "../../../enums/TableTabEnum";
+import urls from "../../../resources/urls";
 
 const Driver = observer(() => {
     const {main} = useContext(Context);
@@ -15,7 +16,7 @@ const Driver = observer(() => {
 
     React.useEffect(() => {
         if (main.activeTab === tableTabEnum.Driver) {
-            main.setTable(`select_car_owners`);
+            main.getTable(urls.getDriver);
         }
     }, [main.activeTab]);
 

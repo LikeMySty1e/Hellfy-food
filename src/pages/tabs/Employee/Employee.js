@@ -8,6 +8,7 @@ import {Context} from "../../../index";
 import TableTabEnum from "../../../enums/TableTabEnum";
 import EmployeeAddModal from "./EmployeeAddModal";
 import tableTabEnum from "../../../enums/TableTabEnum";
+import urls from "../../../resources/urls";
 
 const Employee = observer(() => {
     const {main} = useContext(Context);
@@ -15,7 +16,7 @@ const Employee = observer(() => {
 
     React.useEffect(() => {
         if (main.activeTab === tableTabEnum.Employee) {
-            main.setTable(`select_employees`);
+            main.getTable(urls.getEmployee);
         }
     }, [main.activeTab]);
 

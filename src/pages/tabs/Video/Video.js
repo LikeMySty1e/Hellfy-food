@@ -8,6 +8,7 @@ import TableTabEnum from "../../../enums/TableTabEnum";
 import {Context} from "../../../index";
 import VideoAddModal from "./VideoAddModal";
 import tableTabEnum from "../../../enums/TableTabEnum";
+import urls from "../../../resources/urls";
 
 const Video = observer(() => {
     const {main} = useContext(Context);
@@ -15,7 +16,7 @@ const Video = observer(() => {
 
     React.useEffect(() => {
         if (main.activeTab === tableTabEnum.Video) {
-            main.setTable(`select_video_datas`);
+            main.getTable(urls.getVideo);
         }
     }, [main.activeTab]);
 

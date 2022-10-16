@@ -16,13 +16,16 @@ const DriverModal = observer(props => {
     }, [isShow]);
 
     const onInputChange = (e) => setState({ ...state, [e.target.id]: e.target.value, changed: true });
-    const onCheckboxChange = (e) => {setState({ ...state, [e.target.id]: !state[e.target.id], changed: true})}
+    const onCheckboxChange = (e) => setState({ ...state, [e.target.id]: !state[e.target.id], changed: true});
+
+    const onRowDelete = () => main.deleteRow({ id: state.id, property: `owner_id`}, `delete_car_owner/${state.id}`);
 
     return (
         <ModalWrapper
             isShow={isShow}
             handleClose={handleClose}
             deleteButtonText={`Удалить`}
+            onDelete={onRowDelete}
             editButtonText={`Редактировать`}
             editButtonDisabled={!state.changed}
             modalTitle={`Водитель`}
