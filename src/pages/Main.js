@@ -22,6 +22,17 @@ import tableTabEnum from "../enums/TableTabEnum";
 const Main = observer(() => {
     const {main} = useContext(Context);
 
+    const getDefaultKey = () => {
+        const localKey = localStorage.getItem(`activeTab`);
+
+        if (Object.values(TableTabEnum).includes(localKey)) {
+            return localKey;
+        }
+
+        main.setActiveTab(TableTabEnum.Protocol);
+        return TableTabEnum.Protocol;
+    }
+
     return (
         <>
             <Container className={"mt-3"}>
@@ -35,7 +46,7 @@ const Main = observer(() => {
                     <p style={{ marginBottom: 0 }}>Возникла ошибка: {main.alert}</p>
                 </Alert>
                 <Tabs
-                    defaultActiveKey={localStorage.getItem(`activeTab`) || tableTabEnum.Protocol}
+                    defaultActiveKey={getDefaultKey()}
                     transition={true}
                     className="mb-3"
                     onSelect={main.setActiveTab}

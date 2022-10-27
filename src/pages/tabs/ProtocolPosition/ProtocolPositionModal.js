@@ -5,6 +5,8 @@ import {Form} from "react-bootstrap";
 import {Context} from "../../../index";
 import protocolPositionPropTypes from "./resources/protocolPositionPropTypes";
 import ModalWrapper from "../../../components/ModalWrapper/ModalWrapper";
+import {mapProtocolPositionToSave} from "../../../helpers/mapper";
+import urls from "../../../resources/urls";
 
 const HijackingModal = observer(props => {
     const {main} = useContext(Context);
@@ -18,6 +20,7 @@ const HijackingModal = observer(props => {
     const onInputChange = (e) => setState({ ...state, [e.target.id]: e.target.value, changed: true });
 
     const onRowDelete = () => main.deleteRow({ id: state.id, property: `protocol_pos_id`}, `delete_protocol_position/${state.id}`);
+    const onRowEdit = () => main.updateRow(`update_protocol_position`, { ...mapProtocolPositionToSave(state), protocol_pos_id: state.id }, urls.getProtocolPosition);
 
     return (
         <ModalWrapper
@@ -26,6 +29,7 @@ const HijackingModal = observer(props => {
             deleteButtonText={`Удалить`}
             onDelete={onRowDelete}
             editButtonText={`Редактировать`}
+            onEdit={onRowEdit}
             editButtonDisabled={!state.changed}
             modalTitle={`Позиция протокола`}
         >

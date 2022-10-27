@@ -6,39 +6,30 @@ import Table from "react-bootstrap/Table";
 import {Context} from "../../../index";
 import CarRow from "./CarRow";
 import tableTabEnum from "../../../enums/TableTabEnum";
-import ProtocolRow from "../Protocol/ProtocolRow";
 
 const Car = observer(() => {
     const {main} = useContext(Context);
 
-    // React.useEffect(() => {
-    //     if (main.activeTab === tableTabEnum.Car) {
-    //         main.setTable(`select_cars`);
-    //     }
-    // }, [main.activeTab]);
-    //
-    // const getRows = () => {
-    //     return main.table.map((row, index) => <CarRow data={{
-    //         index: index + 1,
-    //         id: row.car_id,
-    //         number: `А115КА58`,
-    //         engine: 1.6,
-    //         mark: `Mazda`,
-    //         insurance: `12.04.2002`,
-    //         model: `2`,
-    //         owner: 1
-    //     }} />)
-    //     // <ProtocolRow data={{
-    //     //     index: index + 1,
-    //     //     id: row.protocol_id,
-    //     //     registration: row.reg_date,
-    //     //     status: row.status,
-    //     //     violator: row.violator_id,
-    //     //     victim: row.victim_id
-    //     // }}/>);
-    // };
+    React.useEffect(() => {
+        if (main.activeTab === tableTabEnum.Car) {
+            main.getTable(`select_cars`);
+        }
+    }, [main.activeTab]);
 
-    if (main.isLoading || main.isTableEmpty) {
+    const getRows = () => {
+        return main.table.map((row, index) => <CarRow key={`car_${row.car_id}`} data={{
+            index: index + 1,
+            id: row.car_id,
+            number: row.reg_number,
+            engine: row.engine_volume,
+            mark: row.mark_id,
+            insurance: row.insurance_date,
+            model: row.model_id,
+            owner: row.owner_id
+        }}/>);
+    };
+
+    if (main.isLoading || main.isTableEmpty || main.activeTab !== tableTabEnum.Car) {
         return <Container>
             Загрузка данных...
         </Container>
@@ -60,7 +51,7 @@ const Car = observer(() => {
                 </tr>
                 </thead>
                 <tbody>
-                {/*{getRows()}*/}
+                {getRows()}
                 </tbody>
             </Table>
         </Container>

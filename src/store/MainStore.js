@@ -29,7 +29,7 @@ export default class MainStore {
     init = () => {
         this.initAuth();
         this.setActiveTab(localStorage.getItem(`activeTab`) || tableTabEnum.Protocol);
-        // this.setAlert(`Убейте меня`);
+        this.setAlert(`Убейте меня`);
     }
 
     initAuth = () => {
@@ -53,27 +53,32 @@ export default class MainStore {
         this.setLoading(true);
         this.setTable();
 
-        try {
-            httpClientHelper.get(url)
-                .then(data => {
-                    console.log(data)
-                    this.setTable(jsonParser.parseArray(data.data));
-                    this.setLoading(false);
-                });
-        } catch (e) {
-            this.setAlert(e.message || `Возникла ошибка во время загрузки данных`);
-        }
+        httpClientHelper.get(url)
+            .then(response => {
+                console.log(response)
+                if (response?.data?.status === `error`) {
+                    this.setAlert(response.data.message || `Возникла ошибка во время загрузки данных`);
+
+                    return null;
+                }
+
+                this.setTable(jsonParser.parseArray(response.data));
+                this.setLoading(false);
+            });
     }
 
     deleteRow = async ({ id, property }, url) => {
-        try {
-            httpClientHelper.get(url)
-                .then(() => {
-                    this.setTable(this.table.filter(row => row[property] !== id));
-                });
-        } catch (e) {
-            this.setAlert(e.message || `Возникла ошибка во время удаления`);
-        }
+        httpClientHelper.get(url)
+            .then(response => {
+                if (response?.data?.status === `error`) {
+                    this.setAlert(response.data.message || `Возникла ошибка во время добавления новых данных`);
+
+                    return null;
+                }
+
+                this.setAlert(``);
+                this.setTable(this.table.filter(row => row[property] !== id));
+            });
     }
 
     addRow = async (url, data, table) => {
@@ -81,6 +86,20 @@ export default class MainStore {
             .then(response => {
                 if (response?.data?.status === `error`) {
                     this.setAlert(response.data.message || `Возникла ошибка во время добавления новых данных`);
+
+                    return null;
+                }
+
+                this.setAlert(``);
+                this.getTable(table);
+            });
+    }
+
+    updateRow = async (url, data, table) => {
+        httpClientHelper.post(url, data)
+            .then(response => {
+                if (response?.data?.status === `error`) {
+                    this.setAlert(response.data.message || `Возникла ошибка во время обновления данных`);
 
                     return null;
                 }

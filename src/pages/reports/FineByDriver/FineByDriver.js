@@ -1,12 +1,36 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import {Button, Container} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 import Table from "react-bootstrap/Table";
+import ReportsTabEnum from "../../../enums/ReportsTabEnum";
 import FineByDriverRow from "./FineByDriverRow";
-import TableTabEnum from "../../../enums/TableTabEnum";
+import {Context} from "../../../index";
 
 const FineByDriver = observer(() => {
+    const {main} = useContext(Context);
+
+    React.useEffect(() => {
+        if (main.activeTab === ReportsTabEnum.FineByDriver) {
+            main.getTable(`fine_by_driver_view`);
+        }
+    }, [main.activeTab]);
+
+    const getRows = () => {
+        return main.table.map((row, index) => <FineByDriverRow key={`fineByDriver_${row.car_owner}`} data={{
+            index: index + 1,
+            fineCount: row.count,
+            fineSum: row.sum,
+            driver: row.car_owner
+        }}/>);
+    };
+
+    if (main.isLoading || main.isTableEmpty || main.activeTab !== ReportsTabEnum.FineByDriver) {
+        return <Container>
+            Загрузка данных...
+        </Container>
+    }
+
     return (
         <Container>
             <Table style={{ maxHeight: 500, overflowY: `auto` }} striped responsive hover>
@@ -19,24 +43,7 @@ const FineByDriver = observer(() => {
                 </tr>
                 </thead>
                 <tbody>
-                <FineByDriverRow data={{
-                    index: 1,
-                    driver: `Жмышенко Валерий Петрович`,
-                    fineCount: 5,
-                    fineSum: `15000`
-                }} />
-                <FineByDriverRow data={{
-                    index: 2,
-                    driver: `Жмышенко Валерий Петрович`,
-                    fineCount: 4,
-                    fineSum: `150000`
-                }} />
-                <FineByDriverRow data={{
-                    index: 3,
-                    driver: `Жмышенко Валерий Петрович`,
-                    fineCount: 1,
-                    fineSum: `5000`
-                }} />
+                {getRows()}
                 </tbody>
             </Table>
         </Container>

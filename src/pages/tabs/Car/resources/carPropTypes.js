@@ -7,7 +7,7 @@ const carPropTypes = {
         number: PropTypes.string,
         insurance: PropTypes.string,
         engine: PropTypes.number,
-        owner: PropTypes.number,
+        owner: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         mark: PropTypes.string,
         model: PropTypes.string
     })

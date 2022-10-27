@@ -9,7 +9,7 @@ const CarRow = observer(props => {
 
     return (
         <React.Fragment>
-            <tr onDoubleClick={() => setIsShow(true)}>
+            <tr>
                 <td>{data.index || `error`}</td>
                 <td>{data.id || `error`}</td>
                 <td>{data.number || `error`}</td>

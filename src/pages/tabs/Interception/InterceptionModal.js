@@ -5,6 +5,8 @@ import {Form} from "react-bootstrap";
 import {Context} from "../../../index";
 import interceptionPropTypes from "./resources/interceptionPropTypes";
 import ModalWrapper from "../../../components/ModalWrapper/ModalWrapper";
+import {mapInterceptionToSave} from "../../../helpers/mapper";
+import urls from "../../../resources/urls";
 
 const InterceptionModal = observer(props => {
     const {main} = useContext(Context);
@@ -19,6 +21,7 @@ const InterceptionModal = observer(props => {
     const onCheckboxChange = (e) => setState({ ...state, [e.target.id]: !state[e.target.id], changed: true});
 
     const onRowDelete = () => main.deleteRow({ id: state.id, property: `plan_id`}, `delete_interception_plan/${state.id}`);
+    const onRowEdit = () => main.updateRow(`update_interception_plan`, { ...mapInterceptionToSave(state), plan_id: state.id }, urls.getInterception);
 
     return (
         <ModalWrapper
@@ -27,6 +30,7 @@ const InterceptionModal = observer(props => {
             deleteButtonText={`Удалить`}
             onDelete={onRowDelete}
             editButtonText={`Редактировать`}
+            onEdit={onRowEdit}
             editButtonDisabled={!state.changed}
             modalTitle={`План-перехват`}
         >

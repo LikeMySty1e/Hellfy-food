@@ -8,6 +8,8 @@ import ModalWrapper from "../../../components/ModalWrapper/ModalWrapper";
 import SelectSection from "../../../components/SelectSection/SelectSection";
 import employeeRankResource from "../../../resources/employeeRankResource";
 import ComplexInputSection from "../../../components/ComplexInputSection/ComplexInputSection";
+import {mapEmployeeToSave} from "../../../helpers/mapper";
+import urls from "../../../resources/urls";
 
 const EmployeeModal = observer(props => {
     const {main} = useContext(Context);
@@ -21,6 +23,7 @@ const EmployeeModal = observer(props => {
     const onInputChange = (e) => setState({ ...state, [e.target.id]: e.target.value, changed: true });
 
     const onRowDelete = () => main.deleteRow({ id: state.id, property: `employee_id`}, `delete_employee/${state.id}`);
+    const onRowEdit = () => main.updateRow(`update_employee`, { ...mapEmployeeToSave(state), employee_id: state.id }, urls.getEmployee);
 
     return (
         <ModalWrapper
@@ -29,6 +32,7 @@ const EmployeeModal = observer(props => {
             deleteButtonText={`Удалить`}
             onDelete={onRowDelete}
             editButtonText={`Редактировать`}
+            onEdit={onRowEdit}
             editButtonDisabled={!state.changed}
             modalTitle={`Сотрудник`}
         >

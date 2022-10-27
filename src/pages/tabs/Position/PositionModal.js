@@ -5,6 +5,8 @@ import {Form} from "react-bootstrap";
 import {Context} from "../../../index";
 import positionPropTypes from "./resources/positionPropTypes";
 import ModalWrapper from "../../../components/ModalWrapper/ModalWrapper";
+import {mapPositionToSave} from "../../../helpers/mapper";
+import urls from "../../../resources/urls";
 
 const PositionModal = observer(props => {
     const {main} = useContext(Context);
@@ -18,6 +20,7 @@ const PositionModal = observer(props => {
     const onInputChange = (e) => setState({ ...state, [e.target.id]: e.target.value, changed: true });
 
     const onRowDelete = () => main.deleteRow({ id: state.id, property: `position_id`}, `delete_position/${state.id}`);
+    const onRowEdit = () => main.updateRow(`update_position`, { ...mapPositionToSave(state), position_id: state.id }, urls.getPosition);
 
     return (
         <ModalWrapper
@@ -26,6 +29,7 @@ const PositionModal = observer(props => {
             deleteButtonText={`Удалить`}
             onDelete={onRowDelete}
             editButtonText={`Редактировать`}
+            onEdit={onRowEdit}
             editButtonDisabled={!state.changed}
             modalTitle={`Должность`}
         >

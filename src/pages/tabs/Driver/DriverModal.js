@@ -5,6 +5,8 @@ import {Form} from "react-bootstrap";
 import {Context} from "../../../index";
 import driverPropTypes from "./resources/driverPropTypes";
 import ModalWrapper from "../../../components/ModalWrapper/ModalWrapper";
+import {mapDriverToSave} from "../../../helpers/mapper";
+import urls from "../../../resources/urls";
 
 const DriverModal = observer(props => {
     const {main} = useContext(Context);
@@ -19,6 +21,7 @@ const DriverModal = observer(props => {
     const onCheckboxChange = (e) => setState({ ...state, [e.target.id]: !state[e.target.id], changed: true});
 
     const onRowDelete = () => main.deleteRow({ id: state.id, property: `owner_id`}, `delete_car_owner/${state.id}`);
+    const onRowEdit = () => main.updateRow(`update_car_owner`, { ...mapDriverToSave(state), owner_id: state.id }, urls.getDriver);
 
     return (
         <ModalWrapper
@@ -27,6 +30,7 @@ const DriverModal = observer(props => {
             deleteButtonText={`Удалить`}
             onDelete={onRowDelete}
             editButtonText={`Редактировать`}
+            onEdit={onRowEdit}
             editButtonDisabled={!state.changed}
             modalTitle={`Водитель`}
         >

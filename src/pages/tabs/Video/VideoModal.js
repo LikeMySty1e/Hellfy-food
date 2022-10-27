@@ -5,6 +5,8 @@ import {Form} from "react-bootstrap";
 import {Context} from "../../../index";
 import videoPropTypes from "./resources/videoPropTypes";
 import ModalWrapper from "../../../components/ModalWrapper/ModalWrapper";
+import {mapVideoToSave} from "../../../helpers/mapper";
+import urls from "../../../resources/urls";
 
 const VideoModal = observer(props => {
     const {main} = useContext(Context);
@@ -18,6 +20,7 @@ const VideoModal = observer(props => {
     const onInputChange = (e) => setState({ ...state, [e.target.id]: e.target.value, changed: true });
 
     const onRowDelete = () => main.deleteRow({ id: state.id, property: `video_id`}, `delete_video_data/${state.id}`);
+    const onRowEdit = () => main.updateRow(`update_video_data`, { ...mapVideoToSave(state), video_id: state.id }, urls.getVideo);
 
     return (
         <ModalWrapper
@@ -26,6 +29,7 @@ const VideoModal = observer(props => {
             deleteButtonText={`Удалить`}
             onDelete={onRowDelete}
             editButtonText={`Редактировать`}
+            onEdit={onRowEdit}
             editButtonDisabled={!state.changed}
             modalTitle={`Видеофиксация`}
         >

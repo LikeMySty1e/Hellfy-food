@@ -5,6 +5,8 @@ import {Form} from "react-bootstrap";
 import {Context} from "../../../index";
 import finePropTypes from "./resources/finePropTypes";
 import ModalWrapper from "../../../components/ModalWrapper/ModalWrapper";
+import {mapFineToSave} from "../../../helpers/mapper";
+import urls from "../../../resources/urls";
 
 const FineModal = observer(props => {
     const {main} = useContext(Context);
@@ -19,6 +21,7 @@ const FineModal = observer(props => {
     const onCheckboxChange = (e) => setState({ ...state, [e.target.id]: !state[e.target.id], changed: true});
 
     const onRowDelete = () => main.deleteRow({ id: state.id, property: `fine_id`}, `delete_fine/${state.id}`);
+    const onRowEdit = () => main.updateRow(`update_fine`, { ...mapFineToSave(state), fine_id: state.id }, urls.getEmployee);
 
     return (
         <ModalWrapper
@@ -27,6 +30,7 @@ const FineModal = observer(props => {
             deleteButtonText={`Удалить`}
             onDelete={onRowDelete}
             editButtonText={`Редактировать`}
+            onEdit={onRowEdit}
             editButtonDisabled={!state.changed}
             modalTitle={`Штраф`}
         >

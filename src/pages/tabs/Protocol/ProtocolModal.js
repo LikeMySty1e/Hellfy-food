@@ -6,6 +6,8 @@ import {Context} from "../../../index";
 import protocolPropTypes from "./resources/protocolPropTypes";
 import ModalWrapper from "../../../components/ModalWrapper/ModalWrapper";
 import ComplexInputSection from "../../../components/ComplexInputSection/ComplexInputSection";
+import {mapProtocolToSave} from "../../../helpers/mapper";
+import urls from "../../../resources/urls";
 
 const ProtocolModal = observer(props => {
     const {main} = useContext(Context);
@@ -20,6 +22,7 @@ const ProtocolModal = observer(props => {
     const onCheckboxChange = (e) => setState({ ...state, [e.target.id]: !state[e.target.id], changed: true});
 
     const onRowDelete = () => main.deleteRow({ id: state.id, property: `protocol_id`}, `delete_protocol/${state.id}`);
+    const onRowEdit = () => main.updateRow(`update_protocol`, { ...mapProtocolToSave(state), protocol_id: state.id }, urls.getProtocol);
 
     return (
         <ModalWrapper
@@ -28,6 +31,7 @@ const ProtocolModal = observer(props => {
             deleteButtonText={`Удалить`}
             onDelete={onRowDelete}
             editButtonText={`Редактировать`}
+            onEdit={onRowEdit}
             editButtonDisabled={!state.changed}
             modalTitle={`Протокол`}
         >

@@ -22,8 +22,6 @@ const CarModal = observer(props => {
         <ModalWrapper
             isShow={isShow}
             handleClose={handleClose}
-            deleteButtonText={`Удалить`}
-            editButtonText={`Редактировать`}
             editButtonDisabled={!state.changed}
             modalTitle={`Автомобиль`}
         >

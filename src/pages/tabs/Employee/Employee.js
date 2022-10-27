@@ -29,7 +29,7 @@ const Employee = observer(() => {
             contract: row.contract_number,
             phone: row.phone_number,
             position: row.position_id,
-            rank: 15
+            rank: row.rank_id
         }}/>);
     };
 
