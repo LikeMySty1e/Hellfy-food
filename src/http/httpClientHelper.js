@@ -6,14 +6,14 @@ const $host = axios.create({
 
 const httpClientHelper = {
     async post(url, data) {
-        const response = await $host.post(url, {
-            ...data
-        });
+        const response = await $host.post(url, { ...data });
+
         return response;
     },
 
     async get(url) {
         const response = await $host.get(url);
+
         return response;
     }
 }

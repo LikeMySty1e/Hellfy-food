@@ -1,0 +1,114 @@
+@keyframes slidein {
+    0% {
+        opacity: 0;
+        transform: translateY(60px);
+    }
+
+    40% {
+        transform: translateX(-20px);
+    }
+
+    80% {
+        transform: translateX(0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeout {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.food__container {
+    animation: slidein 1s;
+
+    width: 320px;
+    height: 540px;
+
+    margin-right: 40px;
+
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: 8px 8px 11px -1px rgba(34, 60, 80, 0.2);
+
+    transition: all linear 175ms;
+}
+
+.food__container--fadeout {
+    animation: fadeout 500ms;
+}
+
+.food__container:hover {
+    transform: translateY(-10px) translateX(-10px);
+    cursor: pointer;
+}
+
+.food__icon {
+    width: 100%;
+    padding: 0 96px;
+
+    background-color: var(--light-orange);
+
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: 0 4px 13px var(--light-orange);
+}
+
+.food__icon--lunch {
+    background-color: var(--orange);
+    box-shadow: 0 4px 13px var(--orange);
+}
+
+.food__icon--dinner {
+    background-color: var(--green);
+    box-shadow: 0 4px 13px var(--green);
+}
+
+.food__icon--snack,
+.food__icon--sweet_snack {
+    background-color: lightpink;
+    box-shadow: 0 4px 13px lightpink;
+}
+
+.food__content {
+    position: relative;
+    width: 100%;
+    height: 412px;
+    max-height: 412px;
+    padding: 20px;
+}
+
+.food__header {
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.food__title {
+    font-size: 20px;
+}
+
+.food__calories {
+    font-size: 13px;
+}
+
+.food__time {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.food_price {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+}

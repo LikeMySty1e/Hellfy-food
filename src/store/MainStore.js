@@ -2,21 +2,21 @@ import {makeAutoObservable} from 'mobx';
 import localStorageHelper from "../helpers/localStorageHelper";
 import httpClientHelper from "../http/httpClientHelper";
 import jsonParser from "../helpers/jsonParser";
-import tableTabEnum from "../enums/TableTabEnum";
+import DaysEnum from "../enums/DaysEnum";
 
 export default class MainStore {
     _isAuth = false;
     login = null;
     token = null;
-    alert = ``;
     settings = {
         timeZoneUsing: false
     };
     table = [];
+    food = [];
+    day = DaysEnum.monday;
     activeTab = null;
     pendingState = {
-        loading: true,
-        isSavingDemand: false
+        loading: true
     };
 
     constructor() {
@@ -28,8 +28,6 @@ export default class MainStore {
 
     init = () => {
         this.initAuth();
-        this.setActiveTab(localStorage.getItem(`activeTab`) || tableTabEnum.Protocol);
-        this.setAlert(`Убейте меня`);
     }
 
     initAuth = () => {
@@ -47,6 +45,15 @@ export default class MainStore {
 
     setTable = table => {
         this.table = table || [];
+    }
+
+    setFood = food => {
+        this.food = food || [];
+    }
+
+    setDay = day => {
+        console.log(day)
+        this.day = Object.values(DaysEnum).includes(day) ? day : DaysEnum.monday;
     }
 
     getTable = async url => {
@@ -126,10 +133,6 @@ export default class MainStore {
         this.pendingState.loading = !!state;
     }
 
-    setTimeZoneUsing = e => {
-        this.settings.timeZoneUsing = e.target.checked;
-    }
-
     setActiveTab = tab => {
         localStorage.setItem(`activeTab`, tab);
         this.table = [];
@@ -148,10 +151,6 @@ export default class MainStore {
         return this._isAuth;
     }
 
-    get isAlert() {
-        return !!this.alert;
-    }
-
     get isTimeZonesUsing() {
         return this.settings.timeZoneUsing;
     }
@@ -162,5 +161,11 @@ export default class MainStore {
 
     get isTableEmpty() {
         return !this.table.length;
+    }
+
+    get foodByDay() {
+        const currentDayFood = this.food.find(food => food.day === this.day);
+
+        return currentDayFood?.data || [];
     }
 }

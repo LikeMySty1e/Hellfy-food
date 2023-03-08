@@ -1,0 +1,11 @@
+.food__market {
+    display: flex;
+    justify-content: center;
+}
+
+/* Устройства X-Large (большие настольные компьютеры, 1400 пикселей и выше) */
+@media (max-width: var(--xxl)) {
+    .food__market {
+        transform: scale(0.9);
+    }
+}

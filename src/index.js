@@ -10,6 +10,6 @@ root.render(
     <Context.Provider value={{
       main: new MainStore()
     }}>
-    <App />
+        <App />
     </Context.Provider>
 );

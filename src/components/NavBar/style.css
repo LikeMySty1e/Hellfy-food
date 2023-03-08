@@ -1,6 +1,71 @@
-.mainButton {
+@import '../../styles/style.css';
+
+@keyframes fadein {
+    0% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.navbar {
+    animation: fadein 1s;
+}
+
+.navbar,
+.link__container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.link,
+.main__button {
+    font-family: 'MuseoModerno', cursive;
     text-decoration: none;
     text-transform: none;
-    color: white;
+    transition: color linear 300ms;
+}
+
+.link {
+    color: var(--black);
+    margin: 0 20px;
+}
+
+.link--secondary {
+    color: var(--orange);
+}
+
+.main__button:hover,
+.link:hover {
+    color: #1ea815;
+}
+
+.main__button {
+    position: relative;
+    padding-left: 48px;
     font-size: 28px;
+    word-spacing: 1px;
+    color: var(--green);
+}
+
+.main__button--secondary {
+    color: var(--orange);
+    transition: color linear 300ms;
+}
+
+.main__button--secondary:hover {
+    color: var(--light-orange);
+}
+
+.main__button::before {
+    content: url("../../icons/nikokado.m.svg");
+    position: absolute;
+    left: 0;
+    top: -7px;
+    width: 48px;
+    height: 48px;
 }

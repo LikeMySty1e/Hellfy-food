@@ -1,0 +1,17 @@
+.root {
+    --black: #101010;
+    --green: #23891A;
+    --light-green: #E2FBC9;
+    --orange: #FFA71D;
+    --white: #F8F8F8;
+    --light-orange: #FFE997;
+
+    --xs: 0;
+    --sm: 576px;
+    --md: 768px;
+    --lg: 992px;
+    --xl: 1200px;
+    --xxl: 1495px;
+
+    font-family: 'MuseoModerno', cursive;
+}
