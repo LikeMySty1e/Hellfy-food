@@ -1,0 +1,35 @@
+.ingredient {
+    width: 100%;
+    display: flex;
+    vertical-align: baseline;
+    justify-content: space-between;
+}
+
+.ingredient__name {
+    display: flex;
+    margin-right: 10px;
+    font-size: 20px;
+    text-wrap: none;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.ingredient__name::after {
+    content: "···········································································································";
+    margin-left: 10px;
+    color: var(--orange);
+    display: block;
+    font-size: 25px;
+    letter-spacing: 3px;
+    text-align: center;
+    line-height: 30px;
+
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.ingredient__value {
+    min-width: 100px;
+    margin-left: 10px;
+    font-size: 20px;
+}

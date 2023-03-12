@@ -1,0 +1,114 @@
+.checkbox__native {
+    opacity: 0;
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: -999px;
+    outline: 0;
+    margin: 0;
+}
+
+.checkboxWrapper {
+    position: relative;
+    cursor: pointer;
+    display: flex !important;
+    align-items: flex-start;
+
+    --borderColor: hsl(0, 0%, 84%);
+    --borderDisabled: hsl(0, 0%, 92%);
+    --boxBackgroundNormal: hsl(0, 0%, 100%);
+    --boxBackgroundHover: hsl(0, 0%, 96%);
+    --boxBackgroundChecked: var(--green);
+    --boxBackgroundCheckedHover: var(--green-hover);
+    --boxBackgroundDisabled: var(--borderDisabled);
+    --disabledTextColor: var(--borderColor);
+}
+
+.checkbox,
+.checkbox__loader {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.checkbox {
+    border: 1px solid var(--borderColor);
+    border-radius: 4px;
+    background: var(--boxBackgroundNormal);
+    transition: all 175ms;
+    transition-delay: 0.175ms;
+    position: relative;
+}
+
+.checkbox__label {
+    margin-left: 13px;
+    user-select: none;
+    font-size: 15px;
+    line-height: 20px;
+    color: hsl(0, 0%, 20%);
+}
+
+.checkbox:hover {
+    background: var(--boxBackgroundHover);
+}
+
+.checkbox:active {
+    border-color: var(--boxBackgroundChecked);
+    background: var(--boxBackgroundChecked);
+}
+
+.checkboxWrapper--checked .checkbox {
+    background: var(--boxBackgroundChecked);
+    border-color: var(--boxBackgroundChecked);
+}
+
+.checkboxWrapper--checked .checkbox:before {
+    content: '';
+    border: solid hsl(0, 0%, 100%);
+    position: absolute;
+    transition: opacity 175ms;
+}
+
+.checkboxWrapper--checked .checkbox:hover,
+.checkboxWrapper--checked .checkbox:active {
+     background: var(--boxBackgroundChecked);
+     border-color: var(--boxBackgroundChecked);
+}
+
+.checkboxWrapper--checked .checkbox:active:before {
+    opacity: 0;
+}
+
+.checkboxWrapper--checked .checkbox:before {
+    border-width: 0 2px 2px 0;
+    height: 11px;
+    width: 6px;
+    left: 5px;
+    bottom: 4px;
+    transform: rotate(45deg);
+}
+
+.checkboxWrapper--disabled {
+    cursor: not-allowed !important;
+}
+
+.checkboxWrapper--disabled .checkbox {
+    background: var(--boxBackgroundNormal) !important;
+    border-color: var(--borderDisabled) !important;
+}
+
+.checkboxWrapper--disabled .checkbox__label {
+    color: var(--disabledTextColor) !important;
+}
+
+.checkboxWrapper--disabled .checkboxWrapper--checked .checkbox {
+    background: var(--boxBackgroundDisabled) !important;
+}
+
+.checkboxWrapper--disabled .checkboxWrapper--checked .checkbox:before {
+    opacity: 1 !important;
+}
+
+.checkboxWrapper--loading {
+    cursor: default;
+}

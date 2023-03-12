@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 import {Form} from "react-bootstrap";
 import {Context} from "../../../index";
 import employeePropTypes from "./resources/employeePropTypes";
-import ModalWrapper from "../../../components/ModalWrapper/ModalWrapper";
-import SelectSection from "../../../components/SelectSection/SelectSection";
+import ModalWrapper from "../../../components/common/ModalWrapper/ModalWrapper";
+import SelectSection from "../../../components/common/SelectSection/SelectSection";
 import employeeRankResource from "../../../resources/employeeRankResource";
-import ComplexInputSection from "../../../components/ComplexInputSection/ComplexInputSection";
+import ComplexInputSection from "../../../components/common/ComplexInputSection/ComplexInputSection";
 import {mapEmployeeToSave} from "../../../helpers/mapper";
 import urls from "../../../resources/urls";
 

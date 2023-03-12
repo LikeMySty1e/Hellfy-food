@@ -3,6 +3,89 @@
     justify-content: center;
 }
 
+.food__recipe {
+    animation: slidein 1s;
+    margin-top: 40px;
+    width: 100%;
+
+    border-radius: 10px;
+}
+
+.recipe__info {
+    display: flex;
+    justify-content: space-between;
+    padding: 40px 20px 20px 40px;
+    margin-bottom: 20px;
+    border-bottom: 3px solid var(--orange);
+    border-right: 3px solid var(--orange);
+    border-radius: 10px;
+    background-color: var(--white);
+    box-shadow: 8px 8px 11px -1px rgba(34, 60, 80, 0.2);
+}
+
+.food__data {
+    position: relative;
+    width: 40%;
+    margin-right: 40px;
+    padding-right: 40px;
+
+    font-size: 18px;
+
+    border-right: 1px solid var(--orange);
+}
+
+.recipe__title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.recipe__portions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.food__ingredients {
+    width: 60%;
+}
+
+.food__steps {
+    margin-top: 40px;
+}
+
+.food__step {
+    position: relative;
+    margin-bottom: 10px;
+    padding: 40px 40px 40px 100px;
+    background-color: var(--white);
+    box-shadow: 8px 8px 11px -1px rgba(34, 60, 80, 0.2);
+
+    font-size: 18px;
+    transition: all linear 350ms;
+}
+
+.food__step:first-child {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.food__step:last-child {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.food__step:nth-child(odd) {
+    padding-left: 80px;
+    background-color: var(--light-orange);
+}
+
+.food__step--index {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 20px;
+}
+
 /* Устройства X-Large (большие настольные компьютеры, 1400 пикселей и выше) */
 @media (max-width: var(--xxl)) {
     .food__market {

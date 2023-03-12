@@ -1,0 +1,46 @@
+.auth__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    padding: 40px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    background-color: var(--white);
+    box-shadow: 8px 8px 11px -1px rgba(34, 60, 80, 0.2);
+    transition: all linear 350ms;
+}
+
+.auth__title {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.green__title {
+    font-size: 24px;
+    color: var(--green);
+    margin-bottom: 20px;
+}
+
+.green {
+    color: var(--green);
+}
+
+.orange__title {
+    font-size: 24px;
+    color: var(--orange);
+    margin-bottom: 20px;
+}
+
+.orange {
+    color: var(--orange);
+}
+
+.registration__button {
+    margin-top: 20px;
+}
+
+.registration__input {
+    width: 100%;
+}

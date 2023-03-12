@@ -1,0 +1,22 @@
+.wizard {
+    width: 100%;
+    min-height: 300px;
+    display: flex;
+    justify-content: center;
+    transition: all linear 350ms;
+}
+.wizard__column {
+    width: 45%;
+}
+
+.wizard__column--left {
+    margin-right: 20px;
+}
+
+.green {
+    color: var(--green);
+}
+
+.orange {
+    color: var(--orange);
+}

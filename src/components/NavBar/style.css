@@ -33,6 +33,7 @@
 .link {
     color: var(--black);
     margin: 0 20px;
+    font-size: 18px;
 }
 
 .link--secondary {
@@ -41,7 +42,7 @@
 
 .main__button:hover,
 .link:hover {
-    color: #1ea815;
+    color: var(--green-hover);
 }
 
 .main__button {

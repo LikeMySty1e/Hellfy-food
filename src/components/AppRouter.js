@@ -11,9 +11,10 @@ const AppRouter = observer(() => {
 
     React.useEffect(() => {
         const route = main.isAuth ? <Redirect to={MAIN_ROUTE} exact/> : <Redirect to={AUTH_ROUTE} exact/>;
+        // const route = main.isAuth ? <Redirect to={AUTH_ROUTE} exact/> : <Redirect to={MAIN_ROUTE} exact/>;
 
         setMainRoute(route);
-    }, [main.isAuth])
+    }, [main.isAuth]);
 
     return (
         <Switch>

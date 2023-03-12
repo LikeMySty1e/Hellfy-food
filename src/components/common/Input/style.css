@@ -1,0 +1,97 @@
+.input__native {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    outline: inherit;
+}
+
+.input__wrapper {
+    position: relative;
+    font-family: 'MuseoModerno', sans-serif;
+    width: border-box;
+}
+
+.input {
+    width: 100%;
+    min-width: 120px;
+    padding: 10px 24px 10px 16px;
+    margin-bottom: 20px !important;
+    z-index: 1;
+
+    border-top: none;
+    border-left: none;
+    border-bottom: 3px solid;
+    border-right: 2px solid;
+    border-radius: 5px;
+    outline: 2px solid var(--grey);
+    transition: all linear 175ms;
+
+    font-size: 18px;
+    color: var(--black);
+    background-color: var(--white);
+    border-color: var(--grey);
+    box-shadow: 2px 2px 4px 0 var(--grey);
+}
+
+.input__label {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+
+    font-size: 18px;
+    transition: all linear 350ms;
+}
+
+.input__label--active {
+    top: -10px;
+    left: 10px;
+    padding: 0 8px;
+
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-top: 2px solid var(--grey);
+    background-color: var(--white);
+    border-color: var(--grey);
+
+    font-size: 13px;
+    line-height: 15px;
+    transition: all linear 175ms;
+}
+
+.input__label:before {
+    content: '';
+    position: absolute;
+    cursor: text;
+    top: -1px;
+    left: 0;
+    height: 9px;
+    width: 100%;
+    border-top-left-radius: 5px;
+    border-left: 2px solid var(--grey);
+    background-color: transparent;
+    opacity: 0;
+}
+
+.input__label:after {
+    content: '';
+    position: absolute;
+    cursor: text;
+    top: -1px;
+    right: 0;
+    height: 9px;
+    width: 100%;
+    border-top-right-radius: 5px;
+    border-right: 2px solid var(--grey);
+    background-color: transparent;
+    opacity: 0;
+}
+
+.input__label--active:after {
+    opacity: 1;
+}
+
+.input__label--active:before {
+    opacity: 1;
+}

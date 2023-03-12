@@ -1,10 +1,28 @@
+body {
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+    overflow-y: scroll;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
 .root {
     --black: #101010;
+    --grey: #BBB;
     --green: #23891A;
     --light-green: #E2FBC9;
     --orange: #FFA71D;
     --white: #F8F8F8;
     --light-orange: #FFE997;
+
+    --orange-hover: #ffb145;
+    --orange-shadow: #d58f17;
+    --green-hover: #1EA815;
+    --green-shadow: #1b6411;
+    --white-hover: #eeeeee;
+    --light-green-hover: #aad37b;
 
     --xs: 0;
     --sm: 576px;

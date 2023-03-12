@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
-import Container from "../components/Container/Container";
+import Container from "../components/common/Container/Container";
 import FoodCard from "../components/FoodCard/FoodCard";
 import './style.m.css';
 import BrunchImagesEnum from "../enums/BrunchImagesEnum";
@@ -35,8 +35,10 @@ const Main = observer(() => {
     //     return TableTabEnum.Protocol;
     // }
 
-    return <Container>
-        <Week />
+    return <React.Fragment>
+        <Container>
+            <Week />
+        </Container>
         <FoodMarket />
 
         {/*<Alert*/}
@@ -58,7 +60,7 @@ const Main = observer(() => {
         {/*        <Employee />*/}
         {/*    </Tab>*/}
         {/*</Tabs>*/}
-    </Container>;
+    </React.Fragment>;
 });
 
 export default Main;

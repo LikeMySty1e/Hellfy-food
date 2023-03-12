@@ -2,7 +2,9 @@ import {makeAutoObservable} from 'mobx';
 import localStorageHelper from "../helpers/localStorageHelper";
 import httpClientHelper from "../http/httpClientHelper";
 import jsonParser from "../helpers/jsonParser";
+import DateHelper from "../helpers/dateHelper";
 import DaysEnum from "../enums/DaysEnum";
+import {getRecipe} from "../services/userDataService";
 
 export default class MainStore {
     _isAuth = false;
@@ -13,7 +15,8 @@ export default class MainStore {
     };
     table = [];
     food = [];
-    day = DaysEnum.monday;
+    recipesCache = [];
+    day = DateHelper.getDayOfWeek();
     activeTab = null;
     pendingState = {
         loading: true
@@ -51,70 +54,61 @@ export default class MainStore {
         this.food = food || [];
     }
 
+    setFoodChecked = (value, id) => {
+        const currentMeal = this.foodByDay.find(meal => meal.id === id);
+
+        if (!currentMeal) {
+            return;
+        }
+
+        currentMeal.checked = value;
+    }
+
+    cacheRecipe = recipe => {
+        if (recipe.id && !this.cachedRecipeIds.includes(recipe.id)) {
+            this.recipesCache.push(recipe);
+        }
+    }
+
+    loadRecipe = async id => {
+        const cachedRecipe = this.recipesCache.find(recipe => recipe.id === id);
+
+        if (cachedRecipe) {
+            return cachedRecipe;
+        }
+
+        const recipe = await getRecipe(id);
+
+        if (recipe.id) {
+            this.recipesCache.push(recipe);
+
+            return recipe;
+        }
+
+        return {};
+    }
+
     setDay = day => {
-        console.log(day)
         this.day = Object.values(DaysEnum).includes(day) ? day : DaysEnum.monday;
     }
 
-    getTable = async url => {
-        this.setLoading(true);
-        this.setTable();
-
-        httpClientHelper.get(url)
-            .then(response => {
-                console.log(response)
-                if (response?.data?.status === `error`) {
-                    this.setAlert(response.data.message || `Возникла ошибка во время загрузки данных`);
-
-                    return null;
-                }
-
-                this.setTable(jsonParser.parseArray(response.data));
-                this.setLoading(false);
-            });
-    }
-
-    deleteRow = async ({ id, property }, url) => {
-        httpClientHelper.get(url)
-            .then(response => {
-                if (response?.data?.status === `error`) {
-                    this.setAlert(response.data.message || `Возникла ошибка во время добавления новых данных`);
-
-                    return null;
-                }
-
-                this.setAlert(``);
-                this.setTable(this.table.filter(row => row[property] !== id));
-            });
-    }
-
-    addRow = async (url, data, table) => {
-        httpClientHelper.post(url, data)
-            .then(response => {
-                if (response?.data?.status === `error`) {
-                    this.setAlert(response.data.message || `Возникла ошибка во время добавления новых данных`);
-
-                    return null;
-                }
-
-                this.setAlert(``);
-                this.getTable(table);
-            });
-    }
-
-    updateRow = async (url, data, table) => {
-        httpClientHelper.post(url, data)
-            .then(response => {
-                if (response?.data?.status === `error`) {
-                    this.setAlert(response.data.message || `Возникла ошибка во время обновления данных`);
-
-                    return null;
-                }
-
-                this.setAlert(``);
-                this.getTable(table);
-            });
-    }
+    // getTable = async url => {
+    //     this.setLoading(true);
+    //     this.setTable();
+    //
+    //     httpClientHelper.get(url)
+    //         .then(response => {
+    //             console.log(response)
+    //             if (response?.data?.status === `error`) {
+    //                 this.setAlert(response.data.message || `Возникла ошибка во время загрузки данных`);
+    //
+    //                 return null;
+    //             }
+    //
+    //             this.setTable(jsonParser.parseArray(response.data));
+    //             this.setLoading(false);
+    //         });
+    // }
 
     setToken = token => {
         this.token = token;
@@ -148,7 +142,8 @@ export default class MainStore {
     // COMPUTED //
 
     get isAuth() {
-        return this._isAuth;
+        // return this._isAuth;
+        return false;
     }
 
     get isTimeZonesUsing() {
@@ -167,5 +162,13 @@ export default class MainStore {
         const currentDayFood = this.food.find(food => food.day === this.day);
 
         return currentDayFood?.data || [];
+    }
+
+    get cachedRecipeIds() {
+        return this.recipesCache.map(recipe => recipe.id);
+    }
+
+    getFoodById(id) {
+        return this.foodByDay.find(foodData => foodData.id === id) || null;
     }
 }
