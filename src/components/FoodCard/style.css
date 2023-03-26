@@ -54,6 +54,7 @@
 
 .food__icon {
     width: 100%;
+    min-height: 128px;
     padding: 0 96px;
 
     background-color: var(--light-orange);

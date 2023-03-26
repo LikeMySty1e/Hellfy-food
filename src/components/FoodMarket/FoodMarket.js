@@ -31,6 +31,10 @@ const FoodMarket = observer(props => {
         }, 450);
     }, [main.day]);
 
+    React.useEffect(() => {
+        return () => main.clear();
+    }, []);
+
     const onFoodCardClick = async id => {
         setSelected(id);
         clearTimeout(scrollTimeoutIndex);

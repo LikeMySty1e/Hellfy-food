@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import {observer} from "mobx-react-lite";
 import {NavLink, useHistory} from "react-router-dom";
 import Container from "../common/Container/Container";
+import Button from "../common/buttons/Button";
 import {Context} from "../../index";
 import {AUTH_ROUTE, MAIN_ROUTE} from "../../resources/consts";
 import './style.css';
@@ -18,8 +19,8 @@ const NavBar = observer(() => {
             {main.isAuth && <div className="link__container">
                 <NavLink className="link" to={main.isAuth ? MAIN_ROUTE : AUTH_ROUTE}>Программа питания</NavLink>
                 <NavLink className="link" to={main.isAuth ? MAIN_ROUTE : AUTH_ROUTE}>Ассортимент</NavLink>
-                <NavLink className="link link--secondary" to={main.isAuth ? MAIN_ROUTE : AUTH_ROUTE}>Личный
-                    кабинет</NavLink>
+                <NavLink className="link link--secondary" to={main.isAuth ? MAIN_ROUTE : AUTH_ROUTE}>Личный кабинет</NavLink>
+                <Button onClick={() => main.unauthorise()}>Выйти</Button>
             </div>}
         </Container>
     </div>;

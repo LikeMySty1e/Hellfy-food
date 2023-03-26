@@ -1,0 +1,141 @@
+.round__wrapper {
+    position: absolute;
+    z-index: 2;
+    user-select: none;
+}
+
+.round__wrapper--top {
+    top: -50px;
+    left: calc(50% - 40px);
+}
+
+.round__wrapper--bottom {
+    bottom: -50px;
+    left: calc(50% - 40px);
+}
+
+.round__wrapper--left {
+    top: calc(50% - 40px);
+    left: -50px;
+}
+
+.round__wrapper--right {
+    top: calc(50% - 40px);
+    right: -50px;
+}
+
+.round__wrapper--topLeft {
+    top: -30px;
+    left: -50px;
+}
+
+.round__wrapper--topRight {
+    top: -30px;
+    right: -50px;
+}
+
+.round__wrapper--bottomLeft {
+    bottom: -30px;
+    left: -50px;
+}
+
+.round__wrapper--bottomRight {
+    bottom: -30px;
+    right: -50px;
+}
+
+.round__container {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: var(--white);
+    box-shadow: 8px 8px 11px -1px rgba(34, 60, 80, 0.2);
+    border-bottom: 2px solid var(--grey);
+    border-right: 2px solid var(--grey);
+    opacity: 0;
+    transition: all linear 350ms;
+}
+
+.round__container--showed {
+    opacity: 1;
+}
+
+.round__container:hover:not(.round__container--active) {
+    background-color: var(--green);
+}
+
+.round__container--active {
+    background-color: var(--white);
+    border-bottom: 2px solid var(--green);
+    border-right: 2px solid var(--green);
+}
+
+.round__container--disabled,
+.round__container--disabled:hover {
+    background-color: var(--white-hover) !important;
+}
+
+.round__native {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
+
+.round__button {
+    position: absolute;
+    top: 10px;
+    left: 22px;
+    font-size: 40px;
+    color: var(--orange);
+    transition: all linear 350ms;
+}
+
+.round__button:hover:not(.round__button--active) {
+    color: var(--white);
+}
+
+.round__button--active {
+    color: var(--green);
+}
+
+.round__button:disabled,
+.round__button:hover:not(:enabled) {
+    color: var(--grey);
+}
+
+.round__button--top {
+    transform: rotate(0);
+}
+
+.round__button--bottom {
+    transform: rotate(180deg);
+}
+
+.round__button--left {
+    transform: rotate(270deg);
+}
+
+.round__button--topLeft {
+    transform: rotate(315deg);
+}
+
+.round__button--bottomLeft {
+    transform: rotate(225deg);
+}
+
+.round__button--right {
+    transform: rotate(90deg);
+}
+
+.round__button--topRight {
+    transform: rotate(45deg);
+}
+
+.round__button--bottomRight {
+    transform: rotate(135deg);
+}

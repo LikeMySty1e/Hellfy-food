@@ -133,17 +133,22 @@ export default class MainStore {
         this.activeTab = tab;
     }
 
+    clear = () => {
+        this.recipesCache = [];
+        this.setFood();
+    }
+
     unauthorise = () => {
         this.token = null;
         this._isAuth = false;
+        this.clear();
         localStorageHelper.deleteLocalToken();
     }
 
     // COMPUTED //
 
     get isAuth() {
-        // return this._isAuth;
-        return false;
+        return this._isAuth;
     }
 
     get isTimeZonesUsing() {

@@ -4,9 +4,12 @@ import cn from 'classnames';
 import ButtonColorEnum from "./enums/ButtonColorEnum";
 import './style.css';
 
+let activeToggleTimeout;
+
 const Button = props => {
     const {
         active,
+        stayActive,
         onClick,
         children,
         disabled,
@@ -21,8 +24,16 @@ const Button = props => {
             return;
         }
 
-        setIsActive(!isActive);
-        onClick && onClick(!isActive);
+        clearTimeout(activeToggleTimeout);
+
+        const newState = !isActive;
+
+        onClick && onClick(newState);
+        setIsActive(newState);
+
+        if (!stayActive) {
+            activeToggleTimeout = setTimeout(() => setIsActive(!newState), 350);
+        }
     };
 
     const getClassname = () => {
@@ -49,13 +60,15 @@ const Button = props => {
 
 Button.defaultProps = {
     color: ButtonColorEnum.white,
-    active: false
+    active: false,
+    stayActive: false
 };
 
 Button.propTypes = {
     disabled: PropTypes.bool,
     style: PropTypes.object,
     active: PropTypes.bool,
+    stayActive: PropTypes.bool,
     color: PropTypes.oneOf(Object.values(ButtonColorEnum)),
     classname: PropTypes.string,
     onClick: PropTypes.func.isRequired,

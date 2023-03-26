@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
+import { getUniqueId } from "../../../helpers/uniqueIdHelper";
 import './style.css';
-
-const id = `checkbox__${generateUniqueID()}`;
 
 const Checkbox = props => {
     const {
@@ -13,6 +11,9 @@ const Checkbox = props => {
         classname
     } = props;
     const [checked, setChecked] = React.useState(value);
+    const id = React.useMemo(() => `checkbox__${getUniqueId()}`, []);
+
+    React.useEffect(() => setChecked(value), [value]);
 
     const getClassName = () => {
         const { loading, disabled } = props;
@@ -24,7 +25,7 @@ const Checkbox = props => {
         });
     };
 
-    const onCheck = () => {
+    const onCheck = e => {
         setChecked(!checked);
         onChange && onChange(!checked);
     };
@@ -44,10 +45,7 @@ const Checkbox = props => {
                 type="checkbox"
                 className="checkbox__native"
                 checked={checked}
-                // disabled={this.isDisabledNative()}
                 onChange={onCheck}
-                // onFocus={this.onFocus}
-                // onBlur={this.onBlur}
             />
             <span className="checkbox__label">
                 {props.children || props.text}

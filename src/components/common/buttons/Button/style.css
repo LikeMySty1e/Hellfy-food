@@ -46,6 +46,7 @@
 .button--white--active:hover {
     background-color: var(--white-hover);
     box-shadow: 2px 2px 4px 0 var(--grey) inset;
+    transform: scaleX(0.99);
 }
 
 .button--green {
@@ -65,6 +66,7 @@
 .button--green--active:hover:not(:disabled) {
     background-color: var(--green);
     box-shadow: 0 4px 8px 0 var(--green-shadow) inset;
+    transform: scaleX(0.99);
 }
 
 .button--green:disabled,
@@ -90,6 +92,7 @@
 .button--orange--active:hover:not(:disabled) {
     background-color: var(--orange);
     box-shadow: 2px 4px 4px 0 var(--orange-shadow) inset;
+    transform: scaleX(0.99);
 }
 
 .button--orange:disabled,

@@ -9,6 +9,7 @@
 }
 
 .step__card {
+    position: relative;
     animation: appear 1s;
     display: flex;
     flex-direction: column;
@@ -23,10 +24,25 @@
     transition: all linear 350ms;
 }
 
+.step__card--right {
+    padding-left: 40px;
+}
+
 .step__card--hide {
     opacity: 0;
 }
 
 .step__checkbox {
     margin-top: 20px;
+    margin-right: 20px;
+}
+
+.step__row {
+    display: flex;
+    justify-content: space-around;
+}
+
+.step__input--small {
+    width: 100px;
+    margin-right: 20px;
 }

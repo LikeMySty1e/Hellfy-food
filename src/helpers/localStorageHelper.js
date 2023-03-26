@@ -1,5 +1,6 @@
 const localStorageKeys = {
-    tokenKey: `authorisationLocalToken`
+    tokenKey: `authorisationLocalToken`,
+    registrationProgressKey: `registrationProgressLocal`
 }
 
 const localStorageHelper = {
@@ -13,7 +14,19 @@ const localStorageHelper = {
 
     deleteLocalToken: () => {
         localStorage.removeItem(localStorageKeys.tokenKey)
-    }
+    },
+
+    setLocalRegistrationProgress: progress => {
+        localStorage.setItem(localStorageKeys.registrationProgressKey, progress);
+    },
+
+    getLocalRegistrationProgress: () => {
+        return localStorage.getItem(localStorageKeys.registrationProgressKey);
+    },
+
+    deleteLocalRegistrationProgress: () => {
+        localStorage.removeItem(localStorageKeys.registrationProgressKey)
+    },
 }
 
 export default localStorageHelper;

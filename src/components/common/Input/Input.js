@@ -2,7 +2,10 @@ import React from 'react';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 import InputIconEnum from "./enums/InputIconEnum";
+import InputTypeEnum from "./enums/InputTypeEnum";
 import './style.css';
+
+const passwordDenySpaces = (value, type) => (type === InputTypeEnum.password && value.includes(` `));
 
 const Input = props => {
     const {
@@ -13,9 +16,11 @@ const Input = props => {
         placeholder,
         error,
         icon,
+        message,
         value,
         onChange,
         onInput,
+        type,
         onBlur
     } = props;
     const [query, setQuery] = React.useState(value ? `${value}` : ``);
@@ -37,11 +42,18 @@ const Input = props => {
         setIsFocused(false);
 
         onBlur && onBlur(query, e);
-    }
+    };
+
+    const onInputActuallyInput = e => {
+        onInput && onInput(query, e);
+    };
 
     const onInputChange = e => {
-        setQuery(e.target.value);
+        if (passwordDenySpaces(e.target.value, type)) {
+            return;
+        }
 
+        setQuery(e.target.value);
         onChange && onChange(e.target.value, e);
     };
 
@@ -52,7 +64,10 @@ const Input = props => {
 
         return <div
             onClick={() => inputRef.current.focus()}
-            className={cn("input__label", { ["input__label--active"]: isFocused || !!query })}
+            className={cn("input__label", {
+                "input__label--active": isFocused || !!query,
+                "input__label--error": (isFocused || !!query) && error,
+            })}
         >
             {label}
         </div>;
@@ -60,20 +75,26 @@ const Input = props => {
 
     return <div className="input__wrapper">
         <input
+            type={type}
             ref={inputRef}
+            onChange={onInputChange}
+            onInput={onInputActuallyInput}
             onFocus={onInputFocus}
             onBlur={onInputBlur}
             disabled={disabled}
             value={query}
             placeholder={placeholder}
             className={getClassnames()}
-            onChange={onInputChange}
         />
         {getLabel()}
+        <div className={cn("input__message", { "input__message--error": error })}>
+            {message}
+        </div>
     </div>
 };
 
 Input.defaultProps = {
+    type: InputTypeEnum.text,
     placeholder: ``,
     title: ``,
     warming: false,
@@ -88,6 +109,7 @@ Input.propTypes = {
     error: PropTypes.bool,
     classname: PropTypes.string,
     placeholder: PropTypes.string,
+    type: PropTypes.oneOf(Object.values(InputTypeEnum)),
     icon: PropTypes.oneOf(Object.values(InputIconEnum)),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onChange: PropTypes.func,

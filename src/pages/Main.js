@@ -15,51 +15,14 @@ const Main = observer(() => {
     const {main} = useContext(Context);
 
     React.useEffect(() => {
-        // setTimeout(() => setFood([
-        //     <FoodCard brunch={BrunchImagesEnum.breakfast}/>,
-        //     <FoodCard brunch={BrunchImagesEnum.lunch}/>,
-        //     <FoodCard brunch={BrunchImagesEnum.snack}/>,
-        //     <FoodCard brunch={BrunchImagesEnum.dinner}/>
-        // ]), 3000);
         main.setFood(getFoodPlan())
     }, []);
-
-    // const getDefaultKey = () => {
-    //     const localKey = localStorage.getItem(`activeTab`);
-    //
-    //     if (Object.values(TableTabEnum).includes(localKey)) {
-    //         return localKey;
-    //     }
-    //
-    //     main.setActiveTab(TableTabEnum.Protocol);
-    //     return TableTabEnum.Protocol;
-    // }
 
     return <React.Fragment>
         <Container>
             <Week />
         </Container>
         <FoodMarket />
-
-        {/*<Alert*/}
-        {/*    style={{ width: `100%` }}*/}
-        {/*    show={main.isAlert}*/}
-        {/*    onClose={() => main.setAlert(``)}*/}
-        {/*    variant="danger"*/}
-        {/*    dismissible*/}
-        {/*>*/}
-        {/*    <p style={{ marginBottom: 0 }}>Возникла ошибка: {main.alert}</p>*/}
-        {/*</Alert>*/}
-        {/*<Tabs*/}
-        {/*    defaultActiveKey={getDefaultKey()}*/}
-        {/*    transition={true}*/}
-        {/*    className="mb-3"*/}
-        {/*    onSelect={main.setActiveTab}*/}
-        {/*>*/}
-        {/*    <Tab eventKey={TableTabEnum.Employee} title={`Сотрудники`}>*/}
-        {/*        <Employee />*/}
-        {/*    </Tab>*/}
-        {/*</Tabs>*/}
     </React.Fragment>;
 });
 

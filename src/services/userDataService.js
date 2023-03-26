@@ -1,7 +1,7 @@
 import BrunchImagesEnum from "../enums/BrunchImagesEnum";
 import DaysEnum from "../enums/DaysEnum";
 
-export const login = (login, password) => {
+export const loginIn = (login, password) => {
     return new Promise(resolve => {
         setTimeout(() => {
             resolve(Math.random() * 100000000)
@@ -373,7 +373,7 @@ export const getRecipe = id => {
 };
 
 export default {
-    login,
+    loginIn,
     getFoodPlan,
     getRecipe
 };
