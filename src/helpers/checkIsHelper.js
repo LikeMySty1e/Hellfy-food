@@ -16,7 +16,6 @@ export const isValid = value => {
     }
 
     if (!isNull(value) && typeof value === `object`) {
-        console.log(value)
         isValid = !!Object.values(value).every(Boolean);
     }
 

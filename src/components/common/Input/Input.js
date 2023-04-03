@@ -3,13 +3,13 @@ import cn from 'classnames';
 import PropTypes from 'prop-types';
 import InputIconEnum from "./enums/InputIconEnum";
 import InputTypeEnum from "./enums/InputTypeEnum";
+import {validateInput} from "./helpers/validateHelper";
 import './style.css';
-
-const passwordDenySpaces = (value, type) => (type === InputTypeEnum.password && value.includes(` `));
 
 const Input = props => {
     const {
         label,
+        maxLength,
         disabled,
         warning,
         classname,
@@ -19,13 +19,16 @@ const Input = props => {
         message,
         value,
         onChange,
+        onFocus,
         onInput,
-        type,
-        onBlur
+        onBlur,
+        type
     } = props;
     const [query, setQuery] = React.useState(value ? `${value}` : ``);
     const [isFocused, setIsFocused] = React.useState(false);
     const inputRef = React.useRef(null);
+
+    React.useEffect(() => setQuery(value), [value]);
 
     const getClassnames = () => {
         return cn(
@@ -36,20 +39,24 @@ const Input = props => {
         )
     };
 
-    const onInputFocus = () => setIsFocused(true);
+    const onInputFocus = () => {
+        setIsFocused(true);
+
+        onFocus && onFocus();
+    };
 
     const onInputBlur = e => {
         setIsFocused(false);
 
-        onBlur && onBlur(query, e);
+        onBlur && onBlur(e.target.value, e);
     };
 
     const onInputActuallyInput = e => {
-        onInput && onInput(query, e);
+        onInput && onInput(e.target.value, e);
     };
 
     const onInputChange = e => {
-        if (passwordDenySpaces(e.target.value, type)) {
+        if (!validateInput(e.target.value, type, maxLength)) {
             return;
         }
 
@@ -95,6 +102,7 @@ const Input = props => {
 
 Input.defaultProps = {
     type: InputTypeEnum.text,
+    value: ``,
     placeholder: ``,
     title: ``,
     warming: false,
@@ -103,8 +111,10 @@ Input.defaultProps = {
 };
 
 Input.propTypes = {
+    maxLength: PropTypes.number,
     label: PropTypes.string,
     disabled: PropTypes.bool,
+    message: PropTypes.string,
     warning: PropTypes.bool,
     error: PropTypes.bool,
     classname: PropTypes.string,
@@ -114,7 +124,8 @@ Input.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onChange: PropTypes.func,
     onInput: PropTypes.func,
-    onBlur: PropTypes.func
+    onBlur: PropTypes.func,
+    onFocus: PropTypes.func
 };
 
 export default Input;

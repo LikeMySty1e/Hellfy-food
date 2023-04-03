@@ -2,5 +2,6 @@ export default {
     password: `password`,
     email: `email`,
     text: `text`,
-    search: `search`
+    search: `search`,
+    numbers: `numbers`
 }

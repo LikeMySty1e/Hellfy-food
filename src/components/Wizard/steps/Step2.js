@@ -22,8 +22,8 @@ const Step2 = props => {
         subscription,
         currentStep
     } = data;
-    const [isEmailValid, validateEmail] = useValidation(email,email ? isEmail(email) : true, isEmail);
     const [isLoginValid, validateLogin] = useValidation(login,true, isValid);
+    const [isEmailValid, validateEmail] = useValidation(email,email ? isEmail(email) : true, isEmail);
     const [isPasswordValid, validatePassword] = useValidation(password,true, isValid);
 
     const stepFilled = React.useMemo(() => isValid({
@@ -35,19 +35,9 @@ const Step2 = props => {
         isPasswordValid
     }), [login, password, email]);
 
-    const onSetEmail = value => {
-        validateEmail(value);
-        updateData({ email: value });
-    };
-
-    const onSetLogin = value => {
-        validateLogin(value);
-        updateData({ login: value });
-    };
-
-    const onSetPassword = value => {
-        validatePassword(value);
-        updateData({ password: value });
+    const onSet = (value, field, validation) => {
+        validation && validation(value);
+        updateData({ [field]: value });
     };
 
     const goNext = () => {
@@ -63,13 +53,13 @@ const Step2 = props => {
         <div className="green__title">Данные авторизации</div>
         <Input
             value={login}
-            onInput={onSetLogin}
+            onChange={value => onSet(value, `login`, validateLogin)}
             error={!isLoginValid}
             message={!isLoginValid ? `Введите что-нибудь` : ``}
             label={"Логин"} />
         <Input
             value={email}
-            onBlur={onSetEmail}
+            onBlur={value => onSet(value, `email`, validateEmail)}
             type={InputType.email}
             error={!isEmailValid}
             message={!isEmailValid ? `Почтовый адрес указан неверно` : ``}
@@ -85,10 +75,10 @@ const Step2 = props => {
         <Input
             type={InputType.password}
             value={password}
-            onChange={onSetPassword}
-            label={"Пароль"}
+            onChange={value => onSet(value, `password`, validatePassword)}
             error={!isPasswordValid}
             message={!isPasswordValid ? `Введите непустой пароль` : ``}
+            label={"Пароль"}
         />
         <RoundButton
             active={currentStep > 1}

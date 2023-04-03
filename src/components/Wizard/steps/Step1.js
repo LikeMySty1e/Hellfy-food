@@ -97,7 +97,7 @@ Step1.propTypes = {
     data: PropTypes.object,
     updateData: PropTypes.func.isRequired,
     hide: PropTypes.bool,
-    pushStep: PropTypes.func,
+    pushStep: PropTypes.func
 };
 
 export default Step1;
