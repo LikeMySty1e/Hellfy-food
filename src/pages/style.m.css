@@ -4,11 +4,16 @@
     justify-content: center;
     width: 100%;
     padding: 40px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     border-radius: 10px;
     background-color: var(--white);
     box-shadow: 8px 8px 11px -1px rgba(34, 60, 80, 0.2);
     transition: all linear 350ms;
+}
+
+.auth__card--registration,
+.auth__card--login {
+    animation: appear 1s;
 }
 
 .auth__title {
@@ -39,6 +44,7 @@
 }
 
 .registration__button {
+    width: 100%;
     margin-top: 20px;
 }
 

@@ -12,6 +12,7 @@
     "color-string": "^1.9.1",
     "local-cors-proxy": "^1.1.0",
     "mobx": "^6.6.2",
+    "jest": "^27.5.1",
     "mobx-react-lite": "^3.4.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",

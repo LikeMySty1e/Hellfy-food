@@ -73,6 +73,7 @@ const Wizard = props => {
             return <Step
                 data={data}
                 updateData={props.updateData}
+                onComplete={props.onComplete}
                 pushStep={pushStep}
                 hide={step.hide}
             />;
@@ -93,6 +94,7 @@ const Wizard = props => {
 Wizard.propTypes = {
     data: PropTypes.object,
     updateData: PropTypes.func,
+    onComplete: PropTypes.func,
     children: PropTypes.node,
     launch: PropTypes.bool
 };

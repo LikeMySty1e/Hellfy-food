@@ -2,13 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from "classnames";
 import StepsResource from "../resources/StepsResource";
-import Input, {InputType} from "../../common/Input";
 import Checkbox from "../../common/Checkbox/Checkbox";
-import RoundButton, {ButtonDirection} from "../../common/buttons/RoundButton";
-import {isEmail, isValid} from "../../../helpers/checkIsHelper";
-import {useValidation} from "../../../hooks/useValidation";
 import Autocomplete from "../../common/Autocomplete/Autocomplete";
+import RoundButton, {ButtonDirection} from "../../common/buttons/RoundButton";
 import IngredientsResource from "../../../resources/ingredientsResource";
+import Tag from "../../common/Tag";
 
 const Step4 = props => {
     const {
@@ -18,37 +16,111 @@ const Step4 = props => {
         updateData
     } = props;
     const {
+        favouriteIngredients,
+        unfavouredIngredients,
+        blackListIngredients,
+        isDigestive,
+        isAllergic,
         currentStep
     } = data;
 
-    // const stepFilled = React.useMemo(() => isValid({
-    // }), []);
+    const availableFavourites = React.useMemo(() => {
+        const selectedValues = favouriteIngredients.map(item => item.value);
 
-    const onSet = (value, field, validation) => {
-        validation && validation(value);
-        updateData({ [field]: value });
+        return IngredientsResource.filter(item => !selectedValues.includes(item.value)) || [];
+    }, [favouriteIngredients]);
+
+    const availableUnfavoured = React.useMemo(() => {
+        const selectedValues = unfavouredIngredients.map(item => item.value);
+
+        return IngredientsResource.filter(item => !selectedValues.includes(item.value)) || [];
+    }, [unfavouredIngredients]);
+
+    const availableBlackList = React.useMemo(() => {
+        const selectedValues = blackListIngredients.map(item => item.value);
+
+        return IngredientsResource.filter(item => !selectedValues.includes(item.value)) || [];
+    }, [blackListIngredients]);
+
+    const onFavouriteTagClick = value => {
+        updateData({ favouriteIngredients: favouriteIngredients.filter(item => item.value !== value) });
+    };
+
+    const onUnfavouredTagClick = value => {
+        updateData({ unfavouredIngredients: unfavouredIngredients.filter(item => item.value !== value) });
+    };
+
+    const onBlackListTagClick = value => {
+        updateData({ blackListIngredients: blackListIngredients.filter(item => item.value !== value) });
     };
 
     const goNext = () => {
-        // if (!stepFilled || currentStep > 3) {
-        //     return;
-        // }
+        if (currentStep > 4) {
+            return;
+        }
 
-        updateData({ currentStep: 4 });
-        pushStep(StepsResource[4]);
+        updateData({ currentStep: 5 });
+        pushStep(StepsResource[5]);
     };
 
     return <div className={cn("step__card", { ["step__card--hide"]: hide })}>
-        <div className="green__title">Данные авторизации</div>
+        <div className="orange__title">Предпочтения в еде</div>
+        Знание ваших предпочтений в еде помогает создать индивидуальный план питания,
+        который соответствует вашему вкусу. <br/><br />
         <Autocomplete
-            placeholder={`Любимые ингредиенты`}
-            data={IngredientsResource}
-            onSelect={value => console.log(value)}
-        /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+            clearAfterSelect
+            placeholder={`Любимые продукты`}
+            data={availableFavourites}
+            onSelect={selectedItem => updateData({ favouriteIngredients: [...favouriteIngredients, selectedItem] })}
+        />
+        <div className="tag__group">
+            {favouriteIngredients.map(item => <Tag {...item} onClick={onFavouriteTagClick} />)}
+        </div><br />
+        <Autocomplete
+            clearAfterSelect
+            placeholder={`Нелюбимые продукты`}
+            data={availableUnfavoured}
+            onSelect={selectedItem => updateData({ unfavouredIngredients: [...unfavouredIngredients, selectedItem] })}
+        />
+        <div className="tag__group">
+            {unfavouredIngredients.map(item => <Tag {...item} onClick={onUnfavouredTagClick} />)}
+        </div><br />
+        У вас есть...<br />
+        <div className="step__row">
+            <Checkbox
+                value={isDigestive}
+                classname="step__checkbox"
+                onChange={value => updateData({ isDigestive: value })}
+            >
+                <span className="green">Проблемы с пищеварением</span>
+            </Checkbox>
+            <Checkbox
+                value={isAllergic}
+                classname="step__checkbox"
+                onChange={value => updateData({ isAllergic: value })}
+            >
+                <span className="green">Аллергия</span>
+            </Checkbox>
+        </div><br />
+        {(isAllergic || isDigestive) && <React.Fragment>
+            Не рекомендуется включать в черный список продукты,
+            которые вы любите или не любите, так как это может отрицательно повлиять
+            на выбор здорового питания. <br/> <br />
+            Блюда с продуктами из черного списка никогда не появятся в Вашем плане питания.<br /><br />
+            <Autocomplete
+                clearAfterSelect
+                placeholder={`Черный список`}
+                data={availableBlackList}
+                onSelect={selectedItem => updateData({blackListIngredients: [...blackListIngredients, selectedItem]})}
+            />
+            <div className="tag__group">
+                {blackListIngredients.map(item => <Tag {...item} onClick={onBlackListTagClick} />)}
+            </div><br />
+        </React.Fragment>
+        }
         <RoundButton
             active={currentStep > 3}
             onClick={goNext}
-            // disabled={!stepFilled}
             direction={ButtonDirection.bottomRight}
             arrowDirection={ButtonDirection.right}
         />

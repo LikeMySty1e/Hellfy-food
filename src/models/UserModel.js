@@ -13,5 +13,8 @@ export default {
     age: null,
     isDigestive: null,
     isAllergic: null,
-    profession: null
+    profession: null,
+    favouriteIngredients: [],
+    unfavouredIngredients: [],
+    blackListIngredients: []
 }

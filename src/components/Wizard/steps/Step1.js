@@ -1,7 +1,6 @@
 import React from 'react';
 import cn from "classnames";
 import PropTypes from 'prop-types';
-import Button, {Color} from "../../common/buttons/Button";
 import Checkbox from "../../common/Checkbox/Checkbox";
 import StepsResource from "../resources/StepsResource";
 import {isNull} from "../../../helpers/checkIsHelper";
@@ -49,7 +48,7 @@ const Step1 = props => {
         <div className="orange__title">Мастер регистрации</div>
         Для успешного подбора программы правильного питания, нам потребуется узнать о вас некоторые детали. <br /> <br />
         Если вы не желаете нарушать таинство вашей социальной, личной и духовной жизни,
-        отметьте галочкой пункт: <br />
+        отметьте галочкой пункт (однако, подбор питания в таком случае будет менее точен): <br />
         <Checkbox
             onChange={() => updateData({ necessaryOnly: !necessaryOnly })}
             value={!!necessaryOnly}

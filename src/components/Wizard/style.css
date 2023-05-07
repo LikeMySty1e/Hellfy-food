@@ -1,12 +1,32 @@
+@keyframes growth {
+    0% {
+        opacity: 0;
+        width: 0;
+    }
+
+    50% {
+        opacity: 0;
+        width: 45%;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
 .wizard {
     width: 100%;
     min-height: 300px;
+    margin-bottom: 200px;
     display: flex;
     justify-content: center;
     transition: all linear 350ms;
 }
+
 .wizard__column {
+    animation: growth 1s;
     width: 45%;
+    transition: width linear 1s;
 }
 
 .wizard__column--left {

@@ -1,0 +1,15 @@
+.tag {
+    margin: 5px;
+    width: fit-content !important;
+    padding: 5px 10px;
+    font-size: 13px;
+    color: var(--black);
+    background-color: var(--white);
+    border: 1px solid var(--grey);
+    border-radius: 10px;
+    transition: all linear 350ms;
+}
+
+.tag:hover {
+    background-color: var(--white-hover);
+}

@@ -8,6 +8,8 @@ import Checkbox from "../../common/Checkbox/Checkbox";
 import {useValidation} from "../../../hooks/useValidation";
 import {isNull, isValid} from "../../../helpers/checkIsHelper";
 import GenderEnum from "../../../enums/GenderEnum";
+import Autocomplete from "../../common/Autocomplete/Autocomplete";
+import profResource from "../../../resources/profResource";
 
 const Step3 = props => {
     const {
@@ -23,8 +25,6 @@ const Step3 = props => {
         weight,
         height,
         age,
-        isDigestive,
-        isAllergic,
         currentStep
     } = data;
     const [isNameValid, validateName] = useValidation(name,true, isValid);
@@ -44,7 +44,7 @@ const Step3 = props => {
         isWeightValid,
         isHeightValid,
         isAgeValid
-    }), [name, weight, height, age]);
+    }), [gender, name, weight, height, age]);
 
     const onSet = (value, field, validation) => {
         validation && validation(value);
@@ -94,52 +94,36 @@ const Step3 = props => {
             <Input
                 type={InputType.numbers}
                 value={age}
-                maxLength={3}
+                maxLength={2}
                 label={"Возраст (лет)"}
                 error={!isAgeValid}
                 message={!isNameValid ? `Введено недопустимое значение` : ``}
                 onChange={value => onSet(value, `age`, validateAge)}
             />
         </div>
-        <Input
-            value={profession}
-            label={"Профессия"}
+        <Autocomplete
+            selected={profession}
+            placeholder={`Профессия`}
+            data={profResource}
             error={!isProfessionValid}
             message={!isProfessionValid ? `Введите корректное название профессии` : ``}
-            onChange={value => onSet(value, `profession`, validateProfession)}
+            onSelect={({ value }) => onSet(value, `profession`, validateAge)}
         />
         Ваш пол<br />
         <div className="step__row">
             <Checkbox
                 value={gender === GenderEnum.man}
                 classname="step__checkbox"
-                onChange={() => updateData({ gender: GenderEnum.man })}
+                onChange={() => updateData({ gender: gender === GenderEnum.man ? GenderEnum.women : GenderEnum.man })}
             >
                 <span className="green">Мужчина</span>
             </Checkbox>
             <Checkbox
                 value={gender === GenderEnum.women}
                 classname="step__checkbox"
-                onChange={() => updateData({ gender: GenderEnum.women })}
+                onChange={() => updateData({ gender: gender === GenderEnum.women ? GenderEnum.man :GenderEnum.women })}
             >
                 <span className="green">Женщина</span>
-            </Checkbox>
-        </div><br />
-        У вас есть...<br />
-        <div className="step__row">
-            <Checkbox
-                value={isDigestive}
-                classname="step__checkbox"
-                onChange={value => updateData({ isDigestive: value })}
-            >
-                <span className="green">Проблемы с пищеварением</span>
-            </Checkbox>
-            <Checkbox
-                value={isAllergic}
-                classname="step__checkbox"
-                onChange={value => updateData({ isAllergic: value })}
-            >
-                <span className="green">Аллергия</span>
             </Checkbox>
         </div><br />
         <RoundButton

@@ -13,6 +13,7 @@ import UserModel from "../models/UserModel";
 import localStorageHelper from "../helpers/localStorageHelper";
 import JsonParser from "../helpers/jsonParser";
 import './style.m.css';
+import {format} from "../helpers/mapper";
 
 const Auth = observer(() => {
     const {main} = useContext(Context);
@@ -28,12 +29,26 @@ const Auth = observer(() => {
     React.useEffect(() => {
         const localProgress = JsonParser.parse(localStorageHelper.getLocalRegistrationProgress());
 
+        console.log(format([]))
+
         if (localProgress) {
             setRegistration({ ...registration, ...localProgress });
         }
     }, []);
 
     const onLoginClick = async () => {
+        try {
+            localStorageHelper.deleteLocalRegistrationProgress();
+            const token = await loginIn(login, password);
+            main.setToken(token);
+            main.setIsAuth(true);
+            history.push(MAIN_ROUTE);
+        } catch (e) {
+            // setAlert(e.response.data.message)
+        }
+    }
+
+    const onRegistrationClick = async () => {
         try {
             localStorageHelper.deleteLocalRegistrationProgress();
             const token = await loginIn(login, password);
@@ -53,57 +68,69 @@ const Auth = observer(() => {
         }
     };
 
-    const onRegistrationClick = () => {
+    const onRegistrationStartClick = () => {
         setRegistration({...registration, launch: !registration.launch});
         localStorageHelper.deleteLocalRegistrationProgress();
     };
 
-    // if (alert) {
-    //     return <Alert variant="danger" onClick={() => setAlert('')} onClose={() => setAlert('')} dismissible>
-    //         <Alert.Heading>Во время авторизации произошла ошибка!</Alert.Heading>
-    //         <p>{alert}</p>
-    //     </Alert>
-    // }
+    const renderZeroStepContent = () => {
+        if (registration.launch) {
+            return <React.Fragment>
+                Наша команда из целого одного человека так рада, что Вы решили присоединиться к нашему сервису по подбору правильного питания!
+                Здесь Вас ждет множество интересных функций и возможностей, которые помогут достичь своих целей
+                и улучшить свое здоровье.
+                <br /><br />
+                Мы предлагаем персональные рекомендации по питанию, сформированный план приёма пищи, рецепты блюд, советы по тренировкам и многое другое!
+            </React.Fragment>
+        }
+
+        return <React.Fragment>
+            <Input
+                onChange={value => setLogin(value)}
+                classname="registration__input"
+                label={"Логин"}
+            />
+            <Input
+                type={InputType.password}
+                onChange={value => setPassword(value)}
+                classname="registration__input"
+                label={"Пароль"}
+            />
+            <Button
+                disabled={!login || !password}
+                color={Color.green}
+                classname="registration__button"
+                onClick={onLoginClick}
+            >
+                Войти
+            </Button>
+        </React.Fragment>
+    }
 
     return <Container>
         <Wizard
             data={registration}
             updateData={updateRegistration}
+            onComplete={onRegistrationClick}
             launch={registration.launch}
         >
-            <div className={cn("auth__card", { ["auth__card--registration"]: registration.launch })}>
+            <div className={cn("auth__card")}>
                 <div className="auth__title">
                     <span className="green__title">Авторизируйтесь</span>
                     или
                     <span className="orange__title">Зарегистрируйтесь</span>
                 </div>
-                <Input
-                    onChange={value => setLogin(value)}
-                    classname="registration__input"
-                    label={"Логин"}
-                />
-                <Input
-                    type={InputType.password}
-                    onChange={value => setPassword(value)}
-                    classname="registration__input"
-                    label={"Пароль"}
-                />
-                <Button
-                    disabled={!login || !password}
-                    color={Color.green}
-                    classname="registration__button"
-                    onClick={onLoginClick}
-                >
-                    Войти
-                </Button>
+                <div className={cn({ ["auth__card--registration"]: registration.launch})}>
+                    {renderZeroStepContent()}
+                </div>
                 <Button
                     stayActive
                     color={Color.orange}
                     classname="registration__button"
                     active={registration.launch}
-                    onClick={onRegistrationClick}
+                    onClick={onRegistrationStartClick}
                 >
-                    Регистрация
+                    {registration.launch ? `К авторизации` : `Регистрация`}
                 </Button>
             </div>
         </Wizard>

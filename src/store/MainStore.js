@@ -1,7 +1,7 @@
 import {makeAutoObservable} from 'mobx';
 import localStorageHelper from "../helpers/localStorageHelper";
-import httpClientHelper from "../http/httpClientHelper";
-import jsonParser from "../helpers/jsonParser";
+// import httpClientHelper from "../http/httpClientHelper";
+// import jsonParser from "../helpers/jsonParser";
 import DateHelper from "../helpers/dateHelper";
 import DaysEnum from "../enums/DaysEnum";
 import {getRecipe} from "../services/userDataService";

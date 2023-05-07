@@ -10,7 +10,7 @@ const Checkbox = props => {
         onChange,
         classname
     } = props;
-    const [checked, setChecked] = React.useState(value);
+    const [checked, setChecked] = React.useState(value || false);
     const id = React.useMemo(() => `checkbox__${getUniqueId()}`, []);
 
     React.useEffect(() => setChecked(value), [value]);

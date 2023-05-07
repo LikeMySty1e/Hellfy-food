@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Input from "../Input";
-import './style.css';
 import ListItem from "./components/ListItem";
+import './style.css';
 
 const Autocomplete = props => {
     const {
         data,
         selected,
+        clearAfterSelect,
         message,
         label,
         placeholder,
@@ -15,12 +16,22 @@ const Autocomplete = props => {
         error,
         onSelect
     } = props;
-    const [query, setQuery] = React.useState(selected?.text || ``);
-    // const [isFocused, setIsFocused] = React.useState(false);
+    const [query, setQuery] = React.useState(``);
     const [isListShowed, setIsListShowed] = React.useState(false);
+    const [justSelected, setJustSelected] = React.useState(true);
+
+    React.useEffect(() => {
+        let selectedObj = selected;
+
+        if (typeof selected === `number`) {
+            selectedObj = data.find(el => el.value === selected) || {};
+        }
+
+        setQuery(selectedObj?.text || ``);
+    }, []);
 
     const queriedItems = React.useMemo(() => {
-        if (!query) {
+        if (!query || justSelected) {
             return [];
         }
 
@@ -38,10 +49,22 @@ const Autocomplete = props => {
 
     React.useEffect(() => setIsListShowed(!!queriedItems.length), [queriedItems]);
 
-    const onItemSelect = value => {
-        setQuery(``);
+    const onChangeQuery = value => {
+        setJustSelected(false);
+        setQuery(value);
+    };
 
-        onSelect && onSelect(value);
+    const onItemSelect = value => {
+        const selectedItem = data.find(item => item.value === value);
+
+        if (!selectedItem) {
+            throw new Error(`А как?`);
+        }
+
+        setQuery(clearAfterSelect ? `` : selectedItem.text);
+        setJustSelected(true);
+        setIsListShowed(false);
+        onSelect && onSelect(selectedItem);
     };
 
     return <div className="autocomplete__container">
@@ -51,9 +74,7 @@ const Autocomplete = props => {
                 message={message}
                 warning={warning}
                 placeholder={placeholder}
-                onChange={value => setQuery(value)}
-                // onBlur={() => setIsFocused(false)}
-                // onFocus={() => setIsFocused(true)}
+                onChange={onChangeQuery}
                 value={query}
             />
         {isListShowed && <div className="autocomplete__list">
@@ -67,12 +88,16 @@ Autocomplete.propTypes = {
         text: PropTypes.string,
         value: PropTypes.number
     })),
-    selected: PropTypes.number,
+    selected: PropTypes.oneOfType([PropTypes.number, PropTypes.shape({
+        text: PropTypes.string,
+        value: PropTypes.number
+    })]),
     onSelect: PropTypes.func,
     label: PropTypes.string,
     disabled: PropTypes.bool,
     warning: PropTypes.bool,
     message: PropTypes.string,
+    clearAfterSelect: PropTypes.bool,
     error: PropTypes.bool,
     classname: PropTypes.string,
     placeholder: PropTypes.string

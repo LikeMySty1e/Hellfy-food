@@ -121,7 +121,7 @@ Input.propTypes = {
     placeholder: PropTypes.string,
     type: PropTypes.oneOf(Object.values(InputTypeEnum)),
     icon: PropTypes.oneOf(Object.values(InputIconEnum)),
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, null]),
     onChange: PropTypes.func,
     onInput: PropTypes.func,
     onBlur: PropTypes.func,
