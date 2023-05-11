@@ -1,7 +1,8 @@
-import {makeAutoObservable} from 'mobx';
+import {makeAutoObservable, values} from 'mobx';
 import localStorageHelper from "../helpers/localStorageHelper";
 // import httpClientHelper from "../http/httpClientHelper";
 // import jsonParser from "../helpers/jsonParser";
+import UserModel from "../models/UserModel";
 import DateHelper from "../helpers/dateHelper";
 import DaysEnum from "../enums/DaysEnum";
 import {getRecipe} from "../services/userDataService";
@@ -13,6 +14,7 @@ export default class MainStore {
     settings = {
         timeZoneUsing: false
     };
+    userModel = { ...UserModel };
     table = [];
     food = [];
     recipesCache = [];
@@ -88,8 +90,18 @@ export default class MainStore {
         return {};
     }
 
+    updateUserData = (field, value) => {
+        if (this.userModel.hasOwnProperty(field)) {
+            this.userModel[field] = value;
+        }
+    }
+
     setDay = day => {
         this.day = Object.values(DaysEnum).includes(day) ? day : DaysEnum.monday;
+    }
+
+    setUserModel = (model = {}) => {
+        this.userModel = { ...UserModel, ...model };
     }
 
     // getTable = async url => {

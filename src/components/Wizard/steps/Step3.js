@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from "classnames";
 import Input, {InputType} from "../../common/Input";
-import StepsResource from "../resources/StepsResource";
 import RoundButton, {ButtonDirection} from "../../common/buttons/RoundButton";
 import Checkbox from "../../common/Checkbox/Checkbox";
 import {useValidation} from "../../../hooks/useValidation";
@@ -13,9 +12,12 @@ import profResource from "../../../resources/profResource";
 
 const Step3 = props => {
     const {
+        isLast,
+        index,
         hide,
         data,
         updateData,
+        currentStep,
         pushStep
     } = props;
     const {
@@ -24,8 +26,7 @@ const Step3 = props => {
         name,
         weight,
         height,
-        age,
-        currentStep
+        age
     } = data;
     const [isNameValid, validateName] = useValidation(name,true, isValid);
     const [isWeightValid, validateWeight] = useValidation(weight,true, isValid);
@@ -51,14 +52,7 @@ const Step3 = props => {
         updateData({ [field]: value });
     };
 
-    const goNext = () => {
-        if (currentStep > 2) {
-            return;
-        }
-
-        updateData({ currentStep: 3 });
-        pushStep(StepsResource[3]);
-    };
+    const goNext = () => pushStep(index + 1);
 
     return <div className={cn("step__card", { ["step__card--hide"]: hide })}>
         <div className="orange__title">О вашем персонаже</div>
@@ -107,7 +101,7 @@ const Step3 = props => {
             data={profResource}
             error={!isProfessionValid}
             message={!isProfessionValid ? `Введите корректное название профессии` : ``}
-            onSelect={({ value }) => onSet(value, `profession`, validateAge)}
+            onSelect={({ value }) => onSet(value, `profession`, validateProfession)}
         />
         Ваш пол<br />
         <div className="step__row">
@@ -126,16 +120,17 @@ const Step3 = props => {
                 <span className="green">Женщина</span>
             </Checkbox>
         </div><br />
-        <RoundButton
-            active={currentStep > 2}
+        {!isLast && <RoundButton
             onClick={goNext}
-            disabled={!stepFilled}
+            disabled={!stepFilled || currentStep > index}
             direction={ButtonDirection.bottomLeft}
-        />
+        />}
     </div>
 };
 
 Step3.propTypes = {
+    isLast: PropTypes.bool,
+    index: PropTypes.number,
     data: PropTypes.object,
     updateData: PropTypes.func.isRequired,
     hide: PropTypes.bool,

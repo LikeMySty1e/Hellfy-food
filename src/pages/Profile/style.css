@@ -1,0 +1,128 @@
+@keyframes uploadFadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(1);
+        transform-origin: center;
+    }
+
+    100% {
+        opacity: 0.6;
+        transform: scale(4);
+        transform-origin: center;
+    }
+}
+
+.profile__container {
+    display: flex;
+    justify-content: center;
+}
+
+.profile__section {
+    width: 45%;
+    padding: 40px;
+    margin-right: 20px;
+}
+
+.user {
+    width: 100%;
+    margin-bottom: 40px;
+    transition: all linear 350ms;
+}
+
+.user__info {
+    position: relative;
+    margin: 0 auto;
+    padding-left: 20px;
+    width: 100%;
+}
+
+.user__data {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: var(--white);
+    border-right: 3px solid var(--green);
+    border-bottom: 2px solid var(--green);
+    border-left: 1px solid var(--orange);
+    border-top: 1px solid var(--orange);
+    border-radius: 20px;
+    box-shadow: 8px 8px 11px -1px rgba(34, 60, 80, 0.3);
+    font-size: 18px;
+}
+
+.user__avatar {
+    display: block;
+    position: relative;
+    background-color: var(--white);
+    width: 300px;
+    height: 300px;
+    border-right: 3px solid var(--green);
+    border-bottom: 2px solid var(--green);
+    border-left: 1px solid var(--orange);
+    border-top: 1px solid var(--orange);
+    border-radius: 20px;
+    box-shadow: 8px 8px 10px -1px rgba(34, 60, 80, 0.3);
+    transition: all linear 350ms;
+}
+
+.user__avatar--overlay {
+    cursor: pointer;
+    width: 300px;
+    height: 300px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    background-color: transparent;
+    transition: all linear 350ms;
+}
+
+.user__avatar--overlay:hover {
+    background-color: hsla(0, 0%, 73%, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+.user__avatar--overlay:hover::after {
+    animation: uploadFadeIn 350ms;
+    position: absolute;
+    opacity: 0.6;
+    top: calc(50% - 9px);
+    left: calc(50% - 8px);
+    content: url("../../icons/common/upload.m.svg");
+    transform: scale(4);
+    color: var(--grey);
+}
+
+.user__info::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 5;
+    opacity: 1;
+    top: -5px;
+    left: -13px;
+    width: 105px;
+    height: 50px;
+    background-color: var(--white-hover);
+    transform: rotate(-45deg);
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-right: 4px solid var(--grey);
+    border-bottom: 3px solid var(--grey);
+    box-shadow: 8px 8px 10px -1px rgba(34, 60, 80, 0.3);
+}
+
+.user__info::after {
+    content: url("../../icons/fish.m.svg");
+    position: absolute;
+    z-index: 6;
+    opacity: 1;
+    top: 18px;
+    left: 0;
+    width: 33px;
+    height: 33px;
+    color: var(--red);
+    transform: rotate(-50deg);
+}
+
+.user__button {
+    width: 65%;
+    margin-top: 10px;
+}

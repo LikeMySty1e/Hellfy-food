@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from "classnames";
-import StepsResource from "../resources/StepsResource";
 import Input, {InputType} from "../../common/Input";
 import Checkbox from "../../common/Checkbox/Checkbox";
 import RoundButton, {ButtonDirection} from "../../common/buttons/RoundButton";
@@ -10,8 +9,11 @@ import {useValidation} from "../../../hooks/useValidation";
 
 const Step2 = props => {
     const {
+        isLast,
+        index,
         hide,
         pushStep,
+        currentStep,
         data,
         updateData
     } = props;
@@ -19,8 +21,7 @@ const Step2 = props => {
         login,
         password,
         email,
-        subscription,
-        currentStep
+        subscription
     } = data;
     const [isLoginValid, validateLogin] = useValidation(login,true, isValid);
     const [isEmailValid, validateEmail] = useValidation(email,email ? isEmail(email) : true, isEmail);
@@ -40,14 +41,7 @@ const Step2 = props => {
         updateData({ [field]: value });
     };
 
-    const goNext = () => {
-        if (!stepFilled || currentStep > 1) {
-            return;
-        }
-
-        updateData({ currentStep: 2 });
-        pushStep(StepsResource[2]);
-    };
+    const goNext = () => pushStep(index + 1);
 
     return <div className={cn("step__card", { ["step__card--hide"]: hide })}>
         <div className="green__title">Данные авторизации</div>
@@ -80,17 +74,18 @@ const Step2 = props => {
             message={!isPasswordValid ? `Введите непустой пароль` : ``}
             label={"Пароль"}
         />
-        <RoundButton
-            active={currentStep > 1}
+        {!isLast && <RoundButton
             onClick={goNext}
-            disabled={!stepFilled}
+            disabled={!stepFilled || currentStep > index}
             direction={ButtonDirection.bottomRight}
             arrowDirection={ButtonDirection.right}
-        />
+        />}
     </div>
 };
 
 Step2.propTypes = {
+    isLast: PropTypes.bool,
+    index: PropTypes.number,
     updateData: PropTypes.func.isRequired,
     data: PropTypes.object,
     subscription: PropTypes.bool

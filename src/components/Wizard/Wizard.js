@@ -1,19 +1,23 @@
 import React from 'react';
+import {observer} from "mobx-react-lite";
 import cn from "classnames";
 import PropTypes from 'prop-types';
-import StepsResource from "./resources/StepsResource";
 import SideEnum from "./enums/SideEnum";
-import UserModel from "../../models/UserModel";
 import './style.css';
 
 const transitionDelay = 350;
 let hideInterval;
 let deleteTimeout;
 
-const Wizard = props => {
+const Wizard = observer(props => {
     const {
         data,
         children,
+        currentStep,
+        setCurrentStep,
+        model,
+        updateData,
+        stepsResource,
         launch
     } = props;
     const [steps, setSteps] = React.useState([]);
@@ -26,15 +30,18 @@ const Wizard = props => {
         setSteps([...updatedSteps]);
     };
 
-    const pushStep = step => setSteps([...steps, step]);
+    const pushStep = step => {
+        setCurrentStep(step);
+        setSteps([...steps, stepsResource[step]]);
+    }
 
     React.useEffect(() => {
         clearInterval(hideInterval);
         clearTimeout(deleteTimeout);
 
         if (launch) {
-            const initSteps = StepsResource
-                .map((step, index) => index <= data.currentStep ? step : null)
+            const initSteps = stepsResource
+                .map((step, index) => index <= currentStep ? step : null)
                 .filter(Boolean);
 
             setSteps([...initSteps]);
@@ -52,7 +59,8 @@ const Wizard = props => {
 
             deleteTimeout = setTimeout(() => {
                 setSteps([]);
-                props.updateData({ ...UserModel, currentStep: null }, true);
+                setCurrentStep(null);
+                updateData({ ...model }, true);
             }, transitionDelay * steps.length + transitionDelay);
         }
 
@@ -71,9 +79,12 @@ const Wizard = props => {
             const Step = step.component;
 
             return <Step
+                index={step.index}
+                isLast={step.index === stepsResource.length}
                 data={data}
-                updateData={props.updateData}
+                updateData={updateData}
                 onComplete={props.onComplete}
+                currentStep={currentStep}
                 pushStep={pushStep}
                 hide={step.hide}
             />;
@@ -89,11 +100,19 @@ const Wizard = props => {
             {getSteps(SideEnum.right)}
         </div>}
         </div>;
-};
+});
+
+Wizard.defaultProps = {
+    allStepsShowed: false
+}
 
 Wizard.propTypes = {
+    currentStep: PropTypes.number,
     data: PropTypes.object,
-    updateData: PropTypes.func,
+    model: PropTypes.object,
+    stepsResource: PropTypes.arrayOf(PropTypes.shape({ component: PropTypes.element, side: PropTypes.string })),
+    setCurrentStep: PropTypes.func,
+    updateData: PropTypes.func.isRequired,
     onComplete: PropTypes.func,
     children: PropTypes.node,
     launch: PropTypes.bool

@@ -5,8 +5,8 @@ import cn from 'classnames';
 import {Context} from "../../index";
 import BrunchImagesEnum from "../../enums/BrunchImagesEnum";
 import {formatTime} from "../../helpers/timeFormatHelper";
-import './style.css';
 import Check from "../common/Check/Check";
+import './style.css';
 
 const FoodCard = observer(props => {
     const {

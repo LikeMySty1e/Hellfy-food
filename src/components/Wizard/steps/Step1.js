@@ -2,23 +2,24 @@ import React from 'react';
 import cn from "classnames";
 import PropTypes from 'prop-types';
 import Checkbox from "../../common/Checkbox/Checkbox";
-import StepsResource from "../resources/StepsResource";
 import {isNull} from "../../../helpers/checkIsHelper";
 import RoundButton, { ButtonDirection } from "../../common/buttons/RoundButton";
 import './style.css';
 
 const Step1 = props => {
     const {
+        isLast,
+        index,
         hide,
         updateData,
         data = {},
+        currentStep,
         pushStep
     } = props;
     const {
         necessaryOnly,
         isEnthusiast,
-        forPersonal,
-        currentStep
+        forPersonal
     } = data;
 
     const stepFilled = React.useMemo(() => !isNull(forPersonal), [forPersonal]);
@@ -31,14 +32,7 @@ const Step1 = props => {
         }
     };
 
-    const goNext = () => {
-        if (currentStep > 0) {
-            return;
-        }
-
-        updateData({ currentStep: 1 });
-        pushStep(StepsResource[1]);
-    };
+    const goNext = () => pushStep(index + 1);
 
     return <div key={`Step1`} className={cn(
         "step__card",
@@ -83,16 +77,17 @@ const Step1 = props => {
         >
             <span className="green">Я пищевой энтузиаст</span>
         </Checkbox> <br />
-        <RoundButton
-            active={currentStep > 0}
+        {!isLast && <RoundButton
             onClick={goNext}
-            disabled={!stepFilled}
+            disabled={!stepFilled || currentStep > index}
             direction={ButtonDirection.bottomLeft}
-        />
+        />}
     </div>;
 };
 
 Step1.propTypes = {
+    isLast: PropTypes.bool,
+    index: PropTypes.number,
     data: PropTypes.object,
     updateData: PropTypes.func.isRequired,
     hide: PropTypes.bool,

@@ -26,7 +26,6 @@
 .wizard__column {
     animation: growth 1s;
     width: 45%;
-    transition: width linear 1s;
 }
 
 .wizard__column--left {

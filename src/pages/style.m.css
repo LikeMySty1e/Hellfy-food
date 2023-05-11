@@ -1,4 +1,4 @@
-.auth__card {
+.card {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -11,8 +11,8 @@
     transition: all linear 350ms;
 }
 
-.auth__card--registration,
-.auth__card--login {
+.card--registration,
+.card--login {
     animation: appear 1s;
 }
 

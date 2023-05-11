@@ -1,30 +1,29 @@
-import React, {useContext} from 'react';
-import {useLocation, useHistory} from "react-router-dom";
+import React from 'react';
+import {useHistory} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 import cn from "classnames";
-import {MAIN_ROUTE} from "../resources/consts";
-import {loginIn} from "../services/userDataService";
-import {Context} from "../index";
-import Container from "../components/common/Container/Container";
-import Button, { Color } from "../components/common/buttons/Button";
-import Input, { InputType } from "../components/common/Input";
-import Wizard from "../components/Wizard/Wizard";
-import UserModel from "../models/UserModel";
-import localStorageHelper from "../helpers/localStorageHelper";
-import JsonParser from "../helpers/jsonParser";
-import './style.m.css';
-import {format} from "../helpers/mapper";
+import {MAIN_ROUTE} from "../../resources/consts";
+import {loginIn} from "../../services/userDataService";
+import {Context} from "../../index";
+import Container from "../../components/common/Container/Container";
+import Button, { Color } from "../../components/common/buttons/Button";
+import Input, { InputType } from "../../components/common/Input";
+import Wizard from "../../components/Wizard/Wizard";
+import UserModel from "../../models/UserModel";
+import StepsResource from "./resources/RegistrationStepsResource";
+import localStorageHelper from "../../helpers/localStorageHelper";
+import JsonParser from "../../helpers/jsonParser";
+import {format, mapUserModel} from "../../helpers/mapper";
+import '../style.m.css';
 
 const Auth = observer(() => {
-    const {main} = useContext(Context);
+    const {main} = React.useContext(Context);
     const history = useHistory();
     const [login, setLogin] = React.useState(``);
     const [password, setPassword] = React.useState(``);
-    const [registration, setRegistration] = React.useState({
-        ...UserModel,
-        launch: false,
-        currentStep: null
-    });
+    const [registration, setRegistration] = React.useState({ ...UserModel });
+    const [currentStep, setCurrentStep] = React.useState(null);
+    const [launch, setLaunch] = React.useState(null);
 
     React.useEffect(() => {
         const localProgress = JsonParser.parse(localStorageHelper.getLocalRegistrationProgress());
@@ -32,7 +31,9 @@ const Auth = observer(() => {
         console.log(format([]))
 
         if (localProgress) {
-            setRegistration({ ...registration, ...localProgress });
+            setLaunch(localProgress.launch);
+            setCurrentStep(localProgress.currentStep);
+            setRegistration({ ...registration, ...mapUserModel(localProgress) });
         }
     }, []);
 
@@ -51,6 +52,7 @@ const Auth = observer(() => {
     const onRegistrationClick = async () => {
         try {
             localStorageHelper.deleteLocalRegistrationProgress();
+            main.setUserModel({ ...mapUserModel(registration) });
             const token = await loginIn(login, password);
             main.setToken(token);
             main.setIsAuth(true);
@@ -64,17 +66,22 @@ const Auth = observer(() => {
         setRegistration({ ...registration, ...updatedData });
 
         if (!clear) {
-            localStorageHelper.setLocalRegistrationProgress(JSON.stringify({ ...registration, ...updatedData }));
+            localStorageHelper.setLocalRegistrationProgress(JSON.stringify({
+                ...registration,
+                ...updatedData,
+                currentStep,
+                launch
+            }));
         }
     };
 
     const onRegistrationStartClick = () => {
-        setRegistration({...registration, launch: !registration.launch});
+        setLaunch(!launch);
         localStorageHelper.deleteLocalRegistrationProgress();
     };
 
     const renderZeroStepContent = () => {
-        if (registration.launch) {
+        if (launch) {
             return <React.Fragment>
                 Наша команда из целого одного человека так рада, что Вы решили присоединиться к нашему сервису по подбору правильного питания!
                 Здесь Вас ждет множество интересных функций и возможностей, которые помогут достичь своих целей
@@ -110,27 +117,31 @@ const Auth = observer(() => {
     return <Container>
         <Wizard
             data={registration}
+            model={UserModel}
+            stepsResource={StepsResource}
             updateData={updateRegistration}
             onComplete={onRegistrationClick}
-            launch={registration.launch}
+            setCurrentStep={setCurrentStep}
+            currentStep={currentStep}
+            launch={launch}
         >
-            <div className={cn("auth__card")}>
-                <div className="auth__title">
+            <div className={cn("card")}>
+                <div className="title">
                     <span className="green__title">Авторизируйтесь</span>
                     или
                     <span className="orange__title">Зарегистрируйтесь</span>
                 </div>
-                <div className={cn({ ["auth__card--registration"]: registration.launch})}>
+                <div className={cn({ ["card--registration"]: launch})}>
                     {renderZeroStepContent()}
                 </div>
                 <Button
                     stayActive
                     color={Color.orange}
                     classname="registration__button"
-                    active={registration.launch}
+                    active={launch}
                     onClick={onRegistrationStartClick}
                 >
-                    {registration.launch ? `К авторизации` : `Регистрация`}
+                    {launch ? `К авторизации` : `Регистрация`}
                 </Button>
             </div>
         </Wizard>
