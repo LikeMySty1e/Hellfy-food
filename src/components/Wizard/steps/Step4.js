@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {observer} from "mobx-react-lite";
 import cn from "classnames";
 import Checkbox from "../../common/Checkbox/Checkbox";
 import Autocomplete from "../../common/Autocomplete/Autocomplete";
 import RoundButton, {ButtonDirection} from "../../common/buttons/RoundButton";
-import IngredientsResource from "../../../resources/ingredientsResource";
+import {Context} from "../../../index";
 import Tag from "../../common/Tag";
 
-const Step4 = props => {
+const Step4 = observer(props => {
+    const {main} = React.useContext(Context);
     const {
         isLast,
         index,
@@ -28,20 +30,20 @@ const Step4 = props => {
     const availableFavourites = React.useMemo(() => {
         const selectedValues = favouriteIngredients.map(item => item.value);
 
-        return IngredientsResource.filter(item => !selectedValues.includes(item.value)) || [];
-    }, [favouriteIngredients]);
+        return main.ingredients.filter(item => !selectedValues.includes(item.value)) || [];
+    }, [favouriteIngredients, main.ingredients]);
 
     const availableUnfavoured = React.useMemo(() => {
         const selectedValues = unfavouredIngredients.map(item => item.value);
 
-        return IngredientsResource.filter(item => !selectedValues.includes(item.value)) || [];
-    }, [unfavouredIngredients]);
+        return main.ingredients.filter(item => !selectedValues.includes(item.value)) || [];
+    }, [unfavouredIngredients, main.ingredients]);
 
     const availableBlackList = React.useMemo(() => {
         const selectedValues = blackListIngredients.map(item => item.value);
 
-        return IngredientsResource.filter(item => !selectedValues.includes(item.value)) || [];
-    }, [blackListIngredients]);
+        return main.ingredients.filter(item => !selectedValues.includes(item.value)) || [];
+    }, [blackListIngredients, main.ingredients]);
 
     const onFavouriteTagClick = value => {
         updateData({ favouriteIngredients: favouriteIngredients.filter(item => item.value !== value) });
@@ -56,6 +58,8 @@ const Step4 = props => {
     };
 
     const goNext = () => pushStep(index + 1);
+
+    console.log(availableUnfavoured)
 
     return <div className={cn("step__card", { ["step__card--hide"]: hide })}>
         <div className="orange__title">Предпочтения в еде</div>
@@ -97,9 +101,6 @@ const Step4 = props => {
             </Checkbox>
         </div><br />
         {(isAllergic || isDigestive) && <React.Fragment>
-            Не рекомендуется включать в черный список продукты,
-            которые вы любите или не любите, так как это может отрицательно повлиять
-            на выбор здорового питания. <br/> <br />
             Блюда с продуктами из черного списка никогда не появятся в Вашем плане питания.<br /><br />
             <Autocomplete
                 clearAfterSelect
@@ -119,7 +120,7 @@ const Step4 = props => {
             arrowDirection={ButtonDirection.right}
         />}
     </div>
-};
+});
 
 Step4.propTypes = {
     isLast: PropTypes.bool,

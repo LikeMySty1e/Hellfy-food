@@ -3,3 +3,8 @@
     padding: 20px 40px;
     justify-content: center;
 }
+
+.container-flex {
+    display: flex;
+    justify-content: space-evenly;
+}

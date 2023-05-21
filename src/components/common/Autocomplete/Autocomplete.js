@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {observer} from "mobx-react-lite";
 import Input from "../Input";
 import ListItem from "./components/ListItem";
 import './style.css';
 
-const Autocomplete = props => {
+const Autocomplete = observer(props => {
     const {
         data,
         selected,
@@ -81,7 +82,7 @@ const Autocomplete = props => {
             {queriedItems.map(item => <ListItem {...item} onSelect={onItemSelect} />)}
         </div>}
         </div>;
-};
+});
 
 Autocomplete.propTypes = {
     data: PropTypes.arrayOf(PropTypes.shape({

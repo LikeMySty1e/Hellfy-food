@@ -5,9 +5,10 @@
 
 .food__recipe {
     animation: slidein 1s;
+    justify-content: center;
     margin-top: 40px;
-    width: 100%;
-
+    margin-left: 40px;
+    width: 90%;
     border-radius: 10px;
 }
 

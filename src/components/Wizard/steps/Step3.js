@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {observer} from "mobx-react-lite";
 import cn from "classnames";
 import Input, {InputType} from "../../common/Input";
 import RoundButton, {ButtonDirection} from "../../common/buttons/RoundButton";
@@ -10,7 +11,7 @@ import GenderEnum from "../../../enums/GenderEnum";
 import Autocomplete from "../../common/Autocomplete/Autocomplete";
 import profResource from "../../../resources/profResource";
 
-const Step3 = props => {
+const Step3 = observer(props => {
     const {
         isLast,
         index,
@@ -96,12 +97,12 @@ const Step3 = props => {
             />
         </div>
         <Autocomplete
-            selected={profession}
-            placeholder={`Профессия`}
+            label={`Профессия`}
+            selected={profession?.value}
             data={profResource}
             error={!isProfessionValid}
             message={!isProfessionValid ? `Введите корректное название профессии` : ``}
-            onSelect={({ value }) => onSet(value, `profession`, validateProfession)}
+            onSelect={selected => onSet(selected, `profession`, validateProfession)}
         />
         Ваш пол<br />
         <div className="step__row">
@@ -126,7 +127,7 @@ const Step3 = props => {
             direction={ButtonDirection.bottomLeft}
         />}
     </div>
-};
+});
 
 Step3.propTypes = {
     isLast: PropTypes.bool,

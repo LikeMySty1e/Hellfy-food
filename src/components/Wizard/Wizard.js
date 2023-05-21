@@ -2,6 +2,7 @@ import React from 'react';
 import {observer} from "mobx-react-lite";
 import cn from "classnames";
 import PropTypes from 'prop-types';
+import {Context} from "../../index";
 import SideEnum from "./enums/SideEnum";
 import './style.css';
 
@@ -10,6 +11,7 @@ let hideInterval;
 let deleteTimeout;
 
 const Wizard = observer(props => {
+    const {main} = React.useContext(Context);
     const {
         data,
         children,

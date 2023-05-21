@@ -1,11 +1,11 @@
 .week {
+    animation: appear 1s;
     position: relative;
     display: flex;
     justify-content: flex-start;
     margin-left: 10px;
     margin-bottom: 40px;
     width: 290px;
-
     color: var(--white);
 }
 

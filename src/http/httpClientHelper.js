@@ -4,26 +4,21 @@ const $host = axios.create({
     baseURL: process.env.REACT_APP_API_ENDPOINT
 });
 
-const defaultParams = {
-    headers: {
-        Accept: `application/json`,
-        pragma: `no-cache`,
-        'cache-control': `no-cache`
-    },
-    credentials: `same-origin`
-};
+const getConfig = (token = ``) => {
+    return { headers: { authorization: `Bearer ${token}` } };
+}
 
 const httpClientHelper = {
-    async post(url, data) {
-        const response = await $host.post(url, { ...data });
+    async post(url, body, token) {
+        const { data, status } = await $host.post(url, { ...body }, { ...getConfig(token) });
 
-        return response;
+        return data || {};
     },
 
-    async get(url) {
-        const response = await $host.get(url);
+    async get(url, token) {
+        const { data, status } = await $host.get(url, { ...getConfig(token) });
 
-        return response;
+        return data || {};
     }
 }
 

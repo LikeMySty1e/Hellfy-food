@@ -4,18 +4,19 @@ import PropTypes from 'prop-types';
 import InputIconEnum from "./enums/InputIconEnum";
 import InputTypeEnum from "./enums/InputTypeEnum";
 import {validateInput} from "./helpers/validateHelper";
+import SvgIcon from "../SvgIcon/SvgIcon";
 import './style.css';
 
 const Input = props => {
     const {
         label,
+        icons,
         maxLength,
         disabled,
         warning,
         classname,
         placeholder,
         error,
-        icon,
         message,
         value,
         onChange,
@@ -28,6 +29,9 @@ const Input = props => {
     const [isFocused, setIsFocused] = React.useState(false);
     const inputRef = React.useRef(null);
 
+    const hasRightIcon = React.useMemo(() => !!icons.some(icon => icon.side === InputIconEnum.right), [icons]);
+    const hasLeftIcon = React.useMemo(() => !!icons.some(icon => icon.side === InputIconEnum.left), [icons]);
+
     React.useEffect(() => setQuery(value), [value]);
 
     const getClassnames = () => {
@@ -35,7 +39,10 @@ const Input = props => {
             "input", "input__native", classname,
             { ["input__warning"]: warning },
             { ["input__error"]: error },
-            { [`input__${icon}__icon`]: !!icon }
+            {
+                ["input--rightIcon"]: hasRightIcon,
+                ["input--leftIcon"]: hasLeftIcon
+            }
         )
     };
 
@@ -64,6 +71,48 @@ const Input = props => {
         onChange && onChange(e.target.value, e);
     };
 
+    const renderRightIcon = () => {
+        const iconData = icons.find(icon => icon.side === InputIconEnum.left);
+
+        if (!iconData) {
+            return null;
+        }
+
+        return <SvgIcon
+            classname={cn(
+                "icon",
+                "left__icon",
+                iconData.classname,
+                {
+                    "icon--active": isFocused || !!query,
+                    "icon--error": error
+                }
+            )}
+            Icon={iconData.Icon}
+        />;
+    }
+
+    const renderLeftIcon = () => {
+        const iconData = icons.find(icon => icon.side === InputIconEnum.right);
+
+        if (!iconData) {
+            return null;
+        }
+
+        return <SvgIcon
+            classname={cn(
+                "icon",
+                "right__icon",
+                iconData.classname,
+                {
+                    "icon--active": isFocused || !!query,
+                    "icon--error": error
+                }
+            )}
+            Icon={iconData.Icon}
+        />;
+    }
+
     const getLabel = () => {
         if (!label) {
             return null;
@@ -72,6 +121,7 @@ const Input = props => {
         return <div
             onClick={() => inputRef.current.focus()}
             className={cn("input__label", {
+                "input__label--leftIcon": hasLeftIcon,
                 "input__label--active": isFocused || !!query,
                 "input__label--error": (isFocused || !!query) && error,
             })}
@@ -81,18 +131,22 @@ const Input = props => {
     };
 
     return <div className="input__wrapper">
-        <input
-            type={type}
-            ref={inputRef}
-            onChange={onInputChange}
-            onInput={onInputActuallyInput}
-            onFocus={onInputFocus}
-            onBlur={onInputBlur}
-            disabled={disabled}
-            value={query}
-            placeholder={placeholder}
-            className={getClassnames()}
-        />
+        <div className="input__container">
+            {renderLeftIcon()}
+            <input
+                type={type}
+                ref={inputRef}
+                onChange={onInputChange}
+                onInput={onInputActuallyInput}
+                onFocus={onInputFocus}
+                onBlur={onInputBlur}
+                disabled={disabled}
+                value={query}
+                placeholder={placeholder}
+                className={getClassnames()}
+            />
+            {renderRightIcon()}
+        </div>
         {getLabel()}
         <div className={cn("input__message", { "input__message--error": error })}>
             {message}
@@ -101,6 +155,7 @@ const Input = props => {
 };
 
 Input.defaultProps = {
+    icons: [],
     type: InputTypeEnum.text,
     value: ``,
     placeholder: ``,
@@ -111,6 +166,7 @@ Input.defaultProps = {
 };
 
 Input.propTypes = {
+    icons: PropTypes.arrayOf(PropTypes.shape({})),
     maxLength: PropTypes.number,
     label: PropTypes.string,
     disabled: PropTypes.bool,
@@ -120,7 +176,6 @@ Input.propTypes = {
     classname: PropTypes.string,
     placeholder: PropTypes.string,
     type: PropTypes.oneOf(Object.values(InputTypeEnum)),
-    icon: PropTypes.oneOf(Object.values(InputIconEnum)),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, null]),
     onChange: PropTypes.func,
     onInput: PropTypes.func,

@@ -14,6 +14,11 @@
     margin-bottom: 20px !important;
 }
 
+.input__container {
+    position: relative;
+    width: 100%;
+}
+
 .input__message {
     margin-top: 10px;
     font-size: 13px;
@@ -23,10 +28,34 @@
     color: var(--red);
 }
 
+.icon {
+    position: absolute;
+    z-index: 5;
+    fill: var(--grey);
+}
+
+.icon--active {
+    fill: var(--green);
+}
+
+.icon--error {
+    fill: var(--red);
+}
+
+.left__icon {
+    top: 10px;
+    left: 10px;
+}
+
+.right__icon {
+    top: 10px;
+    right: 10px;
+}
+
 .input {
     width: 100%;
     min-width: 120px;
-    padding: 10px 24px 10px 16px;
+    padding: 12px 24px 12px 16px;
     z-index: 1;
 
     border-top: none;
@@ -38,10 +67,19 @@
     transition: all linear 175ms;
 
     font-size: 18px;
+    line-height: 120%;
     color: var(--black);
     background-color: var(--white);
     border-color: var(--grey);
     box-shadow: 2px 2px 4px 0 var(--grey);
+}
+
+.input--rightIcon {
+    padding-right: 60px;
+}
+
+.input--leftIcon {
+    padding-left: 50px;
 }
 
 .input__error {
@@ -57,6 +95,10 @@
 
     font-size: 18px;
     transition: all linear 350ms;
+}
+
+.input__label--leftIcon {
+    left: 46px;
 }
 
 .input__label--active {

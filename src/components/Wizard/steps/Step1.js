@@ -22,6 +22,8 @@ const Step1 = props => {
         forPersonal
     } = data;
 
+    console.log(data)
+
     const stepFilled = React.useMemo(() => !isNull(forPersonal), [forPersonal]);
 
     const changeComplex = value => {

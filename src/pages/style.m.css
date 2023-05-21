@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center;
     width: 100%;
-    padding: 40px;
+    padding: 40px 40px 20px;
     margin-bottom: 40px;
     border-radius: 10px;
     background-color: var(--white);
@@ -45,9 +45,23 @@
 
 .registration__button {
     width: 100%;
-    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .registration__input {
     width: 100%;
+}
+
+.registration__input:last-child {
+    margin-bottom: 0;
+}
+
+.snacks {
+    animation: appear 1s;
+    display: flex;
+    width: 300px;
+    line-height: 32px;
+    font-size: 20px;
+    text-align: center;
+    color: var(--orange);
 }

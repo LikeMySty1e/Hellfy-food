@@ -2,21 +2,18 @@ import React from 'react';
 import cn from "classnames";
 import {observer} from "mobx-react-lite";
 import Input, {InputType} from "../../../components/common/Input";
-import Autocomplete from "../../../components/common/Autocomplete/Autocomplete";
+import Autocomplete from "../../../components/common/Autocomplete";
 import Tag from "../../../components/common/Tag";
 import {isValid} from "../../../helpers/checkIsHelper";
 import {useValidation} from "../../../hooks/useValidation";
 import profResource from "../../../resources/profResource";
-import IngredientsResource from "../../../resources/ingredientsResource";
 import {Context} from "../../../index";
 import '../style.css';
-import Button, {Color} from "../../../components/common/buttons/Button";
 
 const UserData = observer(() => {
     const {main} = React.useContext(Context);
     const {
         profession,
-        name,
         weight,
         height,
         age,
@@ -26,7 +23,6 @@ const UserData = observer(() => {
         isDigestive,
         isAllergic
     } = main.userModel;
-    const [isNameValid, validateName] = useValidation(name,true, isValid);
     const [isWeightValid, validateWeight] = useValidation(weight,true, isValid);
     const [isHeightValid, validateHeight] = useValidation(height,true, isValid);
     const [isProfessionValid, validateProfession] = useValidation(profession,true, isValid);
@@ -35,19 +31,19 @@ const UserData = observer(() => {
     const availableFavourites = React.useMemo(() => {
         const selectedValues = favouriteIngredients.map(item => item.value);
 
-        return IngredientsResource.filter(item => !selectedValues.includes(item.value)) || [];
+        return main.ingredients.filter(item => !selectedValues.includes(item.value)) || [];
     }, [favouriteIngredients]);
 
     const availableUnfavoured = React.useMemo(() => {
         const selectedValues = unfavouredIngredients.map(item => item.value);
 
-        return IngredientsResource.filter(item => !selectedValues.includes(item.value)) || [];
+        return main.ingredients.filter(item => !selectedValues.includes(item.value)) || [];
     }, [unfavouredIngredients]);
 
     const availableBlackList = React.useMemo(() => {
         const selectedValues = blackListIngredients.map(item => item.value);
 
-        return IngredientsResource.filter(item => !selectedValues.includes(item.value)) || [];
+        return main.ingredients.filter(item => !selectedValues.includes(item.value)) || [];
     }, [blackListIngredients]);
 
     const onFavouriteTagClick = value => {
@@ -61,19 +57,6 @@ const UserData = observer(() => {
     const onBlackListTagClick = value => {
         main.updateUserData(`blackListIngredients`, blackListIngredients.filter(item => item.value !== value));
     };
-
-    // const stepFilled = React.useMemo(() => isValid({
-    //     gender: !isNull(gender),
-    //     profession,
-    //     name,
-    //     weight,
-    //     height,
-    //     age,
-    //     isNameValid,
-    //     isWeightValid,
-    //     isHeightValid,
-    //     isAgeValid
-    // }), [gender, name, weight, height, age]);
 
     const onSet = (value, field, validation) => {
         validation && validation(value);
@@ -107,13 +90,13 @@ const UserData = observer(() => {
                 maxLength={2}
                 label={"Возраст (лет)"}
                 error={!isAgeValid}
-                message={!isNameValid ? `Введено недопустимое значение` : ``}
+                message={!isAgeValid ? `Введено недопустимое значение` : ``}
                 onChange={value => onSet(value, `age`, validateAge)}
             />
         </div>
         <Autocomplete
+            label={`Профессия`}
             selected={profession}
-            placeholder={`Профессия`}
             data={profResource}
             error={!isProfessionValid}
             message={!isProfessionValid ? `Введите корректное название профессии` : ``}
