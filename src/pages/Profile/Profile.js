@@ -19,7 +19,6 @@ const Profile = observer(() => {
                         <img src={`./images/fish.m.svg`} className="user__avatar" alt="Аватар" />
                     </div>
                     <div className="user__data" style={{ width: `300px` }}>
-                        <div>Логин: {main.userModel.login}</div>
                         <div>E-mail: {main.userModel.email}</div>
                     </div>
                     <Button

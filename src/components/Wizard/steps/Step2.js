@@ -18,23 +18,26 @@ const Step2 = props => {
         updateData
     } = props;
     const {
-        login,
         password,
         email,
         subscription
     } = data;
-    const [isLoginValid, validateLogin] = useValidation(login,true, isValid);
     const [isEmailValid, validateEmail] = useValidation(email,email ? isEmail(email) : true, isEmail);
     const [isPasswordValid, validatePassword] = useValidation(password,true, isValid);
+    const stepRef = React.useRef(null);
+
+    React.useEffect(() => {
+        if (stepRef.current) {
+            window.scrollTo({ top: (stepRef.current.offsetTop - 300) || 0, behavior: `smooth` });
+        }
+    }, []);
 
     const stepFilled = React.useMemo(() => isValid({
         email,
-        login,
         password,
-        isLoginValid,
         isEmailValid,
         isPasswordValid
-    }), [login, password, email]);
+    }), [password, email]);
 
     const onSet = (value, field, validation) => {
         validation && validation(value);
@@ -43,14 +46,8 @@ const Step2 = props => {
 
     const goNext = () => pushStep(index + 1);
 
-    return <div className={cn("step__card", { ["step__card--hide"]: hide })}>
+    return <div ref={stepRef} className={cn("step__card", { ["step__card--hide"]: hide })}>
         <div className="green__title">Данные авторизации</div>
-        <Input
-            value={login}
-            onChange={value => onSet(value, `login`, validateLogin)}
-            error={!isLoginValid}
-            message={!isLoginValid ? `Введите что-нибудь` : ``}
-            label={"Логин"} />
         <Input
             value={email}
             onBlur={value => onSet(value, `email`, validateEmail)}
@@ -59,13 +56,6 @@ const Step2 = props => {
             message={!isEmailValid ? `Почтовый адрес указан неверно` : ``}
             label={"Электронная почта"}
         />
-        <Checkbox
-            onChange={value => updateData({ subscription: value })}
-            classname="step__checkbox"
-            value={subscription}
-        >
-            <span className="green">Получать рассылку</span>
-        </Checkbox> <br />
         <Input
             type={InputType.password}
             value={password}
@@ -74,6 +64,13 @@ const Step2 = props => {
             message={!isPasswordValid ? `Введите непустой пароль` : ``}
             label={"Пароль"}
         />
+        <Checkbox
+            onChange={value => updateData({ subscription: value })}
+            classname="step__checkbox"
+            value={subscription}
+        >
+            <span className="green">Получать рассылку</span>
+        </Checkbox> <br />
         {!isLast && <RoundButton
             onClick={goNext}
             disabled={!stepFilled || currentStep > index}

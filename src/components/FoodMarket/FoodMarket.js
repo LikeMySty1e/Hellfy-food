@@ -59,7 +59,7 @@ const FoodMarket = observer(props => {
     const renderFoods = () => {
         return <div className="food__market">
             {food.map(data => <FoodCard
-                onClick={onFoodCardClick}
+                // onClick={onFoodCardClick}
                 isFadeout={isFadeout}
                 key={data.brunch}
                 {...data}

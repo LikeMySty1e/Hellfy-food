@@ -5,6 +5,10 @@ const $host = axios.create({
 });
 
 const getConfig = (token = ``) => {
+    if (!token) {
+        return {};
+    }
+
     return { headers: { authorization: `Bearer ${token}` } };
 }
 

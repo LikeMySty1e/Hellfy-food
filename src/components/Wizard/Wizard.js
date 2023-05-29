@@ -23,6 +23,9 @@ const Wizard = observer(props => {
         launch
     } = props;
     const [steps, setSteps] = React.useState([]);
+    const [refs, setRefs] = React.useState([]);
+
+    const addRefs = ref => setRefs([...refs, ref]);
 
     const hideStep = stepIndex => {
         const updatedSteps = steps.map((step, index) => {
@@ -84,6 +87,7 @@ const Wizard = observer(props => {
                 index={step.index}
                 isLast={step.index === stepsResource.length}
                 data={data}
+                addRefs={addRefs}
                 updateData={updateData}
                 onComplete={props.onComplete}
                 currentStep={currentStep}

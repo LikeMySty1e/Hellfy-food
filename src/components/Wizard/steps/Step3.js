@@ -34,6 +34,13 @@ const Step3 = observer(props => {
     const [isHeightValid, validateHeight] = useValidation(height,true, isValid);
     const [isProfessionValid, validateProfession] = useValidation(profession,true, isValid);
     const [isAgeValid, validateAge] = useValidation(age,true, isValid);
+    const stepRef = React.useRef(null);
+
+    React.useEffect(() => {
+        if (stepRef.current) {
+            window.scrollTo({ top: (stepRef.current.offsetTop - 300) || 0, behavior: `smooth` });
+        }
+    }, []);
 
     const stepFilled = React.useMemo(() => isValid({
         gender: !isNull(gender),
@@ -55,7 +62,7 @@ const Step3 = observer(props => {
 
     const goNext = () => pushStep(index + 1);
 
-    return <div className={cn("step__card", { ["step__card--hide"]: hide })}>
+    return <div ref={stepRef} className={cn("step__card", { ["step__card--hide"]: hide })}>
         <div className="orange__title">О вашем персонаже</div>
         Мы спрашиваем ваш рост, вес, возраст, кол-во тренировок и профессию, чтобы понимать,
         сколько калорий вам нужно потреблять в день, какие пищевые группы вам следует увеличить или

@@ -1,16 +1,15 @@
 export const mapIngredients = (ingredients = []) => {
-    console.log(ingredients);
     return ingredients.map(ingredient => {
         return {
             text: ingredient.name,
             value: ingredient.id
         }
-    })
+    });
 };
 
 export const mapUserModelToSave = model => {
     return {
-        username: model.login,
+        username: `Cum`,
         password: model.password,
         email: model.email,
         personInfo: {

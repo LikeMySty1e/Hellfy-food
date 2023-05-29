@@ -11,6 +11,7 @@ const Step1 = props => {
         isLast,
         index,
         hide,
+        addRefs,
         updateData,
         data = {},
         currentStep,
@@ -21,8 +22,13 @@ const Step1 = props => {
         isEnthusiast,
         forPersonal
     } = data;
+    const stepRef = React.useRef(null);
 
-    console.log(data)
+    React.useEffect(() => {
+        if (stepRef.current) {
+            window.scrollTo({ top: (stepRef.current.offsetTop - 300) || 0, behavior: `smooth` });
+        }
+    }, []);
 
     const stepFilled = React.useMemo(() => !isNull(forPersonal), [forPersonal]);
 
@@ -36,7 +42,7 @@ const Step1 = props => {
 
     const goNext = () => pushStep(index + 1);
 
-    return <div key={`Step1`} className={cn(
+    return <div ref={stepRef} key={`Step1`} className={cn(
         "step__card",
         "step__card--right",
         { ["step__card--hide"]: hide }

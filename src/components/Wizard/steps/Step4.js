@@ -26,6 +26,13 @@ const Step4 = observer(props => {
         isDigestive,
         isAllergic
     } = data;
+    const stepRef = React.useRef(null);
+
+    React.useEffect(() => {
+        if (stepRef.current) {
+            window.scrollTo({ top: (stepRef.current.offsetTop - 300) || 0, behavior: `smooth` });
+        }
+    }, []);
 
     const availableFavourites = React.useMemo(() => {
         const selectedValues = favouriteIngredients.map(item => item.value);
@@ -59,9 +66,7 @@ const Step4 = observer(props => {
 
     const goNext = () => pushStep(index + 1);
 
-    console.log(availableUnfavoured)
-
-    return <div className={cn("step__card", { ["step__card--hide"]: hide })}>
+    return <div ref={stepRef} className={cn("step__card", { ["step__card--hide"]: hide })}>
         <div className="orange__title">Предпочтения в еде</div>
         Знание ваших предпочтений в еде помогает создать индивидуальный план питания,
         который соответствует вашему вкусу. <br/><br />

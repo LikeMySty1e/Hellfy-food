@@ -141,7 +141,7 @@ const Input = props => {
                 onFocus={onInputFocus}
                 onBlur={onInputBlur}
                 disabled={disabled}
-                value={query}
+                value={query || ``}
                 placeholder={placeholder}
                 className={getClassnames()}
             />

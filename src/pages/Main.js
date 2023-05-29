@@ -14,7 +14,7 @@ const Main = observer(() => {
     const {main} = useContext(Context);
 
     return <React.Fragment>
-        <Container isFle>
+        <Container isFlex>
             <Week />
             <div className="snacks">
                 Полдник
@@ -25,7 +25,7 @@ const Main = observer(() => {
                 />
             </div>
         </Container>
-        <FoodMarket />
+        {!main.pendingState.ingredients && <FoodMarket />}
     </React.Fragment>;
 });
 

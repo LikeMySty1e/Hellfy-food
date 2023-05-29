@@ -3,14 +3,37 @@ import cn from "classnames";
 import PropTypes from 'prop-types';
 import Button, {Color} from "../../common/buttons/Button";
 import './style.css';
+import UserModel from "../../../models/UserModel";
 
 const Step5 = props => {
     const {
         hide,
-        onComplete
+        onComplete,
+        data
     } = props;
+    const stepRef = React.useRef(null);
 
-    return <div key={`Step5`} className={cn(
+    React.useEffect(() => {
+        if (stepRef.current) {
+            window.scrollTo({ top: (stepRef.current.offsetTop - 300) || 0, behavior: `smooth` });
+        }
+    }, []);
+
+    const isNotValid = React.useMemo(() => {
+        return Object.keys(UserModel).some(key => {
+            console.log(data, data[key])
+
+            if (typeof data[key] === 'boolean' || data[key] === 0) {
+                return false;
+            }
+
+            return !data[key];
+        })
+    }, [data]);
+
+    console.log(isNotValid);
+
+    return <div ref={stepRef} key={`Step5`} className={cn(
         "step__card",
         "step__card--right",
         { ["step__card--hide"]: hide }
@@ -26,6 +49,7 @@ const Step5 = props => {
         Уверены, что наш сервис поможет Вам улучшить свое здоровье и достичь желаемых результатов.<br /><br />
         <Button
             onClick={() => onComplete()}
+            disabled={isNotValid}
             color={Color.green}
         >
             Завершить
@@ -34,6 +58,7 @@ const Step5 = props => {
 };
 
 Step5.propTypes = {
+    data: PropTypes.shape(UserModel),
     onComplete: PropTypes.func.isRequired,
     hide: PropTypes.bool
 };

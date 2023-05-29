@@ -28,7 +28,6 @@ const Auth = observer(() => {
     React.useEffect(() => {
         const localProgress = JsonParser.parse(localStorageHelper.getLocalRegistrationProgress());
 
-        console.log(localProgress);
         // console.log(format([]))
 
         if (localProgress) {
@@ -53,11 +52,10 @@ const Auth = observer(() => {
     };
 
     const onRegistrationClick = async () => {
-        // localStorageHelper.deleteLocalRegistrationProgress();
-
         const result = await main.registrate(registration);
 
         if (result) {
+            localStorageHelper.deleteLocalRegistrationProgress();
             history.push(MAIN_ROUTE);
         }
     };

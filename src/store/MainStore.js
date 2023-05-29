@@ -69,6 +69,7 @@ export default class MainStore {
 
         try {
             const { result = [], ok } = await getFoodPlan(this.token);
+            // this.food = getFoodPlan(this.token);
 
             if (ok) {
                 // this.ingredients = result;

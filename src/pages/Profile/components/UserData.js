@@ -19,10 +19,10 @@ const UserData = observer(() => {
         age,
         favouriteIngredients,
         unfavouredIngredients,
-        blackListIngredients,
-        isDigestive,
-        isAllergic
-    } = main.userModel;
+        blackListIngredients
+    } = main.userModel?.personInfo || {};
+
+    console.log(main.userModel?.personInfo)
     const [isWeightValid, validateWeight] = useValidation(weight,true, isValid);
     const [isHeightValid, validateHeight] = useValidation(height,true, isValid);
     const [isProfessionValid, validateProfession] = useValidation(profession,true, isValid);
