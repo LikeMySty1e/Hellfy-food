@@ -4,7 +4,7 @@ import UserModel from "../models/UserModel";
 import DateHelper from "../helpers/dateHelper";
 import DaysEnum from "../enums/DaysEnum";
 import BrunchEnum from "../enums/BrunchEnum";
-import { mapIngredients, mapUserModelToSave } from '../mappers/userDataMapper';
+import {mapIngredients, mapPlan, mapUserModelToSave} from '../mappers/userDataMapper';
 import {getIngredients, getFoodPlan, loginUser, registrateUser} from "../services/userDataService";
 
 export default class MainStore {
@@ -46,11 +46,11 @@ export default class MainStore {
     initAuth = () => {
         const localToken = localStorageHelper.getLocalToken();
 
-        if (!localToken) {
-            this.setIsAuth(false);
-
-            return null;
-        }
+        // if (!localToken) {
+        //     this.setIsAuth(false);
+        //
+        //     return null;
+        // }
 
         this.setIsAuth(true);
         this.setToken(localToken);
@@ -68,12 +68,15 @@ export default class MainStore {
         this.setLoading(`plan`, true);
 
         try {
-            const { result = [], ok } = await getFoodPlan(this.token);
-            // this.food = getFoodPlan(this.token);
+            const food = await getFoodPlan(this.token);
 
-            if (ok) {
+            runInAction(() => {
+                this.food = mapPlan(food);
+            });
+
+            // if (ok) {
                 // this.ingredients = result;
-            }
+            // }
         } catch (e) {
             console.error(e.message);
         } finally {
@@ -250,16 +253,8 @@ export default class MainStore {
     }
 
     get foodByDay() {
-        const { data = [] } = this.food.find(food => food.day === this.day) || {};
+        const { foods = [] } = this.food.find(food => food.day === this.day) || {};
 
-        return this.isSnacksDisabled ? data.filter(food => food.brunch !== BrunchEnum.sweetSnack) : data;
-    }
-
-    get cachedRecipeIds() {
-        return this.recipesCache.map(recipe => recipe.id);
-    }
-
-    getFoodById(id) {
-        return this.foodByDay.find(foodData => foodData.id === id) || null;
+        return this.isSnacksDisabled ? foods.filter(food => food.mealtime !== BrunchEnum.snack) : foods;
     }
 }

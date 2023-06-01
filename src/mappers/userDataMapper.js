@@ -1,9 +1,20 @@
+import DaysEnum from "../enums/DaysEnum";
+
 export const mapIngredients = (ingredients = []) => {
     return ingredients.map(ingredient => {
         return {
             text: ingredient.name,
             value: ingredient.id
         }
+    });
+};
+
+export const mapPlan = (plan = []) => {
+    return plan.map(day => {
+        return {
+            ...day,
+            day: DaysEnum[day.day]
+        };
     });
 };
 
@@ -34,5 +45,6 @@ export const mapUserModelToSave = model => {
 
 export default {
     mapIngredients,
-    mapUserModelToSave
+    mapUserModelToSave,
+    mapPlan
 };

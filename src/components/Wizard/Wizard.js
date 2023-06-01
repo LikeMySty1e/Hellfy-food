@@ -2,7 +2,6 @@ import React from 'react';
 import {observer} from "mobx-react-lite";
 import cn from "classnames";
 import PropTypes from 'prop-types';
-import {Context} from "../../index";
 import SideEnum from "./enums/SideEnum";
 import './style.css';
 
@@ -11,7 +10,6 @@ let hideInterval;
 let deleteTimeout;
 
 const Wizard = observer(props => {
-    const {main} = React.useContext(Context);
     const {
         data,
         children,
@@ -38,7 +36,7 @@ const Wizard = observer(props => {
     const pushStep = step => {
         setCurrentStep(step);
         setSteps([...steps, stepsResource[step]]);
-    }
+    };
 
     React.useEffect(() => {
         clearInterval(hideInterval);
@@ -95,7 +93,7 @@ const Wizard = observer(props => {
                 hide={step.hide}
             />;
         })
-    }
+    };
 
     return <div className="wizard">
         <div className={cn("wizard__column", "wizard__column--left")}>
