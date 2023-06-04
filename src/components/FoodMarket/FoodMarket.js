@@ -28,10 +28,12 @@ const FoodMarket = observer(() => {
     }, [main.day, main.isSnacksDisabled, main.foodByDay]);
 
     React.useEffect(() => {
+        main.loadPlan();
+
         return () => main.clear();
     }, []);
 
-    const onFoodCardClick = async mealtime => {
+    const onFoodCardClick = mealtime => {
         setSelected(food.find(meal => meal.mealtime === mealtime));
         clearTimeout(scrollTimeoutIndex);
         const initialY = document.documentElement.scrollTop;
@@ -42,7 +44,7 @@ const FoodMarket = observer(() => {
                 behavior: 'smooth'
             }), 250);
         }
-    }
+    };
 
     const renderFoods = () => {
         return <div className="food__market">
@@ -52,8 +54,8 @@ const FoodMarket = observer(() => {
                 key={data.mealtime}
                 {...data}
             />)}
-        </div>
-    }
+        </div>;
+    };
 
     const renderRecipe = () => {
         if (!selected || !selected.mealtimeFood) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import {observer} from "mobx-react-lite";
-import cn from "classnames";
+// import cn from "classnames";
 import {Context} from "../../index";
 import Container from "../../components/common/Container/Container";
 import Button, { Color } from "../../components/common/buttons/Button";
@@ -36,8 +36,8 @@ const Profile = observer(() => {
                     </Button>
                 </div>
             </div>
-        </section>
-    }
+        </section>;
+    };
 
     return <Container>
         <input ref={inputFileRef} style={{ display: `none` }} onChange={() => {}} type="file"/>

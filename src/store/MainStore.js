@@ -40,17 +40,16 @@ export default class MainStore {
         this.updateSnacks();
 
         await this.initIngredients();
-        await this.loadPlan();
     }
 
     initAuth = () => {
         const localToken = localStorageHelper.getLocalToken();
 
-        // if (!localToken) {
-        //     this.setIsAuth(false);
-        //
-        //     return null;
-        // }
+        if (!localToken) {
+            this.setIsAuth(false);
+
+            return null;
+        }
 
         this.setIsAuth(true);
         this.setToken(localToken);
@@ -230,7 +229,6 @@ export default class MainStore {
     }
 
     clear = () => {
-        this.recipesCache = [];
         this.setFood();
     }
 
