@@ -1,34 +1,21 @@
 import React from 'react';
-import cn from "classnames";
 import PropTypes from 'prop-types';
 import Checkbox from "../../common/Checkbox/Checkbox";
 import {isNull} from "../../../helpers/checkIsHelper";
-import RoundButton, { ButtonDirection } from "../../common/buttons/RoundButton";
-import './style.css';
+import { ButtonDirection } from "../../common/buttons/RoundButton";
+import CommonStep from "./CommonStep";
+import './style.m.scss';
 
 const Step1 = props => {
     const {
-        isLast,
-        index,
-        hide,
-        addRefs,
         updateData,
         data = {},
-        currentStep,
-        pushStep
     } = props;
     const {
         necessaryOnly,
         isEnthusiast,
         forPersonal
     } = data;
-    const stepRef = React.useRef(null);
-
-    React.useEffect(() => {
-        if (stepRef.current) {
-            window.scrollTo({ top: (stepRef.current.offsetTop - 300) || 0, behavior: `smooth` });
-        }
-    }, []);
 
     const stepFilled = React.useMemo(() => !isNull(forPersonal), [forPersonal]);
 
@@ -40,13 +27,12 @@ const Step1 = props => {
         }
     };
 
-    const goNext = () => pushStep(index + 1);
-
-    return <div ref={stepRef} key={`Step1`} className={cn(
-        "step__card",
-        "step__card--right",
-        { ["step__card--hide"]: hide }
-    )}>
+    return <CommonStep
+        {...props}
+        stepFilled={stepFilled}
+        direction={ButtonDirection.bottomLeft}
+        arrowDirection={ButtonDirection.bottomLeft}
+    >
         <div className="orange__title">Мастер регистрации</div>
         Для успешного подбора программы правильного питания, нам потребуется узнать о вас некоторые детали. <br /> <br />
         Если вы не желаете нарушать таинство вашей социальной, личной и духовной жизни,
@@ -85,12 +71,7 @@ const Step1 = props => {
         >
             <span className="green">Я пищевой энтузиаст</span>
         </Checkbox> <br />
-        {!isLast && <RoundButton
-            onClick={goNext}
-            disabled={!stepFilled || currentStep > index}
-            direction={ButtonDirection.bottomLeft}
-        />}
-    </div>;
+    </CommonStep>;
 };
 
 Step1.propTypes = {

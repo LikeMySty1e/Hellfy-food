@@ -15,6 +15,7 @@ const Input = props => {
         disabled,
         warning,
         classname,
+        style,
         placeholder,
         error,
         message,
@@ -130,7 +131,7 @@ const Input = props => {
         </div>;
     };
 
-    return <div className="input__wrapper">
+    return <div className="input__wrapper" style={style}>
         <div className="input__container">
             {renderLeftIcon()}
             <input
@@ -174,6 +175,7 @@ Input.propTypes = {
     warning: PropTypes.bool,
     error: PropTypes.bool,
     classname: PropTypes.string,
+    style: PropTypes.shape({}),
     placeholder: PropTypes.string,
     type: PropTypes.oneOf(Object.values(InputTypeEnum)),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, null]),

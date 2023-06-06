@@ -67,8 +67,6 @@
 
 .round__container--active {
     background-color: var(--white);
-    border-bottom: 2px solid var(--green);
-    border-right: 2px solid var(--green);
 }
 
 .round__container--disabled,
@@ -103,9 +101,14 @@
     color: var(--green);
 }
 
-.round__button:disabled,
-.round__button:hover:not(:enabled) {
+.round__button:disabled:not(.round__button--active),
+.round__button:hover:not(.round__button--active) {
     color: var(--grey);
+}
+
+.round__button:disabled,
+.round__button:hover {
+    color: var(--green);
 }
 
 .round__button--top {

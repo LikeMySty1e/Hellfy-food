@@ -68,7 +68,7 @@ const FoodMarket = observer(() => {
             <div className="recipe__info">
                 <div className="food__data">
                     <div className="recipe__title">{mealtimeFood.name}</div>
-                    {mealtimeFood.description}
+                    {mealtimeFood.description}<br /><br />
                     <div className="recipe__portions">
                         Для {mealtimeFood.portions > 1
                         ? `${mealtimeFood.portions} персон`

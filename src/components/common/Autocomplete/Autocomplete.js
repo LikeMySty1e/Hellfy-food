@@ -4,22 +4,20 @@ import {observer} from "mobx-react-lite";
 import Input from "../Input";
 import ListItem from "./components/ListItem";
 import './style.css';
+import cn from "classnames";
+
+let justCheckedTimeout;
 
 const Autocomplete = observer(props => {
     const {
         data,
+        maxLength,
         selected,
         clearAfterSelect,
-        message,
-        label,
-        placeholder,
-        warning,
-        error,
         onSelect
     } = props;
     const [query, setQuery] = React.useState(``);
     const [isListShowed, setIsListShowed] = React.useState(false);
-    const [justSelected, setJustSelected] = React.useState(true);
 
     React.useEffect(() => {
         let selectedObj = selected;
@@ -32,28 +30,28 @@ const Autocomplete = observer(props => {
     }, []);
 
     const queriedItems = React.useMemo(() => {
-        if (!query || justSelected) {
+        if (!isListShowed) {
             return [];
+        }
+
+        if (!query && data.length) {
+            return data.slice(0, maxLength);
         }
 
         const filteredData = data.filter(item => item.text
             .substring(0, query.length)
             .toUpperCase()
-            .includes(`${query.toUpperCase()}`));
+            .includes(`${query.toUpperCase()}`))
+            .slice(0, maxLength);
 
         if (!filteredData.length) {
             return [{ text: `Ничего не найдено`, value: null }];
         }
 
         return filteredData;
-    }, [query, data]);
+    }, [query, data, isListShowed]);
 
-    React.useEffect(() => setIsListShowed(!!queriedItems.length), [queriedItems]);
-
-    const onChangeQuery = value => {
-        setJustSelected(false);
-        setQuery(value);
-    };
+    const onChangeQuery = value => setQuery(value);
 
     const onItemSelect = value => {
         const selectedItem = data.find(item => item.value === value);
@@ -63,32 +61,37 @@ const Autocomplete = observer(props => {
         }
 
         setQuery(clearAfterSelect ? `` : selectedItem.text);
-        setJustSelected(true);
         setIsListShowed(false);
         onSelect && onSelect(selectedItem);
     };
 
     return <div className="autocomplete__container">
             <Input
-                label={label}
-                error={error}
-                message={message}
-                warning={warning}
-                placeholder={placeholder}
+                {...props}
+                onFocus={() => setIsListShowed(true)}
+                onBlur={() => {
+                    clearTimeout(justCheckedTimeout);
+                    justCheckedTimeout = setTimeout(() => setIsListShowed(false), 250);
+                }}
                 onChange={onChangeQuery}
                 value={query}
             />
-        {isListShowed && <div className="autocomplete__list">
-            {queriedItems.map(item => <ListItem {...item} onSelect={onItemSelect} />)}
-        </div>}
+            <div className={cn("autocomplete__list", { "autocomplete__list--showed": isListShowed })}>
+                {queriedItems.map(item => <ListItem {...item} onSelect={onItemSelect} />)}
+            </div>
         </div>;
 });
+
+Autocomplete.defaultProps = {
+    maxLength: 5
+};
 
 Autocomplete.propTypes = {
     data: PropTypes.arrayOf(PropTypes.shape({
         text: PropTypes.string,
         value: PropTypes.number
     })),
+    maxLength: PropTypes.number,
     selected: PropTypes.oneOfType([PropTypes.number, PropTypes.shape({
         text: PropTypes.string,
         value: PropTypes.number

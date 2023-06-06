@@ -1,21 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {observer} from "mobx-react-lite";
-import cn from "classnames";
 import Checkbox from "../../common/Checkbox/Checkbox";
 import Autocomplete from "../../common/Autocomplete/Autocomplete";
-import RoundButton, {ButtonDirection} from "../../common/buttons/RoundButton";
+import {ButtonDirection} from "../../common/buttons/RoundButton";
 import {Context} from "../../../index";
+import CommonStep from "./CommonStep";
 import Tag from "../../common/Tag";
 
 const Step4 = observer(props => {
     const {main} = React.useContext(Context);
     const {
-        isLast,
-        index,
-        hide,
-        pushStep,
-        currentStep,
         data,
         updateData
     } = props;
@@ -26,13 +21,6 @@ const Step4 = observer(props => {
         isDigestive,
         isAllergic
     } = data;
-    const stepRef = React.useRef(null);
-
-    React.useEffect(() => {
-        if (stepRef.current) {
-            window.scrollTo({ top: (stepRef.current.offsetTop - 300) || 0, behavior: `smooth` });
-        }
-    }, []);
 
     const availableFavourites = React.useMemo(() => {
         const selectedValues = favouriteIngredients.map(item => item.value);
@@ -64,9 +52,12 @@ const Step4 = observer(props => {
         updateData({ blackListIngredients: blackListIngredients.filter(item => item.value !== value) });
     };
 
-    const goNext = () => pushStep(index + 1);
-
-    return <div ref={stepRef} className={cn("step__card", { ["step__card--hide"]: hide })}>
+    return <CommonStep
+        {...props}
+        stepFilled
+        direction={ButtonDirection.bottomRight}
+        arrowDirection={ButtonDirection.right}
+    >
         <div className="orange__title">Предпочтения в еде</div>
         Знание ваших предпочтений в еде помогает создать индивидуальный план питания,
         который соответствует вашему вкусу. <br/><br />
@@ -116,15 +107,8 @@ const Step4 = observer(props => {
             <div className="tag__group">
                 {blackListIngredients.map(item => <Tag {...item} onClick={onBlackListTagClick} />)}
             </div><br />
-        </React.Fragment>
-        }
-        {!isLast && <RoundButton
-            disabled={currentStep > index}
-            onClick={goNext}
-            direction={ButtonDirection.bottomRight}
-            arrowDirection={ButtonDirection.right}
-        />}
-    </div>
+        </React.Fragment>}
+    </CommonStep>
 });
 
 Step4.propTypes = {

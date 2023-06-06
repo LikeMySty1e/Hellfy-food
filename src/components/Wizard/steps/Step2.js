@@ -1,19 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from "classnames";
-import Input, {InputType} from "../../common/Input";
+import Input, {InputIcon, InputType} from "../../common/Input";
 import Checkbox from "../../common/Checkbox/Checkbox";
-import RoundButton, {ButtonDirection} from "../../common/buttons/RoundButton";
+import {ButtonDirection} from "../../common/buttons/RoundButton";
 import {isEmail, isValid} from "../../../helpers/checkIsHelper";
 import {useValidation} from "../../../hooks/useValidation";
+import { ReactComponent as UserIcon } from "../../../icons/common/user.m.svg";
+import { ReactComponent as LockIcon } from "../../../icons/common/lock.m.svg";
+import CommonStep from "./CommonStep";
 
 const Step2 = props => {
     const {
-        isLast,
-        index,
-        hide,
-        pushStep,
-        currentStep,
         data,
         updateData
     } = props;
@@ -24,13 +21,6 @@ const Step2 = props => {
     } = data;
     const [isEmailValid, validateEmail] = useValidation(email,email ? isEmail(email) : true, isEmail);
     const [isPasswordValid, validatePassword] = useValidation(password,true, isValid);
-    const stepRef = React.useRef(null);
-
-    React.useEffect(() => {
-        if (stepRef.current) {
-            window.scrollTo({ top: (stepRef.current.offsetTop - 300) || 0, behavior: `smooth` });
-        }
-    }, []);
 
     const stepFilled = React.useMemo(() => isValid({
         email,
@@ -44,9 +34,12 @@ const Step2 = props => {
         updateData({ [field]: value });
     };
 
-    const goNext = () => pushStep(index + 1);
-
-    return <div ref={stepRef} className={cn("step__card", { ["step__card--hide"]: hide })}>
+    return <CommonStep
+        {...props}
+        stepFilled={stepFilled}
+        direction={ButtonDirection.bottomRight}
+        arrowDirection={ButtonDirection.right}
+    >
         <div className="green__title">Данные авторизации</div>
         <Input
             value={email}
@@ -55,6 +48,12 @@ const Step2 = props => {
             error={!isEmailValid}
             message={!isEmailValid ? `Почтовый адрес указан неверно` : ``}
             label={"Электронная почта"}
+            icons={[
+                {
+                    Icon: UserIcon,
+                    side: InputIcon.left
+                }
+            ]}
         />
         <Input
             type={InputType.password}
@@ -63,6 +62,12 @@ const Step2 = props => {
             error={!isPasswordValid}
             message={!isPasswordValid ? `Введите непустой пароль` : ``}
             label={"Пароль"}
+            icons={[
+                {
+                    Icon: LockIcon,
+                    side: InputIcon.left
+                }
+            ]}
         />
         <Checkbox
             onChange={value => updateData({ subscription: value })}
@@ -71,13 +76,7 @@ const Step2 = props => {
         >
             <span className="green">Получать рассылку</span>
         </Checkbox> <br />
-        {!isLast && <RoundButton
-            onClick={goNext}
-            disabled={!stepFilled || currentStep > index}
-            direction={ButtonDirection.bottomRight}
-            arrowDirection={ButtonDirection.right}
-        />}
-    </div>
+    </CommonStep>
 };
 
 Step2.propTypes = {

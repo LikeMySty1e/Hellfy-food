@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from "classnames";
+import SvgIcon from "../SvgIcon/SvgIcon";
+import { ReactComponent as CheckIcon } from "../../../icons/common/check.m.svg";
 import './style.css';
 
 const Check = props => {
@@ -16,10 +18,9 @@ const Check = props => {
         e.stopPropagation();
     };
 
-    return <div
-        className={cn("check", classname, { ["check--visible"]: checked || isHover })}
-        onClick={checkout}
-    />
+    return <div onClick={checkout}>
+        <SvgIcon Icon={CheckIcon} classname={cn("check", classname, { ["check--visible"]: checked || isHover })} />
+    </div>;
 };
 
 Check.propTypes = {

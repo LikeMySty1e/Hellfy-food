@@ -12,6 +12,7 @@ export default {
     weight: null,
     height: null,
     age: null,
+    lifestyle: null,
     profession: null,
     favouriteIngredients: [],
     unfavouredIngredients: [],

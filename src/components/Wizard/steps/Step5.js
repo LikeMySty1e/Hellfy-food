@@ -2,7 +2,7 @@ import React from 'react';
 import cn from "classnames";
 import PropTypes from 'prop-types';
 import Button, {Color} from "../../common/buttons/Button";
-import './style.css';
+import './style.m.scss';
 import UserModel from "../../../models/UserModel";
 
 const Step5 = props => {
@@ -21,8 +21,6 @@ const Step5 = props => {
 
     const isNotValid = React.useMemo(() => {
         return Object.keys(UserModel).some(key => {
-            console.log(data, data[key])
-
             if (typeof data[key] === 'boolean' || data[key] === 0) {
                 return false;
             }
@@ -30,8 +28,6 @@ const Step5 = props => {
             return !data[key];
         })
     }, [data]);
-
-    console.log(isNotValid);
 
     return <div ref={stepRef} key={`Step5`} className={cn(
         "step__card",
