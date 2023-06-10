@@ -1,0 +1,90 @@
+@keyframes slideRight {
+  0% {
+    transform: translateX(0) rotate(0);
+  }
+
+  50% {
+    transform: translateX(25%) rotate(5deg);
+  }
+
+  100% {
+    transform: translateX(0) rotate(0);
+  }
+}
+
+@keyframes slideHiddenBack {
+  0% {
+    transform: translateX(0) rotate(0);
+  }
+
+  50% {
+    transform: translateX(-10%) rotate(-5deg);
+  }
+
+  100% {
+    transform: translateX(40px) rotate(10deg);
+  }
+}
+
+@keyframes slideHiddenTop {
+  0% {
+    transform: translateX(0) rotate(0);
+  }
+
+  50% {
+    transform: translateX(-10%) rotate(-5deg);
+  }
+
+  100% {
+    transform: translateX(20px) rotate(5deg);
+  }
+}
+
+.user__edit {
+  margin-left: 5%;
+  width: 45%;
+  position: relative;
+}
+
+.info__step {
+  position: absolute;
+  width: border-box;
+  min-height: 580px;
+  padding: 40px;
+  height: border-box;
+  background-color: var(--white);
+  border-right: 3px solid var(--green);
+  border-bottom: 2px solid var(--green);
+  border-left: 1px solid var(--orange);
+  border-top: 1px solid var(--orange);
+  border-radius: 20px;
+  box-shadow: 8px 8px 11px -1px rgba(34, 60, 80, 0.3);
+  font-size: 18px;
+}
+
+.info__step--active {
+  z-index: 10;
+  animation: slideRight 1s;
+}
+
+.info__step--hidden {
+  cursor: pointer;
+
+  &:hover {
+    translate: 20px;
+  }
+}
+
+.info__step--hidden--0 {
+  animation: slideHiddenBack 1s;
+  transform: translateX(40px) rotate(10deg);
+}
+
+.info__step--hidden--1 {
+  animation: slideHiddenTop 1s;
+  transform: translateX(20px) rotate(5deg);
+}
+
+.edit__swipe {
+  left: 140px;
+}

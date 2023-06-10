@@ -5,7 +5,7 @@ import {Context} from "../../index";
 import Container from "../../components/common/Container/Container";
 import Button, { Color } from "../../components/common/buttons/Button";
 import UserData from "./components/UserData";
-import './style.css';
+import './style.m.scss';
 
 const Profile = observer(() => {
     const {main} = React.useContext(Context);
@@ -18,9 +18,9 @@ const Profile = observer(() => {
                     <div className="user__avatar--overlay" onClick={() => inputFileRef.current.click()}>
                         <img src={`./images/fish.m.svg`} className="user__avatar" alt="Аватар" />
                     </div>
-                    <div className="user__data" style={{ width: `300px` }}>
-                        <div>E-mail: {main.userModel.email}</div>
-                    </div>
+                    {/*<div className="user__data" style={{ width: `300px` }}>*/}
+                    {/*    <div>E-mail: {main.userModel.email}</div>*/}
+                    {/*</div>*/}
                     <Button
                         classname="user__button"
                         color={Color.green}

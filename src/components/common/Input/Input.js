@@ -65,6 +65,7 @@ const Input = props => {
 
     const onInputChange = e => {
         if (!validateInput(e.target.value, type, maxLength)) {
+
             return;
         }
 

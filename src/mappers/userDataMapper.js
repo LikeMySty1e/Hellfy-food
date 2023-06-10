@@ -1,4 +1,5 @@
 import DaysEnum from "../enums/DaysEnum";
+import profResource from "../resources/profResource";
 
 export const mapIngredients = (ingredients = []) => {
     return ingredients.map(ingredient => {
@@ -16,6 +17,25 @@ export const mapPlan = (plan = []) => {
             day: DaysEnum[day.day]
         };
     });
+};
+
+const mapIngredient = (ingredient = {}) => {
+    return { value: ingredient.id, text: ingredient.name };
+};
+
+export const mapBackendUserModel = (model = {}) => {
+    const profession = profResource.find(prof => prof.text === model.profession);
+    const mappedFavourites = model.favouriteIngredients.map(ingredient => mapIngredient(ingredient));
+    const mappedUnfavoured = model.unfavouredIngredients.map(ingredient => mapIngredient(ingredient));
+    const mappedBlacklist = model.blacklistIngredients.map(ingredient => mapIngredient(ingredient));
+
+    return {
+        ...model,
+        profession,
+        favouriteIngredients: mappedFavourites,
+        unfavouredIngredients: mappedUnfavoured,
+        blacklistIngredients: mappedBlacklist
+    };
 };
 
 export const mapUserModelToSave = model => {

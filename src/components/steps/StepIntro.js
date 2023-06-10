@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Checkbox from "../../common/Checkbox/Checkbox";
-import {isNull} from "../../../helpers/checkIsHelper";
-import { ButtonDirection } from "../../common/buttons/RoundButton";
+import Checkbox from "../common/Checkbox/Checkbox";
+import {isNull} from "../../helpers/checkIsHelper";
+import { ButtonDirection } from "../common/buttons/RoundButton";
 import CommonStep from "./CommonStep";
 import './style.m.scss';
 
-const Step1 = props => {
+const StepIntro = props => {
     const {
         updateData,
+        isEdit,
         data = {},
     } = props;
     const {
@@ -33,19 +34,21 @@ const Step1 = props => {
         direction={ButtonDirection.bottomLeft}
         arrowDirection={ButtonDirection.bottomLeft}
     >
-        <div className="orange__title">Мастер регистрации</div>
-        Для успешного подбора программы правильного питания, нам потребуется узнать о вас некоторые детали. <br /> <br />
-        Если вы не желаете нарушать таинство вашей социальной, личной и духовной жизни,
-        отметьте галочкой пункт (однако, подбор питания в таком случае будет менее точен): <br />
-        <Checkbox
-            onChange={() => updateData({ necessaryOnly: !necessaryOnly })}
-            value={!!necessaryOnly}
-            classname="step__checkbox"
-        >
-            <span className="green">Только необходимая информация</span>
-        </Checkbox> <br />
+        <div className="orange__title">{isEdit ? `Дополнительная информация` : `Мастер регистрации`}</div>
+        {!isEdit && <React.Fragment>
+            Для успешного подбора программы правильного питания, нам потребуется узнать о вас некоторые детали. <br /> <br />
+            Если вы не желаете нарушать таинство вашей социальной, личной и духовной жизни,
+            отметьте галочкой пункт (однако, подбор питания в таком случае будет менее точен): <br />
+            <Checkbox
+                onChange={() => updateData({ necessaryOnly: !necessaryOnly })}
+                value={!!necessaryOnly}
+                classname="step__checkbox"
+            >
+                <span className="green">Только необходимая информация</span>
+            </Checkbox> <br />
+        </React.Fragment>}
         Вам нужен план питания для себя или вы тренер/диетолог?<br />
-        (Обязательный пункт)
+        {!isEdit && `Обязательный пункт`}
         <div className="step__row">
             <Checkbox
                 onChange={() => changeComplex(true)}
@@ -74,7 +77,9 @@ const Step1 = props => {
     </CommonStep>;
 };
 
-Step1.propTypes = {
+StepIntro.propTypes = {
+    isEdit: PropTypes.bool,
+    classname: PropTypes.string,
     isLast: PropTypes.bool,
     index: PropTypes.number,
     data: PropTypes.object,
@@ -83,4 +88,4 @@ Step1.propTypes = {
     pushStep: PropTypes.func
 };
 
-export default Step1;
+export default StepIntro;

@@ -1,17 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Input, {InputIcon, InputType} from "../../common/Input";
-import Checkbox from "../../common/Checkbox/Checkbox";
-import {ButtonDirection} from "../../common/buttons/RoundButton";
-import {isEmail, isValid} from "../../../helpers/checkIsHelper";
-import {useValidation} from "../../../hooks/useValidation";
-import { ReactComponent as UserIcon } from "../../../icons/common/user.m.svg";
-import { ReactComponent as LockIcon } from "../../../icons/common/lock.m.svg";
+import Input, {InputIcon, InputType} from "../common/Input";
+import Checkbox from "../common/Checkbox/Checkbox";
+import {ButtonDirection} from "../common/buttons/RoundButton";
+import {isEmail, isValid} from "../../helpers/checkIsHelper";
+import {useValidation} from "../../hooks/useValidation";
+import { ReactComponent as UserIcon } from "../../icons/common/user.m.svg";
+import { ReactComponent as LockIcon } from "../../icons/common/lock.m.svg";
 import CommonStep from "./CommonStep";
 
-const Step2 = props => {
+const StepAuth = props => {
     const {
         data,
+        // isEdit,
         updateData
     } = props;
     const {
@@ -79,7 +80,9 @@ const Step2 = props => {
     </CommonStep>
 };
 
-Step2.propTypes = {
+StepAuth.propTypes = {
+    classname: PropTypes.string,
+    isEdit: PropTypes.bool,
     isLast: PropTypes.bool,
     index: PropTypes.number,
     updateData: PropTypes.func.isRequired,
@@ -87,4 +90,4 @@ Step2.propTypes = {
     subscription: PropTypes.bool
 };
 
-export default Step2;
+export default StepAuth;

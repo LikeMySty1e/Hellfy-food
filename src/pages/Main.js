@@ -2,13 +2,10 @@ import React, {useContext} from 'react';
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 import Container from "../components/common/Container/Container";
-import {getFoodPlan} from "../services/userDataService";
 import Week from "../components/Week/Week";
 import FoodMarket from "../components/FoodMarket/FoodMarket";
 import Switch, { Color } from "../components/common/Switch";
-import './style.m.css';
-
-// lcp --proxyUrl http://176.99.10.146:5000
+import './style.m.scss';
 
 const Main = observer(() => {
     const {main} = useContext(Context);

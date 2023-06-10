@@ -1,34 +1,34 @@
 import SideEnum from "../../../components/Wizard/enums/SideEnum";
-import Step1 from "../../../components/Wizard/steps/Step1";
-import Step2 from "../../../components/Wizard/steps/Step2";
-import Step3 from "../../../components/Wizard/steps/Step3";
-import Step4 from "../../../components/Wizard/steps/Step4";
-import Step5 from "../../../components/Wizard/steps/Step5";
+import StepIntro from "../../../components/steps/StepIntro";
+import StepAuth from "../../../components/steps/StepAuth";
+import StepPerson from "../../../components/steps/StepPerson";
+import StepPreferences from "../../../components/steps/StepPreferences";
+import StepFinish from "../../../components/steps/StepFinish";
 
 export default [
     {
         index: 0,
         side: SideEnum.right,
-        component: Step1
+        component: StepIntro
     },
     {
         index: 1,
         side: SideEnum.left,
-        component: Step2
+        component: StepAuth
     },
     {
         index: 2,
         side: SideEnum.right,
-        component: Step3
+        component: StepPerson
     },
     {
         index: 3,
         side: SideEnum.left,
-        component: Step4
+        component: StepPreferences
     },
     {
         index: 4,
         side: SideEnum.right,
-        component: Step5
+        component: StepFinish
     }
 ]

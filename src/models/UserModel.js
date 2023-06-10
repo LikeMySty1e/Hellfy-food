@@ -12,9 +12,9 @@ export default {
     weight: null,
     height: null,
     age: null,
-    lifestyle: null,
+    goal: null,
     profession: null,
     favouriteIngredients: [],
     unfavouredIngredients: [],
-    blackListIngredients: []
+    blacklistIngredients: []
 }

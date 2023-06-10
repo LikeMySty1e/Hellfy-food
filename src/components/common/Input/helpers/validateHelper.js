@@ -8,7 +8,7 @@ export const validateInput = (value, type, maxLength) => {
         return true;
     }
 
-    if (value.length > maxLength) {
+    if (maxLength && value.length > maxLength) {
         return false;
     }
 

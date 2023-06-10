@@ -1,11 +1,11 @@
 import React from 'react';
 import cn from "classnames";
 import PropTypes from 'prop-types';
-import Button, {Color} from "../../common/buttons/Button";
+import Button, {Color} from "../common/buttons/Button";
 import './style.m.scss';
-import UserModel from "../../../models/UserModel";
+import UserModel from "../../models/UserModel";
 
-const Step5 = props => {
+const StepFinish = props => {
     const {
         hide,
         onComplete,
@@ -53,10 +53,10 @@ const Step5 = props => {
     </div>;
 };
 
-Step5.propTypes = {
+StepFinish.propTypes = {
     data: PropTypes.shape(UserModel),
     onComplete: PropTypes.func.isRequired,
     hide: PropTypes.bool
 };
 
-export default Step5;
+export default StepFinish;

@@ -36,14 +36,11 @@ const FoodMarket = observer(() => {
     const onFoodCardClick = mealtime => {
         setSelected(food.find(meal => meal.mealtime === mealtime));
         clearTimeout(scrollTimeoutIndex);
-        const initialY = document.documentElement.scrollTop;
 
-        if (Math.abs(document.documentElement.scrollTop - initialY) < 50) {
-            scrollTimeoutIndex = setTimeout(() => window.scrollTo({
-                top: recipeRef.current.offsetTop,
-                behavior: 'smooth'
-            }), 250);
-        }
+        scrollTimeoutIndex = setTimeout(() => window.scrollTo({
+            top: recipeRef.current.offsetTop - 300,
+            behavior: 'smooth'
+        }), 250);
     };
 
     const renderFoods = () => {

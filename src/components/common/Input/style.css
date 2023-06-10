@@ -61,7 +61,6 @@
     border-top: none;
     border-left: none;
     border-bottom: 3px solid;
-    border-right: 2px solid;
     border-radius: 5px;
     outline: 2px solid var(--grey);
     transition: all linear 175ms;

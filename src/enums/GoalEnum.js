@@ -1,5 +1,5 @@
 export default {
-    sitting: 0,
-    active: 1,
+    weightLoss: 0,
+    keep: 1,
     training: 2
 }

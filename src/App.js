@@ -3,7 +3,7 @@ import AppRouter from "./components/AppRouter";
 import NavBar from "./components/NavBar/NavBar";
 
 function App() {
-  return <div className="root" style={{ scale: 0.9 }}>
+  return <div className="root">
       <BrowserRouter>
           <NavBar />
           <AppRouter />

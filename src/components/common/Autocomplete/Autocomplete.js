@@ -73,18 +73,14 @@ const Autocomplete = observer(props => {
                     clearTimeout(justCheckedTimeout);
                     justCheckedTimeout = setTimeout(() => setIsListShowed(false), 250);
                 }}
-                onChange={onChangeQuery}
                 value={query}
+                onChange={onChangeQuery}
             />
             <div className={cn("autocomplete__list", { "autocomplete__list--showed": isListShowed })}>
                 {queriedItems.map(item => <ListItem {...item} onSelect={onItemSelect} />)}
             </div>
         </div>;
 });
-
-Autocomplete.defaultProps = {
-    maxLength: 5
-};
 
 Autocomplete.propTypes = {
     data: PropTypes.arrayOf(PropTypes.shape({

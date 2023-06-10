@@ -14,7 +14,7 @@ import { ReactComponent as UserIcon } from "../../icons/common/user.m.svg";
 import { ReactComponent as LockIcon } from "../../icons/common/lock.m.svg";
 import localStorageHelper from "../../helpers/localStorageHelper";
 import JsonParser from "../../helpers/jsonParser";
-import '../style.m.css';
+import '../style.m.scss';
 
 const Auth = observer(() => {
     const {main} = React.useContext(Context);

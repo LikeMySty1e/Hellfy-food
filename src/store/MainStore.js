@@ -4,8 +4,8 @@ import UserModel from "../models/UserModel";
 import DateHelper from "../helpers/dateHelper";
 import DaysEnum from "../enums/DaysEnum";
 import BrunchEnum from "../enums/BrunchEnum";
-import {mapIngredients, mapPlan, mapUserModelToSave} from '../mappers/userDataMapper';
-import {getIngredients, getFoodPlan, loginUser, registrateUser} from "../services/userDataService";
+import {mapBackendUserModel, mapIngredients, mapPlan, mapUserModelToSave} from '../mappers/userDataMapper';
+import {getIngredients, getFoodPlan, loginUser, registrateUser, getUserInfo} from "../services/userDataService";
 
 export default class MainStore {
     userModel = { ...UserModel };
@@ -24,6 +24,7 @@ export default class MainStore {
     };
     pendingState = {
         auth: true,
+        userInfo: false,
         plan: true,
         ingredients: true,
     };
@@ -54,8 +55,11 @@ export default class MainStore {
         this.setIsAuth(true);
         this.setToken(localToken);
 
+        this.loadUserInfo();
+
         reaction(() => this.isAuth, () => {
             this.loadPlan();
+            this.loadUserInfo();
         });
     }
 
@@ -80,6 +84,30 @@ export default class MainStore {
             console.error(e.message);
         } finally {
             this.setLoading(`plan`, false);
+        }
+    }
+
+    loadUserInfo = async () => {
+        if (!this.isAuth) {
+            return;
+        }
+
+        this.setLoading(`userInfo`, true);
+
+        try {
+            const { ok, result } = await getUserInfo();
+
+            if (!ok) {
+                throw new Error(`Ошибка загрузки данных пользователя`);
+            }
+
+            runInAction(() => {
+                this.userModel = { ...this.userModel, ...mapBackendUserModel(result) };
+            });
+        } catch (e) {
+            console.error(e.message);
+        } finally {
+            this.setLoading(`userInfo`, false);
         }
     }
 
@@ -123,6 +151,7 @@ export default class MainStore {
             console.error(e.message);
         } finally {
             this.setLoading(`auth`, false);
+            this.loadUserInfo();
         }
     }
 
@@ -164,10 +193,8 @@ export default class MainStore {
         this.isSnacksDisabled = localStorage.getItem(this.snacksStorageKey) === `true`;
     }
 
-    updateUserData = (field, value) => {
-        if (this.userModel.hasOwnProperty(field)) {
-            this.userModel[field] = value;
-        }
+    setUserData = (updatedData = {}) => {
+        this.userModel = { ...this.userModel, ...updatedData };
     }
 
     //  SETS  //

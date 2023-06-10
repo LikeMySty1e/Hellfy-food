@@ -6,8 +6,10 @@ import './style.css';
 
 const RoundButton = props => {
     const {
+        canBeActive,
         active,
         direction,
+        classname,
         disabled,
         arrowDirection,
         showed
@@ -28,7 +30,8 @@ const RoundButton = props => {
     };
 
     const getContainerClassnames = () => {
-        return cn(`round__container`, {
+        return cn(`round__container`, classname,
+            {
             "round__container--active": isActive,
             "round__container--showed": showed,
             "round__container--disabled": disabled
@@ -38,7 +41,7 @@ const RoundButton = props => {
     const onButtonClick = () => {
         const { onClick } = props;
 
-        setIsActive(true);
+        setIsActive(canBeActive);
         onClick && onClick(true);
     };
 
@@ -56,10 +59,13 @@ const RoundButton = props => {
 RoundButton.defaultProps = {
     direction: ButtonDirectionEnum.left,
     showed: true,
+    canBeActive: true,
     disabled: false
 }
 
 RoundButton.propTypes = {
+    canBeActive: PropTypes.bool,
+    classname: PropTypes.string,
     onClick: PropTypes.func,
     disabled: PropTypes.bool,
     showed: PropTypes.bool,

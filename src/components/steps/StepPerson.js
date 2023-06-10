@@ -1,26 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {observer} from "mobx-react-lite";
-import Input, {InputType} from "../../common/Input";
-import {ButtonDirection} from "../../common/buttons/RoundButton";
-import Checkbox from "../../common/Checkbox/Checkbox";
-import {useValidation} from "../../../hooks/useValidation";
-import {isNull, isValid} from "../../../helpers/checkIsHelper";
-import GenderEnum from "../../../enums/GenderEnum";
-import Autocomplete from "../../common/Autocomplete/Autocomplete";
-import profResource from "../../../resources/profResource";
+import Input, {InputType} from "../common/Input";
+import {ButtonDirection} from "../common/buttons/RoundButton";
+import Checkbox from "../common/Checkbox/Checkbox";
+import {useValidation} from "../../hooks/useValidation";
+import {isNull, isValid} from "../../helpers/checkIsHelper";
+import GenderEnum from "../../enums/GenderEnum";
+import Autocomplete from "../common/Autocomplete/Autocomplete";
+import profResource from "../../resources/profResource";
 import CommonStep from "./CommonStep";
-import LifeStyleEnum from "../../../enums/LifeStyleEnum";
+import GoalEnum from "../../enums/GoalEnum";
 
-const Step3 = observer(props => {
+const StepPerson = observer(props => {
     const {
         data,
+        isEdit,
         updateData
     } = props;
     const {
         gender,
         profession,
-        lifestyle,
+        goal,
         name,
         weight,
         height,
@@ -39,13 +40,13 @@ const Step3 = observer(props => {
         weight,
         height,
         age,
-        lifestyle: !isNull(lifestyle),
+        goal: !isNull(goal),
         isProfessionValid,
         isNameValid,
         isWeightValid,
         isHeightValid,
         isAgeValid
-    }), [gender, name, weight, height, age, lifestyle, profession]);
+    }), [gender, name, weight, height, age, goal, profession]);
 
     const onSet = (value, field, validation) => {
         validation && validation(value);
@@ -87,30 +88,30 @@ const Step3 = observer(props => {
         </div>;
     };
 
-    const renderLifestyle = () => {
+    const rendergoal = () => {
         return <React.Fragment>
-            Ваш образ жизни<br />
+            Ваша цель<br />
             <div className="step__row">
                 <Checkbox
-                    value={lifestyle === LifeStyleEnum.sitting}
+                    value={goal === GoalEnum.weightLoss}
                     classname="step__checkbox"
-                    onChange={() => updateData({ lifestyle: LifeStyleEnum.sitting })}
+                    onChange={() => updateData({ goal: GoalEnum.weightLoss })}
                 >
-                    <span className="green">Сидячий</span>
+                    <span className="green">Сбросить</span>
                 </Checkbox>
                 <Checkbox
-                    value={lifestyle === LifeStyleEnum.active}
+                    value={goal === GoalEnum.keep}
                     classname="step__checkbox"
-                    onChange={() => updateData({ lifestyle: LifeStyleEnum.active })}
+                    onChange={() => updateData({ goal: GoalEnum.keep })}
                 >
-                    <span className="green">Активный</span>
+                    <span className="green">Поддерживать</span>
                 </Checkbox>
                 <Checkbox
-                    value={lifestyle === LifeStyleEnum.training}
+                    value={goal === GoalEnum.training}
                     classname="step__checkbox"
-                    onChange={() => updateData({ lifestyle: LifeStyleEnum.training })}
+                    onChange={() => updateData({ goal: GoalEnum.training })}
                 >
-                    <span className="green">С тренировками</span>
+                    <span className="green">Тренироваться</span>
                 </Checkbox>
             </div><br />
         </React.Fragment>;
@@ -143,9 +144,11 @@ const Step3 = observer(props => {
         direction={ButtonDirection.bottomLeft}
     >
         <div className="orange__title">О вашем персонаже</div>
-        Мы спрашиваем ваш рост, вес, возраст, кол-во тренировок и профессию, чтобы понимать,
-        сколько калорий вам нужно потреблять в день, какие пищевые группы вам следует увеличить или
-        уменьшить в рационе, и какой тип питания будет наиболее эффективным для вас.<br /><br />
+        {!isEdit && <React.Fragment>
+            Мы спрашиваем ваш рост, вес, возраст, цель и профессию, чтобы понимать,
+            сколько калорий вам нужно потреблять в день, какие пищевые группы вам следует увеличить или
+            уменьшить в рационе, и какой тип питания будет наиболее эффективным для вас.<br /><br />
+        </React.Fragment>}
         <Input
             value={name}
             label={"Имя"}
@@ -163,11 +166,13 @@ const Step3 = observer(props => {
             message={!isProfessionValid ? `Введите корректное название профессии` : ``}
             onSelect={selected => onSet(selected, `profession`, validateProfession)}
         />
-        {renderLifestyle()}
+        {rendergoal()}
     </CommonStep>
 });
 
-Step3.propTypes = {
+StepPerson.propTypes = {
+    isEdit: PropTypes.bool,
+    classname: PropTypes.string,
     isLast: PropTypes.bool,
     index: PropTypes.number,
     data: PropTypes.object,
@@ -176,4 +181,4 @@ Step3.propTypes = {
     pushStep: PropTypes.func
 };
 
-export default Step3;
+export default StepPerson;

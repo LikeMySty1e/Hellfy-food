@@ -1,22 +1,27 @@
 import httpClientHelper from '../http/httpClientHelper';
 
 const foodUrlPart = `/food-service`;
+const accountUrlPart = `/account-service`;
 
 export const loginUser = ({ login, password }) => {
-    return httpClientHelper.post(`/account-service/authorization`, { login, password });
-}
+    return httpClientHelper.post(`${accountUrlPart}/authorization`, { login, password });
+};
 
 export const registrateUser = (body = {}) => {
-    return httpClientHelper.post(`/account-service/registration`, { ...body });
-}
+    return httpClientHelper.post(`${accountUrlPart}/registration`, { ...body });
+};
+
+export const getUserInfo = () => {
+    return httpClientHelper.get(`${accountUrlPart}/person-info`);
+};
 
 export const ping = () => {
     return httpClientHelper.get(`/ping`);
-}
+};
 
 export const getIngredients = () => {
     return httpClientHelper.get(`${foodUrlPart}/ingredients`);
-}
+};
 
 // export const getFoodPlan = (token) => {
 //     return httpClientHelper.get(`/food/plan`, token);

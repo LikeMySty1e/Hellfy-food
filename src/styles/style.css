@@ -34,4 +34,6 @@ body::-webkit-scrollbar {
     --xxl: 1495px;
 
     font-family: 'MuseoModerno', cursive;
+    scale: 0.8;
+    transform-origin: top;
 }

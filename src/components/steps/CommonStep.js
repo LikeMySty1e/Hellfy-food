@@ -2,24 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {observer} from "mobx-react-lite";
 import cn from "classnames";
-import Input, {InputType} from "../../common/Input";
-import RoundButton, {ButtonDirection} from "../../common/buttons/RoundButton";
-import Checkbox from "../../common/Checkbox/Checkbox";
-import {useValidation} from "../../../hooks/useValidation";
-import {isNull, isValid} from "../../../helpers/checkIsHelper";
-import GenderEnum from "../../../enums/GenderEnum";
-import Autocomplete from "../../common/Autocomplete/Autocomplete";
-import profResource from "../../../resources/profResource";
+import RoundButton, {ButtonDirection} from "../common/buttons/RoundButton";
 
 const CommonStep = observer(props => {
     const {
         isLast,
+        classname,
         index,
         direction,
         arrowDirection,
         hide,
         stepFilled,
         children,
+        onClick,
         currentStep,
         pushStep
     } = props;
@@ -33,9 +28,13 @@ const CommonStep = observer(props => {
 
     const goNext = () => pushStep(index + 1);
 
-    return <div ref={stepRef} className={cn("step__card", { ["step__card--hide"]: hide })}>
+    const onStepClick = () => {
+        onClick && onClick(index);
+    };
+
+    return <div onClick={onStepClick} ref={stepRef} className={cn("step__card", classname, { ["step__card--hide"]: hide })}>
         {children}
-        {!isLast && <RoundButton
+        {!isLast && !!pushStep && <RoundButton
             onClick={goNext}
             disabled={!stepFilled || currentStep > index}
             direction={direction}
@@ -50,6 +49,7 @@ CommonStep.defaultProps = {
 };
 
 CommonStep.propTypes = {
+    classname: PropTypes.string,
     isLast: PropTypes.bool,
     index: PropTypes.number,
     direction: PropTypes.oneOf(ButtonDirection),

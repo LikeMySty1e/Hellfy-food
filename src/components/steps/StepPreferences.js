@@ -1,23 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {observer} from "mobx-react-lite";
-import Checkbox from "../../common/Checkbox/Checkbox";
-import Autocomplete from "../../common/Autocomplete/Autocomplete";
-import {ButtonDirection} from "../../common/buttons/RoundButton";
-import {Context} from "../../../index";
+import Checkbox from "../common/Checkbox/Checkbox";
+import Autocomplete from "../common/Autocomplete/Autocomplete";
+import {ButtonDirection} from "../common/buttons/RoundButton";
+import {Context} from "../../index";
 import CommonStep from "./CommonStep";
-import Tag from "../../common/Tag";
+import Tag from "../common/Tag";
 
-const Step4 = observer(props => {
+const StepPreferences = observer(props => {
     const {main} = React.useContext(Context);
     const {
         data,
+        isEdit,
         updateData
     } = props;
     const {
         favouriteIngredients,
         unfavouredIngredients,
-        blackListIngredients,
+        blacklistIngredients,
         isDigestive,
         isAllergic
     } = data;
@@ -35,10 +36,10 @@ const Step4 = observer(props => {
     }, [unfavouredIngredients, main.ingredients]);
 
     const availableBlackList = React.useMemo(() => {
-        const selectedValues = blackListIngredients.map(item => item.value);
+        const selectedValues = blacklistIngredients.map(item => item.value);
 
         return main.ingredients.filter(item => !selectedValues.includes(item.value)) || [];
-    }, [blackListIngredients, main.ingredients]);
+    }, [blacklistIngredients, main.ingredients]);
 
     const onFavouriteTagClick = value => {
         updateData({ favouriteIngredients: favouriteIngredients.filter(item => item.value !== value) });
@@ -49,7 +50,7 @@ const Step4 = observer(props => {
     };
 
     const onBlackListTagClick = value => {
-        updateData({ blackListIngredients: blackListIngredients.filter(item => item.value !== value) });
+        updateData({ blacklistIngredients: blacklistIngredients.filter(item => item.value !== value) });
     };
 
     return <CommonStep
@@ -59,8 +60,10 @@ const Step4 = observer(props => {
         arrowDirection={ButtonDirection.right}
     >
         <div className="orange__title">Предпочтения в еде</div>
-        Знание ваших предпочтений в еде помогает создать индивидуальный план питания,
-        который соответствует вашему вкусу. <br/><br />
+        {!isEdit && <React.Fragment>
+            Знание ваших предпочтений в еде помогает создать индивидуальный план питания,
+            который соответствует вашему вкусу. <br/><br />
+        </React.Fragment>}
         <Autocomplete
             clearAfterSelect
             placeholder={`Любимые продукты`}
@@ -79,42 +82,48 @@ const Step4 = observer(props => {
         <div className="tag__group">
             {unfavouredIngredients.map(item => <Tag {...item} onClick={onUnfavouredTagClick} />)}
         </div><br />
-        У вас есть...<br />
-        <div className="step__row">
-            <Checkbox
-                value={isDigestive}
-                classname="step__checkbox"
-                onChange={value => updateData({ isDigestive: value })}
-            >
-                <span className="green">Проблемы с пищеварением</span>
-            </Checkbox>
-            <Checkbox
-                value={isAllergic}
-                classname="step__checkbox"
-                onChange={value => updateData({ isAllergic: value })}
-            >
-                <span className="green">Аллергия</span>
-            </Checkbox>
-        </div><br />
+        {!isEdit && <React.Fragment>
+            У вас есть...<br />
+            <div className="step__row">
+                <Checkbox
+                    value={isDigestive}
+                    classname="step__checkbox"
+                    onChange={value => updateData({isDigestive: value})}
+                >
+                    <span className="green">Проблемы с пищеварением</span>
+                </Checkbox>
+                <Checkbox
+                    value={isAllergic}
+                    classname="step__checkbox"
+                    onChange={value => updateData({isAllergic: value})}
+                >
+                    <span className="green">Аллергия</span>
+                </Checkbox>
+            </div><br />
+        </React.Fragment>}
         {(isAllergic || isDigestive) && <React.Fragment>
-            Блюда с продуктами из черного списка никогда не появятся в Вашем плане питания.<br /><br />
+            {!isEdit && <React.Fragment>
+                Блюда с продуктами из черного списка никогда не появятся в Вашем плане питания.<br /><br />
+            </React.Fragment>}
             <Autocomplete
                 clearAfterSelect
                 placeholder={`Черный список`}
                 data={availableBlackList}
-                onSelect={selectedItem => updateData({blackListIngredients: [...blackListIngredients, selectedItem]})}
+                onSelect={selectedItem => updateData({blacklistIngredients: [...blacklistIngredients, selectedItem]})}
             />
             <div className="tag__group">
-                {blackListIngredients.map(item => <Tag {...item} onClick={onBlackListTagClick} />)}
+                {blacklistIngredients.map(item => <Tag {...item} onClick={onBlackListTagClick} />)}
             </div><br />
         </React.Fragment>}
     </CommonStep>
 });
 
-Step4.propTypes = {
+StepPreferences.propTypes = {
+    classname: PropTypes.string,
+    isEdit: PropTypes.bool,
     isLast: PropTypes.bool,
     updateData: PropTypes.func.isRequired,
     data: PropTypes.object
 };
 
-export default Step4;
+export default StepPreferences;
