@@ -1,4 +1,4 @@
-import {makeAutoObservable, reaction, runInAction} from 'mobx';
+import {makeAutoObservable, runInAction} from 'mobx';
 import localStorageHelper from "../helpers/localStorageHelper";
 import UserModel from "../models/UserModel";
 import DateHelper from "../helpers/dateHelper";
@@ -15,7 +15,6 @@ export default class MainStore {
     activeTab = null;
     isSnacksDisabled = true;
 
-    recipesCache = [];
     ingredients = [];
     food = [];
 
@@ -25,7 +24,7 @@ export default class MainStore {
     pendingState = {
         auth: true,
         userInfo: false,
-        plan: true,
+        plan: false,
         ingredients: true,
     };
 
@@ -56,26 +55,21 @@ export default class MainStore {
         this.setToken(localToken);
 
         this.loadUserInfo();
-
-        reaction(() => this.isAuth, () => {
-            this.loadPlan();
-            this.loadUserInfo();
-        });
     }
 
     loadPlan = async () => {
-        if (!this.isAuth) {
+        if (!this.isAuth || this.pendingState.plan) {
             return;
         }
+
+        console.trace()
 
         this.setLoading(`plan`, true);
 
         try {
             const food = await getFoodPlan(this.token);
 
-            runInAction(() => {
-                this.food = mapPlan(food);
-            });
+            this.food = mapPlan(food);
 
             // if (ok) {
                 // this.ingredients = result;

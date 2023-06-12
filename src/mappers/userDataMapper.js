@@ -58,7 +58,7 @@ export const mapUserModelToSave = model => {
             profession: model.profession?.text || ``,
             favouriteIngredients: model.favouriteIngredients.map(ingredient => ingredient.value),
             unfavouredIngredients: model.unfavouredIngredients.map(ingredient => ingredient.value),
-            blackListIngredients: model.blackListIngredients.map(ingredient => ingredient.value)
+            blackListIngredients: model.blacklistIngredients.map(ingredient => ingredient.value)
         }
     };
 }

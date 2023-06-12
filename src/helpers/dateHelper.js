@@ -8,7 +8,9 @@ export default {
             return DaysEnum.monday;
         }
 
-        return Object.values(DaysEnum)[dayOfWeek] || DaysEnum.monday;
+        const dayOfWeekRu = dayOfWeek - 1 || 7 // У миликанесов неделя начинается с воскресенья
+
+        return Object.values(DaysEnum)[dayOfWeekRu] || DaysEnum.monday;
     }
 };
 

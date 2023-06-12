@@ -5,6 +5,7 @@ import FoodCard from "../FoodCard/FoodCard";
 import Ingredient from "./components/Ingredient/Ingredient";
 import Container from "../common/Container/Container";
 import './style.css';
+import {Spinner} from "react-bootstrap";
 
 let timeoutIndex;
 let scrollTimeoutIndex;
@@ -84,6 +85,12 @@ const FoodMarket = observer(() => {
             </div>}
         </div>
     };
+
+    if (main.pendingState.plan) {
+        return <Container isFlex style={{ minHeight: `80vh` }}>
+            <Spinner className="my__loader" animation="border" variant="secondary" />
+        </Container>;
+    }
 
     return <Container>
         {renderFoods()}

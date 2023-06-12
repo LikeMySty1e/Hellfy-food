@@ -11,7 +11,7 @@ const Main = observer(() => {
     const {main} = useContext(Context);
 
     return <React.Fragment>
-        <Container isFlex>
+        {!main.pendingState.plan && <Container isFlex>
             <Week />
             <div className="snacks">
                 Полдник
@@ -21,7 +21,7 @@ const Main = observer(() => {
                     color={Color.green}
                 />
             </div>
-        </Container>
+        </Container>}
         {!main.pendingState.ingredients && <FoodMarket />}
     </React.Fragment>;
 });

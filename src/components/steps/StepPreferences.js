@@ -23,6 +23,10 @@ const StepPreferences = observer(props => {
         isAllergic
     } = data;
 
+    const showBlackList = React.useMemo(() => {
+        return isEdit || isDigestive || isAllergic;
+    }, [isEdit, isDigestive, isAllergic]);
+
     const availableFavourites = React.useMemo(() => {
         const selectedValues = favouriteIngredients.map(item => item.value);
 
@@ -41,16 +45,12 @@ const StepPreferences = observer(props => {
         return main.ingredients.filter(item => !selectedValues.includes(item.value)) || [];
     }, [blacklistIngredients, main.ingredients]);
 
-    const onFavouriteTagClick = value => {
-        updateData({ favouriteIngredients: favouriteIngredients.filter(item => item.value !== value) });
-    };
+    const onTagClick = (value, field) => {
+        if (!value || !data.hasOwnProperty(field)) {
+            return;
+        }
 
-    const onUnfavouredTagClick = value => {
-        updateData({ unfavouredIngredients: unfavouredIngredients.filter(item => item.value !== value) });
-    };
-
-    const onBlackListTagClick = value => {
-        updateData({ blacklistIngredients: blacklistIngredients.filter(item => item.value !== value) });
+        updateData({ [field]: data[field].filter(item => item?.value !== value) });
     };
 
     return <CommonStep
@@ -71,7 +71,7 @@ const StepPreferences = observer(props => {
             onSelect={selectedItem => updateData({ favouriteIngredients: [...favouriteIngredients, selectedItem] })}
         />
         <div className="tag__group">
-            {favouriteIngredients.map(item => <Tag {...item} onClick={onFavouriteTagClick} />)}
+            {favouriteIngredients.map(item => <Tag {...item} onClick={value => onTagClick(value, `favouriteIngredients`)} />)}
         </div><br />
         <Autocomplete
             clearAfterSelect
@@ -80,7 +80,7 @@ const StepPreferences = observer(props => {
             onSelect={selectedItem => updateData({ unfavouredIngredients: [...unfavouredIngredients, selectedItem] })}
         />
         <div className="tag__group">
-            {unfavouredIngredients.map(item => <Tag {...item} onClick={onUnfavouredTagClick} />)}
+            {unfavouredIngredients.map(item => <Tag {...item} onClick={value => onTagClick(value, `unfavouredIngredients`)} />)}
         </div><br />
         {!isEdit && <React.Fragment>
             У вас есть...<br />
@@ -101,7 +101,7 @@ const StepPreferences = observer(props => {
                 </Checkbox>
             </div><br />
         </React.Fragment>}
-        {(isAllergic || isDigestive) && <React.Fragment>
+        {showBlackList && <React.Fragment>
             {!isEdit && <React.Fragment>
                 Блюда с продуктами из черного списка никогда не появятся в Вашем плане питания.<br /><br />
             </React.Fragment>}
@@ -112,7 +112,7 @@ const StepPreferences = observer(props => {
                 onSelect={selectedItem => updateData({blacklistIngredients: [...blacklistIngredients, selectedItem]})}
             />
             <div className="tag__group">
-                {blacklistIngredients.map(item => <Tag {...item} onClick={onBlackListTagClick} />)}
+                {blacklistIngredients.map(item => <Tag {...item} onClick={value => onTagClick(value, `blacklistIngredients`)} />)}
             </div><br />
         </React.Fragment>}
     </CommonStep>
