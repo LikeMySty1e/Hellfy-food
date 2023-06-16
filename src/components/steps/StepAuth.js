@@ -39,7 +39,7 @@ const StepAuth = props => {
         {...props}
         stepFilled={stepFilled}
         direction={ButtonDirection.bottomRight}
-        arrowDirection={ButtonDirection.right}
+        iconDirection={ButtonDirection.right}
     >
         <div className="green__title">Данные авторизации</div>
         <Input

@@ -4,11 +4,13 @@ import Checkbox from "../common/Checkbox/Checkbox";
 import {isNull} from "../../helpers/checkIsHelper";
 import { ButtonDirection } from "../common/buttons/RoundButton";
 import CommonStep from "./CommonStep";
+import { ReactComponent as ExtraIcon } from "../../icons/common/extra.m.svg";
 import './style.m.scss';
 
 const StepIntro = props => {
     const {
         updateData,
+        showIcon,
         isEdit,
         data = {},
     } = props;
@@ -30,9 +32,10 @@ const StepIntro = props => {
 
     return <CommonStep
         {...props}
+        Icon={(isEdit && showIcon) ? ExtraIcon : null}
         stepFilled={stepFilled}
         direction={ButtonDirection.bottomLeft}
-        arrowDirection={ButtonDirection.bottomLeft}
+        iconDirection={ButtonDirection.bottomLeft}
     >
         <div className="orange__title">{isEdit ? `Дополнительная информация` : `Мастер регистрации`}</div>
         {!isEdit && <React.Fragment>

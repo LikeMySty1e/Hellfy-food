@@ -41,7 +41,7 @@
 }
 
 .user__edit {
-  margin-left: 5%;
+  margin-left: 10%;
   width: 45%;
   position: relative;
 }
@@ -87,4 +87,15 @@
 
 .edit__swipe {
   left: 140px;
+}
+
+.edit__save {
+  opacity: 0;
+  left: 140px;
+  top: 100px;
+  transition: all linear 350ms;
+}
+
+.edit__save--showed {
+  opacity: 1;
 }

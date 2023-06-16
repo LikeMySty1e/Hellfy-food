@@ -7,11 +7,13 @@ import {ButtonDirection} from "../common/buttons/RoundButton";
 import {Context} from "../../index";
 import CommonStep from "./CommonStep";
 import Tag from "../common/Tag";
+import { ReactComponent as CookieIcon } from "../../icons/common/cookie.m.svg";
 
 const StepPreferences = observer(props => {
     const {main} = React.useContext(Context);
     const {
         data,
+        showIcon,
         isEdit,
         updateData
     } = props;
@@ -56,8 +58,9 @@ const StepPreferences = observer(props => {
     return <CommonStep
         {...props}
         stepFilled
+        Icon={(isEdit && showIcon) ? CookieIcon: null}
         direction={ButtonDirection.bottomRight}
-        arrowDirection={ButtonDirection.right}
+        iconDirection={ButtonDirection.right}
     >
         <div className="orange__title">Предпочтения в еде</div>
         {!isEdit && <React.Fragment>

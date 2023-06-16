@@ -15,6 +15,10 @@ export const getUserInfo = () => {
     return httpClientHelper.get(`${accountUrlPart}/person-info`);
 };
 
+export const editUserInfo = (body = {}) => {
+    return httpClientHelper.put(`${accountUrlPart}/person-info`, { ...body });
+};
+
 export const ping = () => {
     return httpClientHelper.get(`/ping`);
 };

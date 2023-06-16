@@ -1,0 +1,53 @@
+@keyframes zapping {
+  0% {
+    transform: translateY(0);
+  }
+
+  30% {
+    transform: translateY(0);
+  }
+
+  40% {
+    transform: translateY(20px);
+  }
+
+  50% {
+    transform: translateY(0);
+  }
+
+  60% {
+    transform: translateY(20px);
+  }
+
+  70% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.my__error__bubble {
+  opacity: 0;
+  position: absolute;
+  top: 100vh;
+  left: calc(100vw + 200px);
+  width: border-box;
+  white-space: nowrap;
+  padding: 20px 40px;
+  border-radius: 12px;
+  background-color: var(--red);
+  box-shadow: 4px 4px 8px -1px var(--red);
+  color: var(--white);
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all linear 350ms;
+}
+
+.my__error__bubble--showed {
+  animation: zapping 2.5s infinite;
+  opacity: 1;
+  translate: calc(-100% - 100px);
+}

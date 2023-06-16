@@ -11,6 +11,11 @@
     z-index: 100;
 }
 
+.my__loader--mini {
+    @extend .my__loader;
+    scale: 1.5;
+}
+
 .card {
     display: flex;
     flex-direction: column;

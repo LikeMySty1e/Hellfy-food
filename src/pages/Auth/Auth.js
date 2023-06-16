@@ -109,7 +109,6 @@ const Auth = observer(() => {
                 value={password}
                 type={InputType.password}
                 onChange={value => setPassword(value)}
-                disabled={!!main.validationState.auth}
                 classname="registration__input"
                 label={"Пароль"}
                 icons={[
@@ -120,7 +119,7 @@ const Auth = observer(() => {
                 ]}
             />
             <Button
-                disabled={!login || !password}
+                disabled={!login || !password || !!main.validationState.auth}
                 color={Color.green}
                 classname="registration__button"
                 onClick={onLoginClick}

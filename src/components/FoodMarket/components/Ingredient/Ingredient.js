@@ -5,7 +5,7 @@ import './style.css';
 const Ingredient = props => {
     const { ingredient } = props;
 
-    const [ name, value ] = React.useMemo(() => ingredient.split(`-`), [ingredient]);
+    const [name, value] = React.useMemo(() => ingredient.split(`-`), [ingredient]);
 
     return <div className="ingredient">
         <div className="ingredient__name">{name}</div>

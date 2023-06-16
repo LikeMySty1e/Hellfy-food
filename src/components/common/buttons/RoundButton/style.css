@@ -44,6 +44,12 @@
     right: -50px;
 }
 
+.loader__container {
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
 .round__container {
     position: relative;
     width: 80px;
@@ -90,10 +96,12 @@
     left: 22px;
     font-size: 40px;
     color: var(--orange);
+    fill: var(--orange);
     transition: all linear 350ms;
 }
 
-.round__button:hover:not(.round__button--active) {
+.round__button:hover:not(.round__button--active),
+.round__button--hover:not(.round__button--active) {
     color: var(--white);
 }
 
@@ -102,13 +110,29 @@
 }
 
 .round__button:disabled:not(.round__button--active),
-.round__button:hover:not(.round__button--active) {
+.round__button:disabled:hover:not(.round__button--active) {
     color: var(--grey);
 }
 
 .round__button:disabled,
 .round__button:hover {
     color: var(--green);
+}
+
+.round__icon {
+    margin-bottom: 10px;
+    width: 35px;
+    height: 35px;
+    fill: var(--orange);
+}
+
+.round__icon:hover:not(.round__icon--active),
+.round__icon--hover:not(.round__icon--active) {
+    fill: var(--white);
+}
+
+.round__icon--active {
+    fill: var(--green);
 }
 
 .round__button--top {
@@ -141,4 +165,9 @@
 
 .round__button--bottomRight {
     transform: rotate(135deg);
+}
+
+.round__loader {
+    top: 25% !important;
+    left: 25% !important;
 }

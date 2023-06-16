@@ -123,3 +123,10 @@
     top: 20px;
     left: 20px;
 }
+
+.food__like {
+    position: absolute;
+    bottom: 20px;
+    left: calc(50% - 20px);
+    fill: var(--red);
+}

@@ -6,6 +6,8 @@ import {Context} from "../../index";
 import BrunchImagesEnum from "../../enums/BrunchImagesEnum";
 // import {formatTime} from "../../helpers/timeFormatHelper";
 import Check from "../common/Check/Check";
+import {ReactComponent as CheckIcon} from "../../icons/common/check.m.svg";
+import {ReactComponent as LikeIcon} from "../../icons/common/like.m.svg";
 import './style.css';
 
 const FoodCard = observer(props => {
@@ -13,6 +15,7 @@ const FoodCard = observer(props => {
         mealtime,
         mealtimeFood,
         checked,
+        liked,
         isFadeout,
         onClick
     } = props;
@@ -34,7 +37,13 @@ const FoodCard = observer(props => {
         onMouseLeave={() => setIsHover(false)}
         className={cn("food__container", { ["food__container--fadeout"]: isFadeout } )}
     >
-        <Check value={checked} isHover={isHover} onClick={checkoutFood} classname={"food__check"} />
+        <Check
+            value={checked}
+            isHover={isHover}
+            onClick={checkoutFood}
+            classname={"food__check"}
+            CheckIcon={CheckIcon}
+        />
         <div className={`food__icon food__icon--${mealtime}`}>
             <img src={`./images/${mealtime}.png`} alt='Завтрак'/>
         </div>
@@ -47,6 +56,13 @@ const FoodCard = observer(props => {
             {averagePrice && <div className="food__price">~{averagePrice} руб.</div>}
             {/*<div className="food__time">{parsedAvTime}</div>*/}
         </div>
+        <Check
+            value={liked}
+            isHover={isHover}
+            onClick={checkoutFood}
+            classname={"food__like"}
+            CheckIcon={LikeIcon}
+        />
         </div>;
 });
 

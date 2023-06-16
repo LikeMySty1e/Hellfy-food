@@ -2,11 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from "classnames";
 import SvgIcon from "../SvgIcon/SvgIcon";
-import { ReactComponent as CheckIcon } from "../../../icons/common/check.m.svg";
 import './style.css';
 
 const Check = props => {
-    const { value, classname, onClick, isHover } = props;
+    const { value, classname, CheckIcon, onClick, isHover } = props;
     const [checked, setChecked] = React.useState(value);
 
     React.useEffect(() => setChecked(value), [value]);
@@ -17,6 +16,10 @@ const Check = props => {
 
         e.stopPropagation();
     };
+
+    if (!CheckIcon) {
+        return null;
+    }
 
     return <div onClick={checkout}>
         <SvgIcon Icon={CheckIcon} classname={cn("check", classname, { ["check--visible"]: checked || isHover })} />

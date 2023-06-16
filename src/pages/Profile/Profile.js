@@ -13,7 +13,7 @@ const Profile = observer(() => {
 
     const renderLeftPart = () => {
         return <section className="profile__section">
-            <div className={"user"}>
+            <div className="user">
                 <div className="user__info">
                     <div className="user__avatar--overlay" onClick={() => inputFileRef.current.click()}>
                         <img src={`./images/fish.m.svg`} className="user__avatar" alt="Аватар" />
@@ -21,12 +21,12 @@ const Profile = observer(() => {
                     {/*<div className="user__data" style={{ width: `300px` }}>*/}
                     {/*    <div>E-mail: {main.userModel.email}</div>*/}
                     {/*</div>*/}
-                    <Button
-                        classname="user__button"
-                        color={Color.green}
-                    >
-                        Изменить данные для входа
-                    </Button>
+                    {/*<Button*/}
+                    {/*    classname="user__button"*/}
+                    {/*    color={Color.green}*/}
+                    {/*>*/}
+                    {/*    Изменить данные для входа*/}
+                    {/*</Button>*/}
                     <Button
                         classname="user__button"
                         onClick={main.unauthorise}

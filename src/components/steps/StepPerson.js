@@ -8,6 +8,7 @@ import {useValidation} from "../../hooks/useValidation";
 import {isNull, isValid} from "../../helpers/checkIsHelper";
 import GenderEnum from "../../enums/GenderEnum";
 import Autocomplete from "../common/Autocomplete/Autocomplete";
+import {ReactComponent as PersonIcon} from "../../icons/common/person.m.svg";
 import profResource from "../../resources/profResource";
 import CommonStep from "./CommonStep";
 import GoalEnum from "../../enums/GoalEnum";
@@ -16,6 +17,7 @@ const StepPerson = observer(props => {
     const {
         data,
         isEdit,
+        showIcon,
         updateData
     } = props;
     const {
@@ -140,6 +142,7 @@ const StepPerson = observer(props => {
 
     return <CommonStep
         {...props}
+        Icon={(isEdit && showIcon) ? PersonIcon : null}
         stepFilled={stepFilled}
         direction={ButtonDirection.bottomLeft}
     >

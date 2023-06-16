@@ -4,11 +4,27 @@ import UserModel from "../models/UserModel";
 import DateHelper from "../helpers/dateHelper";
 import DaysEnum from "../enums/DaysEnum";
 import BrunchEnum from "../enums/BrunchEnum";
-import {mapBackendUserModel, mapIngredients, mapPlan, mapUserModelToSave} from '../mappers/userDataMapper';
-import {getIngredients, getFoodPlan, loginUser, registrateUser, getUserInfo} from "../services/userDataService";
+import {
+    mapBackendUserModel,
+    mapIngredients,
+    mapPlan,
+    mapUserModelToEdit,
+    mapUserModelToSave
+} from '../mappers/userDataMapper';
+import {
+    getIngredients,
+    getFoodPlan,
+    loginUser,
+    registrateUser,
+    getUserInfo,
+    editUserInfo
+} from "../services/userDataService";
+
+let errorTimeout;
 
 export default class MainStore {
     userModel = { ...UserModel };
+    error = ``;
     _isAuth = false;
     token = null;
     day = DateHelper.getDayOfWeek();
@@ -24,6 +40,7 @@ export default class MainStore {
     pendingState = {
         auth: true,
         userInfo: false,
+        editUserInfo: false,
         plan: false,
         ingredients: true,
     };
@@ -61,8 +78,6 @@ export default class MainStore {
         if (!this.isAuth || this.pendingState.plan) {
             return;
         }
-
-        console.trace()
 
         this.setLoading(`plan`, true);
 
@@ -102,6 +117,27 @@ export default class MainStore {
             console.error(e.message);
         } finally {
             this.setLoading(`userInfo`, false);
+        }
+    }
+
+    editUserInfo = async (userData = {}) => {
+        this.setLoading(`editUserInfo`, true);
+
+        try {
+            const { ok, description } = await editUserInfo({ ...mapUserModelToEdit(userData)});
+
+            if (!ok) {
+                this.showError(description);
+
+                return false;
+            }
+
+            this.setUserModel(userData);
+            return !!ok;
+        } catch (e) {
+            console.error(e.message);
+        } finally {
+            this.setLoading(`editUserInfo`, false);
         }
     }
 
@@ -157,7 +193,7 @@ export default class MainStore {
             const { ok, description } = await registrateUser(userModel);
 
             if (!ok) {
-                this.setValidationError(`auth`, description);
+                this.showError(description);
 
                 return false;
             }
@@ -259,6 +295,16 @@ export default class MainStore {
 
         this.clear();
         localStorageHelper.deleteLocalToken();
+    }
+
+    showError = (message = ``) => {
+        clearTimeout(errorTimeout);
+
+        this.error = message;
+
+        errorTimeout = setTimeout(() => {
+            this.error = ``;
+        }, 5000);
     }
 
     // COMPUTED //

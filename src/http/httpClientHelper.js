@@ -1,5 +1,6 @@
 import axios from "axios";
 import localStorageHelper from "../helpers/localStorageHelper";
+import {AUTH_ROUTE} from "../resources/consts";
 
 const $host = axios.create({
     baseURL: process.env.REACT_APP_API_ENDPOINT
@@ -18,6 +19,11 @@ const getConfig = () => {
 const handleRequest = async (request, useConfig) => {
     const response = await request(useConfig ? getConfig() : {});
 
+    if (response.status === 401 && !window.location.toString().includes(AUTH_ROUTE)) {
+        localStorageHelper.deleteLocalToken();
+        window.location.replace(AUTH_ROUTE);
+    }
+
     return response;
 }
 
@@ -31,6 +37,13 @@ const httpClientHelper = {
 
     async get(url, useConfig = true) {
         const request = (config = {}) => $host.get(url, config);
+        const response = await handleRequest(request, useConfig);
+
+        return response.data || {};
+    },
+
+    async put(url, data, useConfig = true) {
+        const request = (config = {}) => $host.put(url, { ...data }, config);
         const response = await handleRequest(request, useConfig);
 
         return response.data || {};

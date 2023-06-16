@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 import {observer} from "mobx-react-lite";
 import cn from "classnames";
 import RoundButton, {ButtonDirection} from "../common/buttons/RoundButton";
+import SvgIcon from "../common/SvgIcon/SvgIcon";
 
 const CommonStep = observer(props => {
     const {
         isLast,
+        Icon,
         classname,
         index,
         direction,
-        arrowDirection,
+        iconDirection,
         hide,
         stepFilled,
         children,
@@ -18,6 +20,7 @@ const CommonStep = observer(props => {
         currentStep,
         pushStep
     } = props;
+    const [isHover, setIsHover] = React.useState(false);
     const stepRef = React.useRef(null);
 
     React.useEffect(() => {
@@ -32,20 +35,27 @@ const CommonStep = observer(props => {
         onClick && onClick(index);
     };
 
-    return <div onClick={onStepClick} ref={stepRef} className={cn("step__card", classname, { ["step__card--hide"]: hide })}>
+    return <div
+        onClick={onStepClick}
+        onMouseEnter={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
+        ref={stepRef}
+        className={cn("step__card", classname, { ["step__card--hide"]: hide })}
+    >
+        {Icon && <SvgIcon classname={cn("step__icon", { "step__icon--shown": isHover })} Icon={Icon} />}
         {children}
         {!isLast && !!pushStep && <RoundButton
             onClick={goNext}
             disabled={!stepFilled || currentStep > index}
             direction={direction}
-            arrowDirection={arrowDirection}
+            iconDirection={iconDirection}
         />}
     </div>
 });
 
 CommonStep.defaultProps = {
     direction: ButtonDirection.bottomLeft,
-    arrowDirection: ButtonDirection.left
+    iconDirection: ButtonDirection.left
 };
 
 CommonStep.propTypes = {
@@ -53,7 +63,7 @@ CommonStep.propTypes = {
     isLast: PropTypes.bool,
     index: PropTypes.number,
     direction: PropTypes.oneOf(ButtonDirection),
-    arrowDirection: PropTypes.oneOf(ButtonDirection),
+    iconDirection: PropTypes.oneOf(ButtonDirection),
     stepFilled: PropTypes.bool,
     hide: PropTypes.bool,
     pushStep: PropTypes.func
