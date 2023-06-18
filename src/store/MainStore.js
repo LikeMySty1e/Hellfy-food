@@ -17,7 +17,7 @@ import {
     loginUser,
     registrateUser,
     getUserInfo,
-    editUserInfo
+    editUserInfo, generateFoodPlan
 } from "../services/userDataService";
 
 let errorTimeout;
@@ -82,17 +82,37 @@ export default class MainStore {
         this.setLoading(`plan`, true);
 
         try {
-            const food = await getFoodPlan(this.token);
+            const { result, ok } = await getFoodPlan();
 
-            this.food = mapPlan(food);
+            if (!ok) {
+                this.generatePlan();
 
-            // if (ok) {
-                // this.ingredients = result;
-            // }
+                return;
+            }
+
+            this.food = mapPlan(result);
+            this.setLoading(`plan`, false);
         } catch (e) {
             console.error(e.message);
-        } finally {
+        }
+    }
+
+    generatePlan = async () => {
+        this.setLoading(`plan`, true);
+
+        try {
+            const { ok } = await generateFoodPlan();
+
+            if (!ok) {
+                this.showError(`Во время генерации плана питания произошла ошибка`);
+
+                return;
+            }
+
             this.setLoading(`plan`, false);
+            this.loadPlan();
+        } catch (e) {
+            console.error(e.message);
         }
     }
 
@@ -107,7 +127,9 @@ export default class MainStore {
             const { ok, result } = await getUserInfo();
 
             if (!ok) {
-                throw new Error(`Ошибка загрузки данных пользователя`);
+                this.showError(`Ошибка загрузки данных пользователя`);
+
+                return;
             }
 
             runInAction(() => {
@@ -315,6 +337,10 @@ export default class MainStore {
 
     get isAuth() {
         return this._isAuth;
+    }
+
+    get isPlanLoaded() {
+        return !!this.food.length;
     }
 
     get foodByDay() {

@@ -18,8 +18,9 @@ const getConfig = () => {
 
 const handleRequest = async (request, useConfig) => {
     const response = await request(useConfig ? getConfig() : {});
+    const isUnauthorised = (response.status === 401 || response.data?.error_code === 401);
 
-    if (response.status === 401 && !window.location.toString().includes(AUTH_ROUTE)) {
+    if (isUnauthorised && !window.location.toString().includes(AUTH_ROUTE)) {
         localStorageHelper.deleteLocalToken();
         window.location.replace(AUTH_ROUTE);
     }

@@ -29,18 +29,21 @@
 }
 
 .my__error__bubble {
+  --white: #F8F8F8;
+  --red: #FF9494;
+
   opacity: 0;
-  position: absolute;
-  top: 100vh;
-  left: calc(100vw + 200px);
+  position: fixed;
+  right: 0;
+  bottom: 50px;
   width: border-box;
   white-space: nowrap;
-  padding: 20px 40px;
+  padding: 10px 20px;
   border-radius: 12px;
   background-color: var(--red);
   box-shadow: 4px 4px 8px -1px var(--red);
   color: var(--white);
-  font-size: 22px;
+  font-size: 18px;
   cursor: pointer;
   z-index: 1000;
   transition: all linear 350ms;
@@ -49,5 +52,5 @@
 .my__error__bubble--showed {
   animation: zapping 2.5s infinite;
   opacity: 1;
-  translate: calc(-100% - 100px);
+  translate: -25%;
 }

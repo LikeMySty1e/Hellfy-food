@@ -9,6 +9,17 @@ let hideTimeout;
 const ErrorMessage = observer(() => {
     const {main} = React.useContext(Context);
     const [message, setMessage] = React.useState(``);
+    // const [style, setStyle] = React.useState({});
+    //
+    // React.useEffect(() => {
+    //     const updateStyle = () => setStyle( { top: window.scrollY + window.screen.height - 50 });
+    //
+    //     window.addEventListener(`scroll`, updateStyle);
+    //
+    //     return () => window.removeEventListener(`scroll`, updateStyle);
+    // }, []);
+    //
+    // console.log(style)
 
     React.useEffect(() => {
         clearTimeout(hideTimeout);

@@ -1,5 +1,5 @@
 export default {
-    weightLoss: 0,
-    keep: 1,
-    training: 2
+    weightLoss: `weightLoss`,
+    keep: `keep`,
+    training: `training`
 }

@@ -29,23 +29,29 @@ const StepPreferences = observer(props => {
         return isEdit || isDigestive || isAllergic;
     }, [isEdit, isDigestive, isAllergic]);
 
-    const availableFavourites = React.useMemo(() => {
-        const selectedValues = favouriteIngredients.map(item => item.value);
+    const availableIngredients = React.useMemo(() => {
+        const selectedValues = [...favouriteIngredients, ...unfavouredIngredients, ...blacklistIngredients]
+            .map(item => item.value);
 
         return main.ingredients.filter(item => !selectedValues.includes(item.value)) || [];
-    }, [favouriteIngredients, main.ingredients]);
-
-    const availableUnfavoured = React.useMemo(() => {
-        const selectedValues = unfavouredIngredients.map(item => item.value);
-
-        return main.ingredients.filter(item => !selectedValues.includes(item.value)) || [];
-    }, [unfavouredIngredients, main.ingredients]);
+    }, [unfavouredIngredients, favouriteIngredients, blacklistIngredients, main.ingredients]);
 
     const availableBlackList = React.useMemo(() => {
         const selectedValues = blacklistIngredients.map(item => item.value);
 
         return main.ingredients.filter(item => !selectedValues.includes(item.value)) || [];
     }, [blacklistIngredients, main.ingredients]);
+
+    const addToBlackList = selectedItem => {
+        const filteredFavourites = favouriteIngredients.filter(ingredient => ingredient.value !== selectedItem.value);
+        const filteredUnfavored = unfavouredIngredients.filter(ingredient => ingredient.value !== selectedItem.value);
+
+        updateData({
+            blacklistIngredients: [...blacklistIngredients, selectedItem],
+            favouriteIngredients: filteredFavourites,
+            unfavouredIngredients: filteredUnfavored
+        });
+    };
 
     const onTagClick = (value, field) => {
         if (!value || !data.hasOwnProperty(field)) {
@@ -70,7 +76,7 @@ const StepPreferences = observer(props => {
         <Autocomplete
             clearAfterSelect
             placeholder={`Любимые продукты`}
-            data={availableFavourites}
+            data={availableIngredients}
             onSelect={selectedItem => updateData({ favouriteIngredients: [...favouriteIngredients, selectedItem] })}
         />
         <div className="tag__group">
@@ -79,7 +85,7 @@ const StepPreferences = observer(props => {
         <Autocomplete
             clearAfterSelect
             placeholder={`Нелюбимые продукты`}
-            data={availableUnfavoured}
+            data={availableIngredients}
             onSelect={selectedItem => updateData({ unfavouredIngredients: [...unfavouredIngredients, selectedItem] })}
         />
         <div className="tag__group">
@@ -91,14 +97,14 @@ const StepPreferences = observer(props => {
                 <Checkbox
                     value={isDigestive}
                     classname="step__checkbox"
-                    onChange={value => updateData({isDigestive: value})}
+                    onChange={value => updateData({ isDigestive: value })}
                 >
                     <span className="green">Проблемы с пищеварением</span>
                 </Checkbox>
                 <Checkbox
                     value={isAllergic}
                     classname="step__checkbox"
-                    onChange={value => updateData({isAllergic: value})}
+                    onChange={value => updateData({ isAllergic: value })}
                 >
                     <span className="green">Аллергия</span>
                 </Checkbox>
@@ -112,7 +118,7 @@ const StepPreferences = observer(props => {
                 clearAfterSelect
                 placeholder={`Черный список`}
                 data={availableBlackList}
-                onSelect={selectedItem => updateData({blacklistIngredients: [...blacklistIngredients, selectedItem]})}
+                onSelect={addToBlackList}
             />
             <div className="tag__group">
                 {blacklistIngredients.map(item => <Tag {...item} onClick={value => onTagClick(value, `blacklistIngredients`)} />)}
