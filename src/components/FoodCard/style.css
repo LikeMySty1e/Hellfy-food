@@ -44,6 +44,10 @@
     transition: all linear 175ms;
 }
 
+.food__container:last-of-type {
+    margin-right: 0;
+}
+
 .food__container--fadeout {
     animation: fadeout 500ms;
 }

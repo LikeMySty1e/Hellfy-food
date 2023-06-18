@@ -80,6 +80,7 @@ export default class MainStore {
         }
 
         this.setLoading(`plan`, true);
+        this.food = [];
 
         try {
             const { result, ok } = await getFoodPlan();
@@ -99,6 +100,7 @@ export default class MainStore {
 
     generatePlan = async () => {
         this.setLoading(`plan`, true);
+        this.food = [];
 
         try {
             const { ok } = await generateFoodPlan();

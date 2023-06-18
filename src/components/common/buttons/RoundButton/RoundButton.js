@@ -2,9 +2,9 @@ import React from 'react';
 import cn from "classnames";
 import PropTypes from 'prop-types';
 import ButtonDirectionEnum from "./enums/ButtonDirectionEnum";
-import './style.css';
 import SvgIcon from "../../SvgIcon/SvgIcon";
 import {Spinner} from "react-bootstrap";
+import './style.css';
 
 const RoundButton = props => {
     const {

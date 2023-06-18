@@ -7,4 +7,5 @@ export default {
     topRight: `topRight`,
     bottomLeft: `bottomLeft`,
     bottomRight: `bottomRight`,
+    block: `block`
 }

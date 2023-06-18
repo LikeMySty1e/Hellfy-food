@@ -4,6 +4,11 @@
     user-select: none;
 }
 
+.round__wrapper--block {
+    position: static;
+    display: block;
+}
+
 .round__wrapper--top {
     top: -50px;
     left: calc(50% - 40px);
