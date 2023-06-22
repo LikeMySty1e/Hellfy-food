@@ -14,7 +14,7 @@ export const mapPlan = (plan = []) => {
     return plan.map(day => {
         return {
             ...day,
-            day: DaysEnum[day.day]
+            day: DaysEnum[day.day?.trim()]
         };
     });
 };
