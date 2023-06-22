@@ -12,14 +12,24 @@ const hellthyFoodAvatarLocalStorageKey = `hellthyFoodAvatar`;
 
 const Profile = observer(() => {
     const {main} = React.useContext(Context);
-    const [source, setSource] = React.useState(localStorage.getItem(hellthyFoodAvatarLocalStorageKey) || `./images/fish.m.svg`);
+    const [source, setSource] = React.useState(localStorage.getItem(hellthyFoodAvatarLocalStorageKey)
+        ? `data:image/png;base64,${localStorage.getItem(hellthyFoodAvatarLocalStorageKey)}`
+        : `./images/fish.m.svg`
+    );
     const inputFileRef = React.useRef();
 
     const onUpload = (file = {}) => {
+        let reader = new FileReader();
+
+        reader.onloadend = () => {
+            const base64String = reader.result.replace("data:", "")
+                .replace(/^.+,/, "");
+
+            localStorage.setItem(hellthyFoodAvatarLocalStorageKey, base64String);
+        }
+        reader.readAsDataURL(file);
+
         const src = window.URL.createObjectURL(file);
-
-        localStorage.setItem(hellthyFoodAvatarLocalStorageKey, src);
-
         setSource(src);
     };
 
